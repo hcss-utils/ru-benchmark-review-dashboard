@@ -4,335 +4,1694 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RU Benchmark Review Dashboard</title>
-  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
     :root {
-      --bg-0: #041327;
-      --bg-1: #0a2244;
-      --bg-2: #0e2f61;
-      --panel: #0f2a4f;
-      --panel-2: #0b1f3d;
-      --border: #2f4f7e;
-      --text: #eaf2ff;
-      --muted: #c8ddff;
-      --accent: #8ab6ff;
-      --btn: #6aa7ff;
-      --btn-text: #001531;
+      --bg: #f3efe5;
+      --bg-strong: #ebe2d0;
+      --paper: rgba(255, 252, 246, 0.82);
+      --paper-solid: #fffaf1;
+      --ink: #182126;
+      --muted: #5f6a6c;
+      --line: rgba(24, 33, 38, 0.12);
+      --line-strong: rgba(24, 33, 38, 0.22);
+      --accent: #bf4f2f;
+      --accent-2: #1d5f65;
+      --accent-3: #c69028;
+      --accent-soft: rgba(191, 79, 47, 0.12);
+      --good: #17653f;
+      --warn: #a66a13;
+      --bad: #9f2e2e;
+      --shadow: 0 24px 80px rgba(39, 34, 23, 0.12);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --mono: "IBM Plex Mono", monospace;
+      --sans: "Space Grotesk", sans-serif;
     }
+
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      font-family: "Segoe UI", "Trebuchet MS", sans-serif;
-      color: var(--text);
-      background: linear-gradient(160deg, var(--bg-0) 0%, var(--bg-1) 45%, var(--bg-2) 100%);
+      color: var(--ink);
+      font-family: var(--sans);
+      background:
+        radial-gradient(circle at top left, rgba(191, 79, 47, 0.18), transparent 34%),
+        radial-gradient(circle at top right, rgba(29, 95, 101, 0.14), transparent 30%),
+        linear-gradient(180deg, #f7f1e6 0%, #f1ebdf 48%, #ece4d7 100%);
       min-height: 100vh;
     }
-    .wrap { max-width: 1400px; margin: 0 auto; padding: 16px; }
-    h1 { margin: 0 0 4px; }
-    .sub { color: var(--muted); margin-bottom: 12px; }
-    .tabs { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
-    .tab-btn {
-      background: #0d2342;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      padding: 8px 12px;
-      border-radius: 10px;
-      cursor: pointer;
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(24, 33, 38, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(24, 33, 38, 0.025) 1px, transparent 1px);
+      background-size: 30px 30px;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.7), transparent 90%);
+      opacity: 0.5;
     }
-    .tab-btn.active { background: #173a66; color: white; border-color: var(--accent); }
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 12px;
+
+    a { color: inherit; }
+    button, input, select, textarea { font: inherit; }
+
+    .shell {
+      width: min(1440px, calc(100vw - 32px));
+      margin: 24px auto 56px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 4px 24px;
+      opacity: 0;
+      transform: translateY(14px);
+      animation: rise 0.7s ease forwards;
+    }
+
+    .eyebrow,
+    .pill,
+    .mini-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      padding: 7px 12px;
+      background: rgba(255, 250, 241, 0.72);
+      backdrop-filter: blur(10px);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+      gap: 20px;
+      align-items: stretch;
+      margin-bottom: 20px;
+    }
+
+    .hero-card,
+    .surface {
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      background: var(--paper);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius-xl);
+    }
+
+    .hero-main {
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(24px);
+      animation: rise 0.8s ease 0.08s forwards;
+    }
+
+    .hero-main::after {
+      content: "";
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      right: -80px;
+      top: -110px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(191, 79, 47, 0.18) 0%, rgba(191, 79, 47, 0) 72%);
+    }
+
+    .hero-main h1 {
+      margin: 18px 0 10px;
+      font-size: clamp(2.5rem, 5vw, 4.8rem);
+      line-height: 0.94;
+      letter-spacing: -0.04em;
+      max-width: 10ch;
+    }
+
+    .hero-main p {
+      margin: 0;
+      max-width: 62ch;
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.6;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .cta,
+    .ghost,
+    .tab-btn,
+    .control-btn,
+    .save-btn {
+      border: 0;
+      cursor: pointer;
+      transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease, color 140ms ease, border-color 140ms ease;
+    }
+
+    .cta,
+    .ghost {
+      padding: 13px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .cta {
+      background: var(--accent);
+      color: #fff8f0;
+      box-shadow: 0 16px 36px rgba(191, 79, 47, 0.24);
+    }
+
+    .ghost {
+      background: rgba(255, 250, 241, 0.85);
+      color: var(--ink);
+      border: 1px solid var(--line-strong);
+    }
+
+    .cta:hover,
+    .ghost:hover,
+    .tab-btn:hover,
+    .control-btn:hover,
+    .save-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .hero-side {
+      padding: 24px;
+      display: grid;
+      gap: 14px;
+      align-content: start;
+      opacity: 0;
+      transform: translateY(24px);
+      animation: rise 0.8s ease 0.16s forwards;
+    }
+
+    .side-stat {
+      padding: 18px 18px 16px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.48);
+      border: 1px solid rgba(24, 33, 38, 0.08);
+    }
+
+    .side-stat strong {
+      display: block;
+      font-size: 2rem;
+      line-height: 1;
+      margin-bottom: 8px;
+      letter-spacing: -0.04em;
+    }
+
+    .side-stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.93rem;
+      line-height: 1.45;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      padding: 18px;
+      opacity: 0;
+      transform: translateY(18px);
+      animation: rise 0.6s ease forwards;
+    }
+
+    .stat-card:nth-child(1) { animation-delay: 0.22s; }
+    .stat-card:nth-child(2) { animation-delay: 0.28s; }
+    .stat-card:nth-child(3) { animation-delay: 0.34s; }
+    .stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+    .stat-card .mini-label { margin-bottom: 18px; }
+    .stat-card .value {
+      font-size: clamp(2.1rem, 4vw, 3rem);
+      line-height: 1;
+      letter-spacing: -0.05em;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .stat-card .copy {
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 0.95rem;
+    }
+
+    .tabs {
+      position: sticky;
+      top: 12px;
+      z-index: 10;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
       padding: 12px;
+      margin-bottom: 18px;
+      background: rgba(250, 245, 237, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 999px;
+      backdrop-filter: blur(18px);
+      box-shadow: 0 14px 34px rgba(39, 34, 23, 0.1);
+    }
+
+    .tab-btn {
+      min-width: 0;
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .tab-btn.active {
+      background: var(--ink);
+      color: #fff8f0;
+      box-shadow: 0 10px 26px rgba(24, 33, 38, 0.18);
+    }
+
+    .tab-panel {
+      display: none;
+      animation: fade 0.35s ease;
+    }
+
+    .tab-panel.active { display: block; }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .surface {
+      padding: 22px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .section-head h2,
+    .section-head h3 {
+      margin: 0;
+      font-size: 1.25rem;
+      letter-spacing: -0.03em;
+    }
+
+    .section-head p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      line-height: 1.5;
+      max-width: 58ch;
+    }
+
+    .summary-band {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .summary-band .band {
+      padding: 16px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.54), rgba(255, 255, 255, 0.2));
+      border: 1px solid var(--line);
+    }
+
+    .band .kicker {
+      color: var(--muted);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .band strong {
+      display: block;
+      font-size: 1.45rem;
+      letter-spacing: -0.04em;
+      margin-bottom: 4px;
+    }
+
+    .band span {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+
+    .list-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .rank-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .rank-item {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 13px 14px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.42);
+      border: 1px solid var(--line);
+    }
+
+    .rank-index {
+      width: 30px;
+      height: 30px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--ink);
+      color: #fff8f0;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .rank-meta {
+      min-width: 0;
+    }
+
+    .rank-meta strong,
+    .asset-card strong,
+    .record-line strong {
+      display: block;
+      font-size: 0.98rem;
+      letter-spacing: -0.02em;
+    }
+
+    .rank-meta span,
+    .asset-card span,
+    .record-line span,
+    .muted {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+
+    .rank-count {
+      font-family: var(--mono);
+      font-size: 0.88rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .chart-card {
+      display: grid;
+      gap: 14px;
+    }
+
+    .bars {
+      display: grid;
+      gap: 12px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: minmax(110px, 0.5fr) minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .bar-label,
+    .bar-value {
+      font-size: 0.92rem;
+    }
+
+    .bar-label {
+      color: var(--ink);
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .bar-track {
+      width: 100%;
+      height: 14px;
+      border-radius: 999px;
+      background: rgba(24, 33, 38, 0.08);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: inherit;
+      transform-origin: left center;
+      animation: stretch 0.8s ease;
+    }
+
+    .bar-fill.project { background: linear-gradient(90deg, #bf4f2f, #de8b42); }
+    .bar-fill.time { background: linear-gradient(90deg, #1d5f65, #5d9fa5); }
+    .bar-fill.words { background: linear-gradient(90deg, #7e5b2a, #c69028); }
+    .bar-fill.sources { background: linear-gradient(90deg, #3b4f7f, #7d99cf); }
+
+    .bar-value {
+      font-family: var(--mono);
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .review-layout {
+      display: grid;
+      grid-template-columns: minmax(320px, 0.76fr) minmax(0, 1.24fr);
+      gap: 16px;
+    }
+
+    .control-stack,
+    .review-stack,
+    .meta-grid,
+    .pass-grid,
+    .asset-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr 120px;
+      gap: 12px;
+    }
+
+    .control-group label,
+    .field label {
+      display: block;
+      font-size: 0.82rem;
+      margin-bottom: 7px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    select,
+    input[type="number"],
+    input[type="text"],
+    textarea {
+      width: 100%;
+      border: 1px solid var(--line-strong);
+      border-radius: 14px;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--ink);
+    }
+
+    textarea {
+      min-height: 140px;
+      resize: vertical;
+      line-height: 1.55;
+    }
+
+    .queue {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .queue .queue-card {
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.46);
+      border: 1px solid var(--line);
+    }
+
+    .queue-card strong {
+      display: block;
+      font-size: 1.35rem;
+      margin-bottom: 4px;
+      letter-spacing: -0.04em;
+    }
+
+    .control-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .control-btn,
+    .save-btn {
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-weight: 700;
+    }
+
+    .control-btn {
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid var(--line-strong);
+      color: var(--ink);
+    }
+
+    .save-btn {
+      background: var(--ink);
+      color: #fff8f0;
+      box-shadow: 0 14px 26px rgba(24, 33, 38, 0.14);
+    }
+
+    .judgment-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .choice input {
+      display: none;
+    }
+
+    .choice span {
+      display: block;
+      padding: 14px 12px;
+      border-radius: 16px;
+      border: 1px solid var(--line-strong);
+      background: rgba(255, 255, 255, 0.58);
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .choice input:checked + span {
+      background: var(--accent-soft);
+      border-color: rgba(191, 79, 47, 0.42);
+      color: var(--accent);
+      box-shadow: inset 0 0 0 1px rgba(191, 79, 47, 0.12);
+    }
+
+    .toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.45);
+      font-weight: 500;
+    }
+
+    .toggle input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+    }
+
+    .record-line {
+      display: grid;
+      gap: 4px;
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.42);
+      border: 1px solid var(--line);
+    }
+
+    .meta-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .pass-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .pass-card {
+      padding: 18px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.66), rgba(255, 255, 255, 0.34));
+      border: 1px solid var(--line);
+      min-height: 180px;
+    }
+
+    .pass-card h3 {
+      margin: 0 0 12px;
+      font-size: 0.98rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .pass-card p,
+    .text-body,
+    .save-status {
+      margin: 0;
+      line-height: 1.65;
+    }
+
+    .text-card {
+      padding: 20px;
+      border-radius: 22px;
+      background: #fffdf7;
+      border: 1px solid rgba(24, 33, 38, 0.08);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    .text-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
       margin-bottom: 12px;
     }
-    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    @media (max-width: 900px) { .row { grid-template-columns: 1fr; } }
-    label { display: block; margin-bottom: 6px; }
-    input, select, textarea {
-      width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #5378ac;
-      background: #f8fbff; color: #001733;
+
+    .text-head strong {
+      font-size: 1.1rem;
+      letter-spacing: -0.03em;
     }
-    textarea { min-height: 110px; }
-    .btn {
-      background: var(--btn); color: var(--btn-text); border: none; border-radius: 10px;
-      padding: 10px 14px; font-weight: 700; cursor: pointer;
+
+    .text-body {
+      max-height: 440px;
+      overflow: auto;
+      padding-right: 8px;
+      white-space: pre-wrap;
+      font-size: 0.98rem;
+      color: #1c2529;
     }
-    .mono { white-space: pre-wrap; font-family: Consolas, Menlo, monospace; font-size: 13px; }
-    .scroll { max-height: 340px; overflow-y: auto; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { border: 1px solid var(--border); padding: 8px; text-align: left; vertical-align: top; }
-    th { background: #173a66; }
-    td { background: var(--panel); }
-    .muted { color: var(--muted); }
+
+    .mono {
+      font-family: var(--mono);
+    }
+
+    .table-shell {
+      overflow: auto;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.42);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px;
+    }
+
+    th, td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      font-size: 0.92rem;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      background: rgba(243, 239, 229, 0.96);
+      backdrop-filter: blur(8px);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    tbody tr:hover td {
+      background: rgba(191, 79, 47, 0.04);
+    }
+
+    .asset-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .asset-card {
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid var(--line);
+      display: grid;
+      gap: 10px;
+    }
+
+    .asset-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .asset-link {
+      color: var(--accent-2);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .asset-link:hover { text-decoration: underline; }
+
+    .status {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.68);
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .status.error {
+      border-color: rgba(159, 46, 46, 0.28);
+      background: rgba(159, 46, 46, 0.08);
+      color: var(--bad);
+    }
+
+    .hidden { display: none !important; }
+
+    @keyframes rise {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes stretch {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+
+    @media (max-width: 1180px) {
+      .hero,
+      .section-grid,
+      .review-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .meta-grid,
+      .pass-grid,
+      .summary-band,
+      .list-grid,
+      .asset-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .shell {
+        width: min(100vw - 20px, 1440px);
+        margin: 10px auto 40px;
+      }
+
+      .hero-main,
+      .hero-side,
+      .surface,
+      .stat-card {
+        padding: 18px;
+      }
+
+      .topbar {
+        padding-bottom: 16px;
+      }
+
+      .tabs {
+        top: 8px;
+        border-radius: 24px;
+      }
+
+      .tab-btn {
+        flex: 1 1 100%;
+      }
+
+      .stat-grid,
+      .judgment-grid,
+      .queue,
+      .controls-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .bar-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .text-head,
+      .section-head,
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hero-main h1 {
+        max-width: none;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>RU Benchmark Review Dashboard</h1>
-    <div class="sub">Project-stratified 250-row sample with expert review workflow</div>
-
-    <div class="tabs">
-      <button class="tab-btn active" data-tab="dist">Distribution</button>
-      <button class="tab-btn" data-tab="review">Expert Review</button>
-      <button class="tab-btn" data-tab="assets">Project Assets</button>
+  <div class="shell">
+    <div class="topbar">
+      <div class="eyebrow">RU Benchmark Review Dashboard</div>
+      <div class="pill"><span id="topGenerated">Loading sample build...</span></div>
     </div>
 
-    <div id="tab-dist" class="tab panel">
-      <div id="summary" class="panel"></div>
-      <div class="row">
-        <div id="fig-project" class="panel"></div>
-        <div id="fig-time" class="panel"></div>
-      </div>
-      <div class="row">
-        <div id="fig-words" class="panel"></div>
-        <div id="fig-source" class="panel"></div>
-      </div>
-    </div>
+    <section class="hero">
+      <article class="hero-card hero-main">
+        <div class="eyebrow">Editorial Review Surface</div>
+        <h1>See the sample before you judge it.</h1>
+        <p>
+          A project-stratified 250-row review workspace for the RU benchmark. The dashboard makes the sample composition legible,
+          exposes the annotation passes side by side, and gives reviewers a cleaner path to make and export judgments.
+        </p>
+        <div class="hero-actions">
+          <button class="cta" data-jump="review">Open Review Workspace</button>
+          <button class="ghost" data-jump="overview">Inspect Sample Composition</button>
+        </div>
+      </article>
 
-    <div id="tab-review" class="tab" style="display:none;">
-      <div class="panel">
-        <div class="row">
-          <div>
-            <label>Project filter</label>
-            <select id="projectFilter"></select>
+      <aside class="hero-card hero-side">
+        <div class="side-stat">
+          <strong id="heroProjects">0</strong>
+          <span>Projects represented in the review sample, with project-stratified coverage visible on the page instead of buried in raw JSON.</span>
+        </div>
+        <div class="side-stat">
+          <strong id="heroSources">0</strong>
+          <span>Distinct normalized sources surfaced across the sample, which matters because source concentration can bias review conclusions.</span>
+        </div>
+        <div class="side-stat">
+          <strong id="heroLatest">-</strong>
+          <span>Latest generated build timestamp from the summary file, shown as an immediate freshness check.</span>
+        </div>
+      </aside>
+    </section>
+
+    <section class="stat-grid" id="overview">
+      <article class="surface stat-card">
+        <div class="mini-label">Sample Size</div>
+        <div class="value" id="statSampleSize">0</div>
+        <div class="copy">Rows currently loaded into the dashboard. This should match the curated benchmark review sample.</div>
+      </article>
+      <article class="surface stat-card">
+        <div class="mini-label">Dominant Project</div>
+        <div class="value" id="statTopProject">-</div>
+        <div class="copy" id="statTopProjectCopy">Computing project concentration...</div>
+      </article>
+      <article class="surface stat-card">
+        <div class="mini-label">Time Coverage</div>
+        <div class="value" id="statTimeSpread">0</div>
+        <div class="copy">Distinct time groups represented across the sample, from pre-invasion content to later-year buckets.</div>
+      </article>
+      <article class="surface stat-card">
+        <div class="mini-label">Review Progress</div>
+        <div class="value" id="statReviewCount">0</div>
+        <div class="copy">Saved browser-local judgments in this review session. Export remains available as CSV.</div>
+      </article>
+    </section>
+
+    <nav class="tabs" aria-label="Dashboard sections">
+      <button class="tab-btn active" data-tab="overviewPanel">Overview</button>
+      <button class="tab-btn" data-tab="reviewPanel">Review Workspace</button>
+      <button class="tab-btn" data-tab="assetsPanel">Project Assets</button>
+    </nav>
+
+    <div id="appStatus" class="status">Loading dashboard data...</div>
+
+    <section id="overviewPanel" class="tab-panel active hidden">
+      <div class="section-grid">
+        <article class="surface">
+          <div class="section-head">
+            <div>
+              <h2>Benchmark Snapshot</h2>
+              <p>A fast read on the sample: size, spread, concentration, and what the latest generated files actually contain.</p>
+            </div>
+            <div class="pill mono" id="summaryStamp">Awaiting summary</div>
           </div>
-          <div>
-            <label>Sample row ID</label>
-            <div style="display:flex; gap:8px;">
-              <input id="rowId" type="number" min="1" step="1" value="1" />
-              <button id="loadRow" class="btn">Load Row</button>
+          <div class="summary-band">
+            <div class="band">
+              <div class="kicker">Project Mix</div>
+              <strong id="bandProjectMix">-</strong>
+              <span id="bandProjectCopy">Waiting for project distribution...</span>
+            </div>
+            <div class="band">
+              <div class="kicker">Source Spread</div>
+              <strong id="bandSourceSpread">-</strong>
+              <span id="bandSourceCopy">Waiting for source spread...</span>
+            </div>
+            <div class="band">
+              <div class="kicker">Word Balance</div>
+              <strong id="bandWordBalance">-</strong>
+              <span id="bandWordCopy">Waiting for word bucket distribution...</span>
             </div>
           </div>
-        </div>
-      </div>
+        </article>
 
-      <div id="rowMeta" class="panel mono"></div>
-      <div id="rowPasses" class="panel mono"></div>
-      <div id="rowText" class="panel mono scroll" style="background:var(--panel-2);"></div>
-
-      <div class="panel">
-        <label>Judgment</label>
-        <div style="display:flex; gap:12px; flex-wrap:wrap;">
-          <label><input type="radio" name="judgment" value="correct" /> Correct</label>
-          <label><input type="radio" name="judgment" value="partial" /> Partially Correct</label>
-          <label><input type="radio" name="judgment" value="incorrect" /> Incorrect</label>
-          <label><input type="radio" name="judgment" value="unsure" checked /> Unsure</label>
-        </div>
-        <label style="margin-top:10px;"><input id="meets" type="checkbox" /> Meets benchmark criteria</label>
-        <div class="row" style="margin-top:10px;">
-          <div>
-            <label>Reviewer</label>
-            <input id="reviewer" type="text" placeholder="sdspieg" />
-          </div>
-          <div>
-            <label>Actions</label>
-            <div style="display:flex; gap:8px;">
-              <button id="saveJudgment" class="btn">Save Judgment</button>
-              <button id="downloadJudgments" class="btn">Download CSV</button>
+        <article class="surface">
+          <div class="section-head">
+            <div>
+              <h2>Reviewer Context</h2>
+              <p>The sample is not uniform. Use these cues before you start calling outputs good or bad.</p>
             </div>
           </div>
+          <div class="rank-list" id="contextNotes"></div>
+        </article>
+      </div>
+
+      <div class="section-grid">
+        <article class="surface chart-card">
+          <div class="section-head">
+            <div>
+              <h2>Projects</h2>
+              <p>How much of the sample comes from each benchmark project.</p>
+            </div>
+            <div class="pill mono" id="projectsMeta">0 categories</div>
+          </div>
+          <div class="bars" id="projectBars"></div>
+        </article>
+
+        <article class="surface">
+          <div class="section-head">
+            <div>
+              <h2>Project Ranking</h2>
+              <p>Quick ranking with counts and sample share.</p>
+            </div>
+          </div>
+          <div class="rank-list" id="projectRank"></div>
+        </article>
+      </div>
+
+      <div class="section-grid">
+        <article class="surface chart-card">
+          <div class="section-head">
+            <div>
+              <h2>Time Groups</h2>
+              <p>Coverage across pre-invasion content, explicit war years, and unknown-date rows.</p>
+            </div>
+          </div>
+          <div class="bars" id="timeBars"></div>
+        </article>
+
+        <article class="surface chart-card">
+          <div class="section-head">
+            <div>
+              <h2>Word Buckets</h2>
+              <p>Chunk-length balance, which affects review speed and interpretability.</p>
+            </div>
+          </div>
+          <div class="bars" id="wordBars"></div>
+        </article>
+      </div>
+
+      <div class="section-grid">
+        <article class="surface">
+          <div class="section-head">
+            <div>
+              <h2>Top Sources</h2>
+              <p>The most represented normalized sources in the sample.</p>
+            </div>
+            <div class="pill mono" id="sourcesMeta">0 tracked</div>
+          </div>
+          <div class="rank-list" id="sourceRank"></div>
+        </article>
+
+        <article class="surface">
+          <div class="section-head">
+            <div>
+              <h2>Coverage Notes</h2>
+              <p>Interpretive cues generated directly from the loaded sample and summary files.</p>
+            </div>
+          </div>
+          <div class="rank-list" id="coverageNotes"></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="reviewPanel" class="tab-panel hidden">
+      <div class="review-layout">
+        <aside class="control-stack">
+          <article class="surface">
+            <div class="section-head">
+              <div>
+                <h2>Review Queue</h2>
+                <p>Filter by project, navigate rows, and keep track of local review progress.</p>
+              </div>
+            </div>
+            <div class="queue">
+              <div class="queue-card">
+                <strong id="queueVisible">0</strong>
+                <span class="muted">Rows in current filter</span>
+              </div>
+              <div class="queue-card">
+                <strong id="queueReviewed">0</strong>
+                <span class="muted">Rows reviewed in browser</span>
+              </div>
+              <div class="queue-card">
+                <strong id="queueIndex">0 / 0</strong>
+                <span class="muted">Current position</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="surface">
+            <div class="controls-grid">
+              <div class="control-group">
+                <label for="projectFilter">Project filter</label>
+                <select id="projectFilter"></select>
+              </div>
+              <div class="control-group">
+                <label for="rowId">Row ID</label>
+                <input id="rowId" type="number" min="1" step="1" value="1" />
+              </div>
+            </div>
+            <div class="control-row" style="margin-top: 12px;">
+              <button class="control-btn" id="prevRow">Previous</button>
+              <button class="control-btn" id="nextRow">Next</button>
+              <button class="control-btn" id="randomRow">Random</button>
+              <button class="control-btn" id="loadRow">Jump to Row</button>
+            </div>
+          </article>
+
+          <article class="surface">
+            <div class="section-head">
+              <div>
+                <h2>Judgment</h2>
+                <p>Save to browser-local storage, then export all judgments as CSV when you are done.</p>
+              </div>
+            </div>
+
+            <div class="judgment-grid">
+              <label class="choice">
+                <input type="radio" name="judgment" value="correct" />
+                <span>Correct</span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="judgment" value="partial" />
+                <span>Partial</span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="judgment" value="incorrect" />
+                <span>Incorrect</span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="judgment" value="unsure" checked />
+                <span>Unsure</span>
+              </label>
+            </div>
+
+            <label class="toggle" style="margin-top: 12px;">
+              <input id="meets" type="checkbox" />
+              <span>Meets benchmark criteria</span>
+            </label>
+
+            <div class="field" style="margin-top: 12px;">
+              <label for="reviewer">Reviewer</label>
+              <input id="reviewer" type="text" placeholder="sdspieg" />
+            </div>
+
+            <div class="field" style="margin-top: 12px;">
+              <label for="notes">Notes</label>
+              <textarea id="notes" placeholder="Why this row is correct, partial, or wrong. Capture corrections, ambiguity, or annotation risk."></textarea>
+            </div>
+
+            <div class="control-row" style="margin-top: 12px;">
+              <button class="save-btn" id="saveJudgment">Save Judgment</button>
+              <button class="control-btn" id="downloadJudgments">Download CSV</button>
+            </div>
+            <p class="save-status muted" id="saveStatus">No judgments saved yet.</p>
+          </article>
+        </aside>
+
+        <div class="review-stack">
+          <article class="surface">
+            <div class="section-head">
+              <div>
+                <h2 id="rowHeading">Sample Row</h2>
+                <p id="rowSubheading">Row metadata will appear here once the sample is loaded.</p>
+              </div>
+              <div class="pill mono" id="rowUidPill">row_uid: -</div>
+            </div>
+            <div class="meta-grid" id="rowMeta"></div>
+          </article>
+
+          <article class="surface">
+            <div class="section-head">
+              <div>
+                <h2>Annotation Passes</h2>
+                <p>Read the three passes side by side before making a judgment.</p>
+              </div>
+            </div>
+            <div class="pass-grid" id="rowPasses"></div>
+          </article>
+
+          <article class="surface">
+            <div class="text-card">
+              <div class="text-head">
+                <strong>Source Text</strong>
+                <span class="pill mono" id="rowWordPill">0 words</span>
+              </div>
+              <div class="text-body" id="rowText"></div>
+            </div>
+          </article>
+
+          <article class="surface">
+            <div class="section-head">
+              <div>
+                <h2>Latest Saved Judgments</h2>
+                <p>Most recent browser-local review decisions, reversed chronologically.</p>
+              </div>
+            </div>
+            <div class="table-shell">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Saved</th>
+                    <th>Row</th>
+                    <th>Project</th>
+                    <th>Judgment</th>
+                    <th>Meets</th>
+                    <th>Reviewer</th>
+                    <th>Notes</th>
+                  </tr>
+                </thead>
+                <tbody id="judgmentTable"></tbody>
+              </table>
+            </div>
+          </article>
         </div>
-        <label style="margin-top:10px;">Notes</label>
-        <textarea id="notes" placeholder="Reasoning, correction, edge case notes..."></textarea>
-        <div id="saveStatus" class="muted" style="margin-top:8px;"></div>
       </div>
+    </section>
 
-      <div class="panel">
-        <h3 style="margin-top:0;">Latest Judgments</h3>
-        <div style="overflow-x:auto;"><table id="judgmentTable"></table></div>
-      </div>
-    </div>
-
-    <div id="tab-assets" class="tab" style="display:none;">
-      <div class="panel">
-        <h3 style="margin-top:0;">Project Prompt/Result Sources</h3>
-        <div style="overflow-x:auto;"><table id="assetTable"></table></div>
-      </div>
-    </div>
+    <section id="assetsPanel" class="tab-panel hidden">
+      <article class="surface">
+        <div class="section-head">
+          <div>
+            <h2>Project Prompt and Result Sources</h2>
+            <p>Where prompt logic lives and where benchmark results came from for each project family in the manifest.</p>
+          </div>
+          <div class="pill mono" id="assetCount">0 entries</div>
+        </div>
+        <div class="asset-grid" id="assetGrid"></div>
+      </article>
+    </section>
   </div>
 
-<script>
-const THEME = {
-  paper_bgcolor: '#081a33',
-  plot_bgcolor: '#0d2342',
-  font: { color: '#e8f0ff' },
-  xaxis: { color: '#d7e6ff', gridcolor: '#2a4770' },
-  yaxis: { color: '#d7e6ff', gridcolor: '#2a4770' },
-};
+  <script>
+    const judgmentsKey = "ru_benchmark_judgments_v2";
+    const timeOrder = ["pre-invasion", "year-1", "year-2", "year-3", "year-4+", "unknown"];
+    const wordOrder = ["40-79", "80-149", "150-299", "300-599", "600+"];
 
-let sample = [];
-let summary = {};
-let assets = {projects: []};
-let activeRows = [];
-const judgmentsKey = 'ru_benchmark_judgments_v1';
+    let sample = [];
+    let summary = {};
+    let assets = { projects: [] };
+    let activeRows = [];
+    let currentRow = null;
 
-function loadJudgments() {
-  try { return JSON.parse(localStorage.getItem(judgmentsKey) || '[]'); }
-  catch { return []; }
-}
-function saveJudgments(arr) { localStorage.setItem(judgmentsKey, JSON.stringify(arr)); }
+    const $ = (id) => document.getElementById(id);
 
-function countBy(rows, key, topN=null) {
-  const m = new Map();
-  rows.forEach(r => {
-    const k = (r[key] ?? '(missing)').toString();
-    m.set(k, (m.get(k) || 0) + 1);
-  });
-  let arr = [...m.entries()].map(([k,v]) => ({k,v})).sort((a,b)=>b.v-a.v);
-  if (topN !== null) arr = arr.slice(0, topN);
-  return arr;
-}
+    function safeJsonParse(raw, fallback) {
+      try {
+        return JSON.parse(raw);
+      } catch {
+        return fallback;
+      }
+    }
 
-function renderBar(divId, title, data, xLabel='value') {
-  const trace = {type:'bar', x:data.map(d=>d.k), y:data.map(d=>d.v), marker:{color:'#8ab6ff'}};
-  const layout = {...THEME, title:{text:title, font:{color:'#f3f7ff'}}, margin:{t:40,r:20,b:120,l:50}};
-  Plotly.newPlot(divId, [trace], layout, {responsive:true, displaylogo:false});
-}
+    function loadJudgments() {
+      return safeJsonParse(localStorage.getItem(judgmentsKey) || "[]", []);
+    }
 
-function setSummary() {
-  const el = document.getElementById('summary');
-  el.innerHTML = `<b>Sample size:</b> ${summary.sample_size || sample.length} &nbsp; | &nbsp; <b>Generated:</b> ${summary.generated_at || '-'}`;
-}
+    function saveJudgments(rows) {
+      localStorage.setItem(judgmentsKey, JSON.stringify(rows));
+    }
 
-function populateProjectFilter() {
-  const sel = document.getElementById('projectFilter');
-  const projects = [...new Set(sample.map(r => r.project))].sort();
-  sel.innerHTML = `<option value="ALL">All</option>` + projects.map(p => `<option value="${p}">${p}</option>`).join('');
-}
+    function formatDateTime(value) {
+      if (!value) return "Unknown";
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return value;
+      return date.toLocaleString(undefined, {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+    }
 
-function filterRows() {
-  const p = document.getElementById('projectFilter').value;
-  activeRows = (p === 'ALL') ? sample : sample.filter(r => r.project === p);
-}
+    function numberFmt(value) {
+      return new Intl.NumberFormat().format(value || 0);
+    }
 
-function loadRow() {
-  filterRows();
-  if (!activeRows.length) return;
-  const rowId = parseInt(document.getElementById('rowId').value || '1', 10);
-  let row = activeRows.find(r => Number(r.sample_row_id) === rowId) || activeRows[0];
+    function percent(part, total) {
+      if (!total) return "0%";
+      return `${Math.round((part / total) * 100)}%`;
+    }
 
-  document.getElementById('rowMeta').textContent =
-`sample_row_id: ${row.sample_row_id}
-project: ${row.project}
-project_db: ${row.project_db}
-document_id: ${row.document_id}
-source: ${row.source_norm}
-database: ${row.database}
-date: ${row.date}
-author: ${row.author}
-word_count: ${row.word_count}
-word_bucket: ${row.word_bucket}
-time_group: ${row.time_group}
-row_uid: ${row.row_uid}`;
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
 
-  document.getElementById('rowPasses').textContent =
-`Pass 1:\n${row.pass1 || ''}\n\nPass 2:\n${row.pass2 || ''}\n\nPass 3:\n${row.pass3 || ''}`;
+    function countBy(rows, key) {
+      const map = new Map();
+      rows.forEach((row) => {
+        const label = (row[key] ?? "missing").toString();
+        map.set(label, (map.get(label) || 0) + 1);
+      });
+      return [...map.entries()].map(([label, value]) => ({ label, value }));
+    }
 
-  document.getElementById('rowText').textContent = row.chunk_text || '';
-}
+    function sortByKnownOrder(items, order) {
+      const rank = new Map(order.map((name, index) => [name, index]));
+      return [...items].sort((a, b) => {
+        const ra = rank.has(a.label) ? rank.get(a.label) : 999;
+        const rb = rank.has(b.label) ? rank.get(b.label) : 999;
+        if (ra !== rb) return ra - rb;
+        return b.value - a.value || a.label.localeCompare(b.label);
+      });
+    }
 
-function renderJudgments() {
-  const rows = loadJudgments().slice(-20).reverse();
-  const table = document.getElementById('judgmentTable');
-  const cols = ['saved_at','sample_row_id','project','judgment','is_correct','reviewer','notes'];
-  table.innerHTML = `<tr>${cols.map(c=>`<th>${c}</th>`).join('')}</tr>` + rows.map(r =>
-    `<tr>${cols.map(c=>`<td>${(r[c] ?? '').toString().replace(/</g,'&lt;')}</td>`).join('')}</tr>`
-  ).join('');
-}
+    function sortByValue(items) {
+      return [...items].sort((a, b) => b.value - a.value || a.label.localeCompare(b.label));
+    }
 
-function saveCurrentJudgment() {
-  filterRows();
-  if (!activeRows.length) return;
-  const rowId = parseInt(document.getElementById('rowId').value || '1', 10);
-  const row = activeRows.find(r => Number(r.sample_row_id) === rowId) || activeRows[0];
-  const judgment = (document.querySelector('input[name="judgment"]:checked') || {}).value || 'unsure';
-  const rec = {
-    saved_at: new Date().toISOString(),
-    sample_row_id: row.sample_row_id,
-    row_uid: row.row_uid,
-    project: row.project,
-    judgment,
-    is_correct: document.getElementById('meets').checked ? 'yes' : 'no',
-    reviewer: document.getElementById('reviewer').value || '',
-    notes: document.getElementById('notes').value || ''
-  };
-  const all = loadJudgments();
-  all.push(rec);
-  saveJudgments(all);
-  renderJudgments();
-  document.getElementById('saveStatus').textContent = `Saved judgment for row ${row.sample_row_id}.`;
-}
+    function topItem(items) {
+      return sortByValue(items)[0] || { label: "-", value: 0 };
+    }
 
-function downloadJudgmentsCsv() {
-  const rows = loadJudgments();
-  const cols = ['saved_at','sample_row_id','row_uid','project','judgment','is_correct','reviewer','notes'];
-  const esc = v => '"' + String(v ?? '').replace(/"/g,'""') + '"';
-  const lines = [cols.join(',')].concat(rows.map(r => cols.map(c => esc(r[c])).join(',')));
-  const blob = new Blob([lines.join('\n')], {type:'text/csv;charset=utf-8;'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'benchmark_judgments.csv';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
+    function renderBars(targetId, items, tone, formatter) {
+      const target = $(targetId);
+      const max = Math.max(...items.map((item) => item.value), 1);
+      target.innerHTML = items.map((item) => `
+        <div class="bar-row">
+          <div class="bar-label" title="${escapeHtml(item.label)}">${escapeHtml(item.label)}</div>
+          <div class="bar-track"><div class="bar-fill ${tone}" style="width:${(item.value / max) * 100}%"></div></div>
+          <div class="bar-value">${formatter ? formatter(item) : numberFmt(item.value)}</div>
+        </div>
+      `).join("");
+    }
 
-function renderAssets() {
-  const rows = assets.projects || [];
-  const cols = ['project','prompts_repo','results_source'];
-  const table = document.getElementById('assetTable');
-  table.innerHTML = `<tr>${cols.map(c=>`<th>${c}</th>`).join('')}</tr>` + rows.map(r =>
-    `<tr>${cols.map(c=>`<td>${(r[c] ?? '').toString().replace(/</g,'&lt;')}</td>`).join('')}</tr>`
-  ).join('');
-}
+    function renderRankList(targetId, items, total, descriptor) {
+      $(targetId).innerHTML = items.map((item, index) => `
+        <div class="rank-item">
+          <div class="rank-index">${index + 1}</div>
+          <div class="rank-meta">
+            <strong title="${escapeHtml(item.label)}">${escapeHtml(item.label)}</strong>
+            <span>${descriptor(item, total)}</span>
+          </div>
+          <div class="rank-count">${numberFmt(item.value)}</div>
+        </div>
+      `).join("");
+    }
 
-function setupTabs() {
-  const btns = document.querySelectorAll('.tab-btn');
-  const tabs = {
-    dist: document.getElementById('tab-dist'),
-    review: document.getElementById('tab-review'),
-    assets: document.getElementById('tab-assets')
-  };
-  btns.forEach(b => b.addEventListener('click', () => {
-    btns.forEach(x => x.classList.remove('active'));
-    b.classList.add('active');
-    Object.values(tabs).forEach(t => t.style.display = 'none');
-    tabs[b.dataset.tab].style.display = 'block';
-  }));
-}
+    function setStatus(message, isError = false) {
+      const node = $("appStatus");
+      node.textContent = message;
+      node.classList.toggle("error", isError);
+    }
 
-async function boot() {
-  const [sampleRes, summaryRes, assetsRes] = await Promise.all([
-    fetch('./data/sample.json'),
-    fetch('./data/sample_latest_summary.json'),
-    fetch('./data/project_assets_manifest.json')
-  ]);
-  sample = await sampleRes.json();
-  summary = await summaryRes.json();
-  assets = await assetsRes.json();
+    function revealApp() {
+      $("overviewPanel").classList.remove("hidden");
+      $("reviewPanel").classList.remove("hidden");
+      $("assetsPanel").classList.remove("hidden");
+    }
 
-  setSummary();
-  renderBar('fig-project', 'Project Distribution', countBy(sample, 'project'));
-  renderBar('fig-time', 'Time Distribution', countBy(sample, 'time_group'));
-  renderBar('fig-words', 'Word-Count Buckets', countBy(sample, 'word_bucket'));
-  renderBar('fig-source', 'Top Sources', countBy(sample, 'source_norm', 25));
+    function buildContextNotes(projectCounts, sourceCounts, timeCounts) {
+      const total = sample.length;
+      const topProjectItem = topItem(projectCounts);
+      const unknownTime = timeCounts.find((item) => item.label === "unknown") || { value: 0 };
+      const topSourceItem = topItem(sourceCounts);
+      const notes = [
+        {
+          title: "Project concentration is real",
+          body: `${topProjectItem.label} accounts for ${percent(topProjectItem.value, total)} of the sample, so reviewer impressions can drift if that project's style dominates your reading.`
+        },
+        {
+          title: "Unknown dates need care",
+          body: `${numberFmt(unknownTime.value)} rows sit in the unknown-date bucket. Time-sensitive conclusions should separate those rows from clearly dated wartime material.`
+        },
+        {
+          title: "Source repetition can bias the feel of the set",
+          body: `${topSourceItem.label} is currently the most represented normalized source, which means voice and genre concentration can shape the apparent error profile.`
+        }
+      ];
 
-  populateProjectFilter();
-  document.getElementById('loadRow').addEventListener('click', loadRow);
-  document.getElementById('projectFilter').addEventListener('change', loadRow);
-  document.getElementById('saveJudgment').addEventListener('click', saveCurrentJudgment);
-  document.getElementById('downloadJudgments').addEventListener('click', downloadJudgmentsCsv);
-  renderJudgments();
-  renderAssets();
-  loadRow();
-  setupTabs();
-}
+      $("contextNotes").innerHTML = notes.map((note) => `
+        <div class="record-line">
+          <strong>${escapeHtml(note.title)}</strong>
+          <span>${escapeHtml(note.body)}</span>
+        </div>
+      `).join("");
+    }
 
-boot();
-</script>
+    function buildCoverageNotes(projectCounts, sourceCounts, timeCounts, wordCounts) {
+      const projectSpread = `${projectCounts.length} projects`;
+      const sourceSpread = `${sourceCounts.length} normalized sources`;
+      const longestWords = topItem(wordCounts);
+      const dominantTime = topItem(timeCounts);
+      const notes = [
+        {
+          title: "Coverage breadth",
+          body: `This sample spans ${projectSpread} and ${sourceSpread}, which is enough to compare project families rather than reading a single benchmark in isolation.`
+        },
+        {
+          title: "Temporal center of gravity",
+          body: `${dominantTime.label} is the largest time bucket. That is the period most likely to dominate reviewer intuition unless you intentionally move across buckets.`
+        },
+        {
+          title: "Chunk-length pressure",
+          body: `${longestWords.label} is the largest word bucket. Longer chunks slow review and often hide more subtle pass-to-pass disagreements.`
+        }
+      ];
+
+      $("coverageNotes").innerHTML = notes.map((note) => `
+        <div class="record-line">
+          <strong>${escapeHtml(note.title)}</strong>
+          <span>${escapeHtml(note.body)}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderOverview() {
+      const projectCounts = sortByValue(countBy(sample, "project"));
+      const timeCounts = sortByKnownOrder(countBy(sample, "time_group"), timeOrder);
+      const wordCounts = sortByKnownOrder(countBy(sample, "word_bucket"), wordOrder);
+      const sourceCounts = sortByValue(countBy(sample, "source_norm"));
+
+      const topProjectItem = topItem(projectCounts);
+      const topSourceItem = topItem(sourceCounts);
+      const longestBucket = topItem(wordCounts);
+
+      $("topGenerated").textContent = `Generated ${formatDateTime(summary.generated_at)}`;
+      $("summaryStamp").textContent = `Build ${formatDateTime(summary.generated_at)}`;
+
+      $("heroProjects").textContent = numberFmt(projectCounts.length);
+      $("heroSources").textContent = numberFmt(sourceCounts.length);
+      $("heroLatest").textContent = formatDateTime(summary.generated_at);
+
+      $("statSampleSize").textContent = numberFmt(summary.sample_size || sample.length);
+      $("statTopProject").textContent = topProjectItem.label;
+      $("statTopProjectCopy").textContent = `${numberFmt(topProjectItem.value)} rows, or ${percent(topProjectItem.value, sample.length)} of the entire review sample.`;
+      $("statTimeSpread").textContent = numberFmt(timeCounts.length);
+      $("statReviewCount").textContent = numberFmt(loadJudgments().length);
+
+      $("bandProjectMix").textContent = `${projectCounts.length} active projects`;
+      $("bandProjectCopy").textContent = `${topProjectItem.label} leads the set with ${numberFmt(topProjectItem.value)} rows.`;
+      $("bandSourceSpread").textContent = `${sourceCounts.length} normalized sources`;
+      $("bandSourceCopy").textContent = `${topSourceItem.label} is the largest single source family in the sample.`;
+      $("bandWordBalance").textContent = `${longestBucket.label} leads`;
+      $("bandWordCopy").textContent = `${numberFmt(longestBucket.value)} rows fall into the largest word bucket.`;
+
+      $("projectsMeta").textContent = `${projectCounts.length} categories`;
+      $("sourcesMeta").textContent = `${sourceCounts.length} tracked`;
+
+      renderBars("projectBars", projectCounts, "project", (item) => `${numberFmt(item.value)} · ${percent(item.value, sample.length)}`);
+      renderBars("timeBars", timeCounts, "time", (item) => `${numberFmt(item.value)} · ${percent(item.value, sample.length)}`);
+      renderBars("wordBars", wordCounts, "words", (item) => `${numberFmt(item.value)} · ${percent(item.value, sample.length)}`);
+
+      renderRankList("projectRank", projectCounts, sample.length, (item, total) => `${percent(item.value, total)} of the total review sample.`);
+      renderRankList("sourceRank", sourceCounts.slice(0, 12), sample.length, (item, total) => `${percent(item.value, total)} of the sample, ${numberFmt(item.value)} rows.`);
+
+      buildContextNotes(projectCounts, sourceCounts, timeCounts);
+      buildCoverageNotes(projectCounts, sourceCounts, timeCounts, wordCounts);
+    }
+
+    function populateProjectFilter() {
+      const projects = [...new Set(sample.map((row) => row.project))].sort();
+      $("projectFilter").innerHTML = `
+        <option value="ALL">All projects</option>
+        ${projects.map((project) => `<option value="${escapeHtml(project)}">${escapeHtml(project)}</option>`).join("")}
+      `;
+    }
+
+    function applyFilter() {
+      const selected = $("projectFilter").value;
+      activeRows = selected === "ALL" ? [...sample] : sample.filter((row) => row.project === selected);
+      activeRows.sort((a, b) => Number(a.sample_row_id) - Number(b.sample_row_id));
+      $("queueVisible").textContent = numberFmt(activeRows.length);
+    }
+
+    function findCurrentIndex() {
+      if (!currentRow) return -1;
+      return activeRows.findIndex((row) => row.row_uid === currentRow.row_uid);
+    }
+
+    function updateQueueStats() {
+      const judgments = loadJudgments();
+      const reviewedIds = new Set(judgments.map((row) => String(row.row_uid)));
+      const reviewedVisible = activeRows.filter((row) => reviewedIds.has(String(row.row_uid))).length;
+      const index = findCurrentIndex();
+
+      $("queueReviewed").textContent = numberFmt(reviewedVisible);
+      $("queueIndex").textContent = activeRows.length ? `${index + 1} / ${activeRows.length}` : "0 / 0";
+      $("statReviewCount").textContent = numberFmt(judgments.length);
+    }
+
+    function metadataRows(row) {
+      return [
+        ["Project", row.project],
+        ["Project DB", row.project_db],
+        ["Document ID", row.document_id],
+        ["Database", row.database],
+        ["Source", row.source_norm],
+        ["Date", row.date || "Unknown"],
+        ["Time Group", row.time_group],
+        ["Word Bucket", row.word_bucket],
+        ["Author", row.author || "Unknown"]
+      ];
+    }
+
+    function renderMeta(row) {
+      $("rowMeta").innerHTML = metadataRows(row).map(([label, value]) => `
+        <div class="record-line">
+          <strong>${escapeHtml(label)}</strong>
+          <span>${escapeHtml(value)}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderPasses(row) {
+      const passes = [
+        ["Pass 1", row.pass1],
+        ["Pass 2", row.pass2],
+        ["Pass 3", row.pass3]
+      ];
+      $("rowPasses").innerHTML = passes.map(([title, value]) => `
+        <div class="pass-card">
+          <h3>${escapeHtml(title)}</h3>
+          <p>${escapeHtml(value || "No content")}</p>
+        </div>
+      `).join("");
+    }
+
+    function hydrateFormForRow(row) {
+      const existing = loadJudgments().find((entry) => String(entry.row_uid) === String(row.row_uid));
+      const selected = existing?.judgment || "unsure";
+      document.querySelectorAll('input[name="judgment"]').forEach((input) => {
+        input.checked = input.value === selected;
+      });
+      $("meets").checked = existing?.is_correct === "yes";
+      $("reviewer").value = existing?.reviewer || "";
+      $("notes").value = existing?.notes || "";
+    }
+
+    function setCurrentRow(row) {
+      if (!row) return;
+      currentRow = row;
+      $("rowId").value = row.sample_row_id;
+      $("rowHeading").textContent = `Row ${row.sample_row_id} · ${row.project}`;
+      $("rowSubheading").textContent = `${row.source_norm} · ${row.database} · ${row.time_group}`;
+      $("rowUidPill").textContent = `row_uid: ${row.row_uid}`;
+      $("rowWordPill").textContent = `${numberFmt(row.word_count)} words`;
+      $("rowText").textContent = row.chunk_text || "No source text available.";
+      renderMeta(row);
+      renderPasses(row);
+      hydrateFormForRow(row);
+      updateQueueStats();
+    }
+
+    function loadRowByInput() {
+      applyFilter();
+      if (!activeRows.length) {
+        currentRow = null;
+        updateQueueStats();
+        return;
+      }
+      const rowId = Number($("rowId").value);
+      const exact = activeRows.find((row) => Number(row.sample_row_id) === rowId);
+      setCurrentRow(exact || activeRows[0]);
+    }
+
+    function moveRow(direction) {
+      if (!activeRows.length) return;
+      const index = findCurrentIndex();
+      const safeIndex = index === -1 ? 0 : index;
+      const nextIndex = Math.max(0, Math.min(activeRows.length - 1, safeIndex + direction));
+      setCurrentRow(activeRows[nextIndex]);
+    }
+
+    function randomRow() {
+      if (!activeRows.length) return;
+      const index = Math.floor(Math.random() * activeRows.length);
+      setCurrentRow(activeRows[index]);
+    }
+
+    function renderJudgments() {
+      const rows = loadJudgments().slice(-18).reverse();
+      $("judgmentTable").innerHTML = rows.map((row) => `
+        <tr>
+          <td>${escapeHtml(formatDateTime(row.saved_at))}</td>
+          <td class="mono">${escapeHtml(row.sample_row_id)}</td>
+          <td>${escapeHtml(row.project)}</td>
+          <td>${escapeHtml(row.judgment)}</td>
+          <td>${escapeHtml(row.is_correct)}</td>
+          <td>${escapeHtml(row.reviewer)}</td>
+          <td>${escapeHtml(row.notes)}</td>
+        </tr>
+      `).join("");
+      updateQueueStats();
+    }
+
+    function saveCurrentJudgment() {
+      if (!currentRow) return;
+      const judgment = document.querySelector('input[name="judgment"]:checked')?.value || "unsure";
+      const record = {
+        saved_at: new Date().toISOString(),
+        sample_row_id: currentRow.sample_row_id,
+        row_uid: currentRow.row_uid,
+        project: currentRow.project,
+        judgment,
+        is_correct: $("meets").checked ? "yes" : "no",
+        reviewer: $("reviewer").value.trim(),
+        notes: $("notes").value.trim()
+      };
+
+      const rows = loadJudgments().filter((entry) => String(entry.row_uid) !== String(currentRow.row_uid));
+      rows.push(record);
+      rows.sort((a, b) => new Date(a.saved_at) - new Date(b.saved_at));
+      saveJudgments(rows);
+      $("saveStatus").textContent = `Saved row ${currentRow.sample_row_id} at ${formatDateTime(record.saved_at)}.`;
+      renderJudgments();
+    }
+
+    function downloadJudgmentsCsv() {
+      const rows = loadJudgments();
+      const columns = ["saved_at", "sample_row_id", "row_uid", "project", "judgment", "is_correct", "reviewer", "notes"];
+      const escapeCsv = (value) => `"${String(value ?? "").replace(/"/g, '""')}"`;
+      const lines = [columns.join(",")].concat(rows.map((row) => columns.map((column) => escapeCsv(row[column])).join(",")));
+      const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "ru_benchmark_judgments.csv";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function renderAssets() {
+      const projects = assets.projects || [];
+      $("assetCount").textContent = `${projects.length} entries`;
+      $("assetGrid").innerHTML = projects.map((project) => `
+        <article class="asset-card">
+          <strong>${escapeHtml(project.project)}</strong>
+          <span>${escapeHtml(project.results_source)}</span>
+          <div class="asset-meta">
+            <span class="mini-label">Prompt Logic</span>
+          </div>
+          <a class="asset-link" href="${escapeHtml(project.prompts_repo)}" target="_blank" rel="noreferrer">${escapeHtml(project.prompts_repo)}</a>
+        </article>
+      `).join("");
+    }
+
+    function setupTabs() {
+      const buttons = [...document.querySelectorAll(".tab-btn")];
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+          buttons.forEach((item) => item.classList.toggle("active", item === button));
+          ["overviewPanel", "reviewPanel", "assetsPanel"].forEach((panelId) => {
+            $(panelId).classList.toggle("active", panelId === button.dataset.tab);
+          });
+        });
+      });
+    }
+
+    function setupJumpLinks() {
+      document.querySelectorAll("[data-jump]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const target = button.dataset.jump;
+          if (target === "review") {
+            document.querySelector('.tab-btn[data-tab="reviewPanel"]').click();
+            $("reviewPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+          } else {
+            document.querySelector('.tab-btn[data-tab="overviewPanel"]').click();
+            $("overview").scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+      });
+    }
+
+    function setupReviewActions() {
+      $("projectFilter").addEventListener("change", loadRowByInput);
+      $("loadRow").addEventListener("click", loadRowByInput);
+      $("prevRow").addEventListener("click", () => moveRow(-1));
+      $("nextRow").addEventListener("click", () => moveRow(1));
+      $("randomRow").addEventListener("click", randomRow);
+      $("saveJudgment").addEventListener("click", saveCurrentJudgment);
+      $("downloadJudgments").addEventListener("click", downloadJudgmentsCsv);
+    }
+
+    async function boot() {
+      try {
+        const [sampleRes, summaryRes, assetsRes] = await Promise.all([
+          fetch("./data/sample.json"),
+          fetch("./data/sample_latest_summary.json"),
+          fetch("./data/project_assets_manifest.json")
+        ]);
+
+        if (!sampleRes.ok || !summaryRes.ok || !assetsRes.ok) {
+          throw new Error("One or more dashboard data files failed to load.");
+        }
+
+        [sample, summary, assets] = await Promise.all([
+          sampleRes.json(),
+          summaryRes.json(),
+          assetsRes.json()
+        ]);
+
+        renderOverview();
+        populateProjectFilter();
+        applyFilter();
+        setCurrentRow(activeRows[0]);
+        renderJudgments();
+        renderAssets();
+        setupTabs();
+        setupJumpLinks();
+        setupReviewActions();
+        revealApp();
+        setStatus("Dashboard ready.");
+      } catch (error) {
+        console.error(error);
+        setStatus("The dashboard failed to load its sample data. Check the docs/data files and the browser console.", true);
+      }
+    }
+
+    boot();
+  </script>
 </body>
 </html>
