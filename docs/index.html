@@ -1266,6 +1266,17 @@
         .replace(/"/g, "&quot;");
     }
 
+    function inferBasePath() {
+      const { pathname } = window.location;
+      if (pathname.endsWith("/")) return pathname;
+      if (pathname.endsWith(".html")) return pathname.slice(0, pathname.lastIndexOf("/") + 1);
+      return `${pathname}/`;
+    }
+
+    function assetUrl(relativePath) {
+      return new URL(relativePath, `${window.location.origin}${inferBasePath()}`).toString();
+    }
+
     function countBy(rows, key) {
       const map = new Map();
       rows.forEach((row) => {
@@ -1659,9 +1670,9 @@
     async function boot() {
       try {
         const [sampleRes, summaryRes, assetsRes] = await Promise.all([
-          fetch("./data/sample.json"),
-          fetch("./data/sample_latest_summary.json"),
-          fetch("./data/project_assets_manifest.json")
+          fetch(assetUrl("data/sample.json")),
+          fetch(assetUrl("data/sample_latest_summary.json")),
+          fetch(assetUrl("data/project_assets_manifest.json"))
         ]);
 
         if (!sampleRes.ok || !summaryRes.ok || !assetsRes.ok) {
