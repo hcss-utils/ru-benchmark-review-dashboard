@@ -1,0 +1,54 @@
+{
+  "projects": [
+    {
+      "project": "rnla-deterrence",
+      "prompts_repo": "https://github.com/hcss-utils/rnla",
+      "results_source": "postgres://rnla pass1.5+pass2"
+    },
+    {
+      "project": "rnla-grey-zone",
+      "prompts_repo": "https://github.com/hcss-utils/rnla",
+      "results_source": "postgres://rnla pass1.5+pass2"
+    },
+    {
+      "project": "wacko",
+      "prompts_repo": "https://github.com/hcss-utils/wacko",
+      "results_source": "postgres://wacko pass1+pass2+pass3"
+    },
+    {
+      "project": "ruw-core-taxonomy",
+      "prompts_repo": "https://github.com/hcss-utils/russian-ukrainian-war-database",
+      "results_source": "postgres://russian_ukrainian_war taxonomy/classifications"
+    },
+    {
+      "project": "ruw-transparent-battlefield",
+      "prompts_repo": "https://github.com/hcss-utils/russian-ukrainian-war-database",
+      "results_source": "postgres://russian_ukrainian_war tb_first_pass/taxonomy_transparent_battlefield"
+    },
+    {
+      "project": "ruw-red-lines",
+      "prompts_repo": "https://github.com/hcss-utils/red-lines-database",
+      "results_source": "postgres://russian_ukrainian_war red_line_annotation"
+    },
+    {
+      "project": "space",
+      "prompts_repo": "https://github.com/hcss-utils/space",
+      "results_source": "github reports + project DB pipeline"
+    },
+    {
+      "project": "transparent-battlefields-report",
+      "prompts_repo": "https://github.com/hcss-utils/transparent-battlefields-report",
+      "results_source": "github report artifacts + russian_ukrainian_war source rows"
+    },
+    {
+      "project": "event-extraction-ruw",
+      "prompts_repo": "https://github.com/hcss-utils/event-extraction-ruw",
+      "results_source": "github taxonomy_classifications/responses_*"
+    },
+    {
+      "project": "red-lines",
+      "prompts_repo": "https://github.com/hcss-utils/red-lines",
+      "results_source": "github annotations jsonl/csv"
+    }
+  ]
+}

@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RU Benchmark Review Dashboard</title>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <style>
+    :root {
+      --bg-0: #041327;
+      --bg-1: #0a2244;
+      --bg-2: #0e2f61;
+      --panel: #0f2a4f;
+      --panel-2: #0b1f3d;
+      --border: #2f4f7e;
+      --text: #eaf2ff;
+      --muted: #c8ddff;
+      --accent: #8ab6ff;
+      --btn: #6aa7ff;
+      --btn-text: #001531;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Trebuchet MS", sans-serif;
+      color: var(--text);
+      background: linear-gradient(160deg, var(--bg-0) 0%, var(--bg-1) 45%, var(--bg-2) 100%);
+      min-height: 100vh;
+    }
+    .wrap { max-width: 1400px; margin: 0 auto; padding: 16px; }
+    h1 { margin: 0 0 4px; }
+    .sub { color: var(--muted); margin-bottom: 12px; }
+    .tabs { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+    .tab-btn {
+      background: #0d2342;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .tab-btn.active { background: #173a66; color: white; border-color: var(--accent); }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 900px) { .row { grid-template-columns: 1fr; } }
+    label { display: block; margin-bottom: 6px; }
+    input, select, textarea {
+      width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #5378ac;
+      background: #f8fbff; color: #001733;
+    }
+    textarea { min-height: 110px; }
+    .btn {
+      background: var(--btn); color: var(--btn-text); border: none; border-radius: 10px;
+      padding: 10px 14px; font-weight: 700; cursor: pointer;
+    }
+    .mono { white-space: pre-wrap; font-family: Consolas, Menlo, monospace; font-size: 13px; }
+    .scroll { max-height: 340px; overflow-y: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid var(--border); padding: 8px; text-align: left; vertical-align: top; }
+    th { background: #173a66; }
+    td { background: var(--panel); }
+    .muted { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>RU Benchmark Review Dashboard</h1>
+    <div class="sub">Project-stratified 250-row sample with expert review workflow</div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="dist">Distribution</button>
+      <button class="tab-btn" data-tab="review">Expert Review</button>
+      <button class="tab-btn" data-tab="assets">Project Assets</button>
+    </div>
+
+    <div id="tab-dist" class="tab panel">
+      <div id="summary" class="panel"></div>
+      <div class="row">
+        <div id="fig-project" class="panel"></div>
+        <div id="fig-time" class="panel"></div>
+      </div>
+      <div class="row">
+        <div id="fig-words" class="panel"></div>
+        <div id="fig-source" class="panel"></div>
+      </div>
+    </div>
+
+    <div id="tab-review" class="tab" style="display:none;">
+      <div class="panel">
+        <div class="row">
+          <div>
+            <label>Project filter</label>
+            <select id="projectFilter"></select>
+          </div>
+          <div>
+            <label>Sample row ID</label>
+            <div style="display:flex; gap:8px;">
+              <input id="rowId" type="number" min="1" step="1" value="1" />
+              <button id="loadRow" class="btn">Load Row</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="rowMeta" class="panel mono"></div>
+      <div id="rowPasses" class="panel mono"></div>
+      <div id="rowText" class="panel mono scroll" style="background:var(--panel-2);"></div>
+
+      <div class="panel">
+        <label>Judgment</label>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <label><input type="radio" name="judgment" value="correct" /> Correct</label>
+          <label><input type="radio" name="judgment" value="partial" /> Partially Correct</label>
+          <label><input type="radio" name="judgment" value="incorrect" /> Incorrect</label>
+          <label><input type="radio" name="judgment" value="unsure" checked /> Unsure</label>
+        </div>
+        <label style="margin-top:10px;"><input id="meets" type="checkbox" /> Meets benchmark criteria</label>
+        <div class="row" style="margin-top:10px;">
+          <div>
+            <label>Reviewer</label>
+            <input id="reviewer" type="text" placeholder="sdspieg" />
+          </div>
+          <div>
+            <label>Actions</label>
+            <div style="display:flex; gap:8px;">
+              <button id="saveJudgment" class="btn">Save Judgment</button>
+              <button id="downloadJudgments" class="btn">Download CSV</button>
+            </div>
+          </div>
+        </div>
+        <label style="margin-top:10px;">Notes</label>
+        <textarea id="notes" placeholder="Reasoning, correction, edge case notes..."></textarea>
+        <div id="saveStatus" class="muted" style="margin-top:8px;"></div>
+      </div>
+
+      <div class="panel">
+        <h3 style="margin-top:0;">Latest Judgments</h3>
+        <div style="overflow-x:auto;"><table id="judgmentTable"></table></div>
+      </div>
+    </div>
+
+    <div id="tab-assets" class="tab" style="display:none;">
+      <div class="panel">
+        <h3 style="margin-top:0;">Project Prompt/Result Sources</h3>
+        <div style="overflow-x:auto;"><table id="assetTable"></table></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+const THEME = {
+  paper_bgcolor: '#081a33',
+  plot_bgcolor: '#0d2342',
+  font: { color: '#e8f0ff' },
+  xaxis: { color: '#d7e6ff', gridcolor: '#2a4770' },
+  yaxis: { color: '#d7e6ff', gridcolor: '#2a4770' },
+};
+
+let sample = [];
+let summary = {};
+let assets = {projects: []};
+let activeRows = [];
+const judgmentsKey = 'ru_benchmark_judgments_v1';
+
+function loadJudgments() {
+  try { return JSON.parse(localStorage.getItem(judgmentsKey) || '[]'); }
+  catch { return []; }
+}
+function saveJudgments(arr) { localStorage.setItem(judgmentsKey, JSON.stringify(arr)); }
+
+function countBy(rows, key, topN=null) {
+  const m = new Map();
+  rows.forEach(r => {
+    const k = (r[key] ?? '(missing)').toString();
+    m.set(k, (m.get(k) || 0) + 1);
+  });
+  let arr = [...m.entries()].map(([k,v]) => ({k,v})).sort((a,b)=>b.v-a.v);
+  if (topN !== null) arr = arr.slice(0, topN);
+  return arr;
+}
+
+function renderBar(divId, title, data, xLabel='value') {
+  const trace = {type:'bar', x:data.map(d=>d.k), y:data.map(d=>d.v), marker:{color:'#8ab6ff'}};
+  const layout = {...THEME, title:{text:title, font:{color:'#f3f7ff'}}, margin:{t:40,r:20,b:120,l:50}};
+  Plotly.newPlot(divId, [trace], layout, {responsive:true, displaylogo:false});
+}
+
+function setSummary() {
+  const el = document.getElementById('summary');
+  el.innerHTML = `<b>Sample size:</b> ${summary.sample_size || sample.length} &nbsp; | &nbsp; <b>Generated:</b> ${summary.generated_at || '-'}`;
+}
+
+function populateProjectFilter() {
+  const sel = document.getElementById('projectFilter');
+  const projects = [...new Set(sample.map(r => r.project))].sort();
+  sel.innerHTML = `<option value="ALL">All</option>` + projects.map(p => `<option value="${p}">${p}</option>`).join('');
+}
+
+function filterRows() {
+  const p = document.getElementById('projectFilter').value;
+  activeRows = (p === 'ALL') ? sample : sample.filter(r => r.project === p);
+}
+
+function loadRow() {
+  filterRows();
+  if (!activeRows.length) return;
+  const rowId = parseInt(document.getElementById('rowId').value || '1', 10);
+  let row = activeRows.find(r => Number(r.sample_row_id) === rowId) || activeRows[0];
+
+  document.getElementById('rowMeta').textContent =
+`sample_row_id: ${row.sample_row_id}
+project: ${row.project}
+project_db: ${row.project_db}
+document_id: ${row.document_id}
+source: ${row.source_norm}
+database: ${row.database}
+date: ${row.date}
+author: ${row.author}
+word_count: ${row.word_count}
+word_bucket: ${row.word_bucket}
+time_group: ${row.time_group}
+row_uid: ${row.row_uid}`;
+
+  document.getElementById('rowPasses').textContent =
+`Pass 1:\n${row.pass1 || ''}\n\nPass 2:\n${row.pass2 || ''}\n\nPass 3:\n${row.pass3 || ''}`;
+
+  document.getElementById('rowText').textContent = row.chunk_text || '';
+}
+
+function renderJudgments() {
+  const rows = loadJudgments().slice(-20).reverse();
+  const table = document.getElementById('judgmentTable');
+  const cols = ['saved_at','sample_row_id','project','judgment','is_correct','reviewer','notes'];
+  table.innerHTML = `<tr>${cols.map(c=>`<th>${c}</th>`).join('')}</tr>` + rows.map(r =>
+    `<tr>${cols.map(c=>`<td>${(r[c] ?? '').toString().replace(/</g,'&lt;')}</td>`).join('')}</tr>`
+  ).join('');
+}
+
+function saveCurrentJudgment() {
+  filterRows();
+  if (!activeRows.length) return;
+  const rowId = parseInt(document.getElementById('rowId').value || '1', 10);
+  const row = activeRows.find(r => Number(r.sample_row_id) === rowId) || activeRows[0];
+  const judgment = (document.querySelector('input[name="judgment"]:checked') || {}).value || 'unsure';
+  const rec = {
+    saved_at: new Date().toISOString(),
+    sample_row_id: row.sample_row_id,
+    row_uid: row.row_uid,
+    project: row.project,
+    judgment,
+    is_correct: document.getElementById('meets').checked ? 'yes' : 'no',
+    reviewer: document.getElementById('reviewer').value || '',
+    notes: document.getElementById('notes').value || ''
+  };
+  const all = loadJudgments();
+  all.push(rec);
+  saveJudgments(all);
+  renderJudgments();
+  document.getElementById('saveStatus').textContent = `Saved judgment for row ${row.sample_row_id}.`;
+}
+
+function downloadJudgmentsCsv() {
+  const rows = loadJudgments();
+  const cols = ['saved_at','sample_row_id','row_uid','project','judgment','is_correct','reviewer','notes'];
+  const esc = v => '"' + String(v ?? '').replace(/"/g,'""') + '"';
+  const lines = [cols.join(',')].concat(rows.map(r => cols.map(c => esc(r[c])).join(',')));
+  const blob = new Blob([lines.join('\n')], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'benchmark_judgments.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function renderAssets() {
+  const rows = assets.projects || [];
+  const cols = ['project','prompts_repo','results_source'];
+  const table = document.getElementById('assetTable');
+  table.innerHTML = `<tr>${cols.map(c=>`<th>${c}</th>`).join('')}</tr>` + rows.map(r =>
+    `<tr>${cols.map(c=>`<td>${(r[c] ?? '').toString().replace(/</g,'&lt;')}</td>`).join('')}</tr>`
+  ).join('');
+}
+
+function setupTabs() {
+  const btns = document.querySelectorAll('.tab-btn');
+  const tabs = {
+    dist: document.getElementById('tab-dist'),
+    review: document.getElementById('tab-review'),
+    assets: document.getElementById('tab-assets')
+  };
+  btns.forEach(b => b.addEventListener('click', () => {
+    btns.forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    Object.values(tabs).forEach(t => t.style.display = 'none');
+    tabs[b.dataset.tab].style.display = 'block';
+  }));
+}
+
+async function boot() {
+  const [sampleRes, summaryRes, assetsRes] = await Promise.all([
+    fetch('./data/sample.json'),
+    fetch('./data/sample_latest_summary.json'),
+    fetch('./data/project_assets_manifest.json')
+  ]);
+  sample = await sampleRes.json();
+  summary = await summaryRes.json();
+  assets = await assetsRes.json();
+
+  setSummary();
+  renderBar('fig-project', 'Project Distribution', countBy(sample, 'project'));
+  renderBar('fig-time', 'Time Distribution', countBy(sample, 'time_group'));
+  renderBar('fig-words', 'Word-Count Buckets', countBy(sample, 'word_bucket'));
+  renderBar('fig-source', 'Top Sources', countBy(sample, 'source_norm', 25));
+
+  populateProjectFilter();
+  document.getElementById('loadRow').addEventListener('click', loadRow);
+  document.getElementById('projectFilter').addEventListener('change', loadRow);
+  document.getElementById('saveJudgment').addEventListener('click', saveCurrentJudgment);
+  document.getElementById('downloadJudgments').addEventListener('click', downloadJudgmentsCsv);
+  renderJudgments();
+  renderAssets();
+  loadRow();
+  setupTabs();
+}
+
+boot();
+</script>
+</body>
+</html>
