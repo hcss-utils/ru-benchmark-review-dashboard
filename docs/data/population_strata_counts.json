@@ -1,0 +1,61 @@
+{
+  "generated_at": "2026-03-16T18:45:00Z",
+  "notes": "Full-population counts derived from rnla, wacko, and russian_ukrainian_war Postgres databases using the same project slices as the review sample, extended with provisional local/artifact-backed counts for strengths-and-weaknesses, regeneration, and NATO intentions.",
+  "project": {
+    "rnla-deterrence": 19557,
+    "rnla-grey-zone": 18069,
+    "wacko": 150351,
+    "ruw-core-taxonomy": 381231,
+    "ruw-red-lines": 164,
+    "ruw-transparent-battlefield": 95755,
+    "ruw-strengths-and-weaknesses": 116,
+    "ruw-regeneration": 44618,
+    "ruw-nato-intentions-malign-political-diplomatic": 440,
+    "ruw-nato-intentions-malign-military-security": 14,
+    "space": null
+  },
+  "time_group": {
+    "year-1": 99046,
+    "year-3": 152032,
+    "year-4+": 134843,
+    "year-2": 135080,
+    "unknown": 115141,
+    "pre-invasion": 28985
+  },
+  "word_bucket": {
+    "600+": 155519,
+    "40-79": 481138,
+    "80-149": 6913,
+    "150-299": 8987,
+    "300-599": 12570
+  },
+  "database": {
+    "wotr": 4323,
+    "russiamatters": 5065,
+    "telegram_Propagandist": 48942,
+    "federation_council": 34000,
+    "telegram_War correspondent": 128222,
+    "kremlin": 3958,
+    "VM": 254,
+    "integrum": 113866,
+    "realclearworld": 1274,
+    "EVP-MIL": 59516,
+    "isw": 10350,
+    "bluesky": 5542,
+    "state_duma": 9425,
+    "ponars": 189,
+    "EVP-VM": 267,
+    "therussiaprogram": 125,
+    "telegram_Experts": 11022,
+    "telegram_Cossack": 64822,
+    "telegram_Official": 45004,
+    "Google Drive": 101352,
+    "telegram": 1846,
+    "telegram_expert analysis": 60,
+    "google_scholar": 10192,
+    "telegram_aggregator": 292,
+    "vk": 5151,
+    "telegram_local": 40,
+    "telegram_military units": 28
+  }
+}

@@ -3,52 +3,175 @@
     {
       "project": "rnla-deterrence",
       "prompts_repo": "https://github.com/hcss-utils/rnla",
-      "results_source": "postgres://rnla pass1.5+pass2"
+      "results_source": "Postgres rnla pass1.5+pass2; verified N=19,557 chunk annotations.",
+      "verified_n": 19557,
+      "count_unit": "chunk_annotations",
+      "prompt_paths": [
+        "prompts/first_pass.txt",
+        "prompts/1.5_pass.txt",
+        "prompts/second_pass_deterrence.txt"
+      ],
+      "result_locations": [
+        "postgres://rnla.public.chunk_annotation",
+        "postgres://rnla.public.chunk_annotation_1_5_pass",
+        "postgres://rnla.public.chunk_annotation_second_pass"
+      ]
     },
     {
       "project": "rnla-grey-zone",
       "prompts_repo": "https://github.com/hcss-utils/rnla",
-      "results_source": "postgres://rnla pass1.5+pass2"
+      "results_source": "Postgres rnla pass1.5+pass2; verified N=18,069 chunk annotations.",
+      "verified_n": 18069,
+      "count_unit": "chunk_annotations",
+      "prompt_paths": [
+        "prompts/first_pass.txt",
+        "prompts/1.5_pass.txt",
+        "prompts/second_pass_greyzone.txt"
+      ],
+      "result_locations": [
+        "postgres://rnla.public.chunk_annotation",
+        "postgres://rnla.public.chunk_annotation_1_5_pass",
+        "postgres://rnla.public.chunk_annotation_second_pass"
+      ]
     },
     {
       "project": "wacko",
       "prompts_repo": "https://github.com/hcss-utils/wacko",
-      "results_source": "postgres://wacko pass1+pass2+pass3"
+      "results_source": "Postgres wacko pass1+pass2+pass3; verified N=150,351 chunks/annotations.",
+      "verified_n": 150351,
+      "count_unit": "chunks_or_annotations",
+      "prompt_paths": [
+        "prompts/books_prompt.txt",
+        "prompts/books_prompt_second_pass.txt",
+        "prompts/design.txt",
+        "prompts/quote_extraction_prompt.txt",
+        "prompts/ruw_prompt.txt"
+      ],
+      "result_locations": [
+        "postgres://wacko.public.document_chunk",
+        "postgres://wacko.public.chunk_annotation",
+        "postgres://wacko.public.chunk_annotation_second_pass",
+        "postgres://wacko.public.chunk_annotation_third_pass"
+      ]
     },
     {
       "project": "ruw-core-taxonomy",
       "prompts_repo": "https://github.com/hcss-utils/russian-ukrainian-war-database",
-      "results_source": "postgres://russian_ukrainian_war taxonomy/classifications"
+      "results_source": "Postgres russian_ukrainian_war taxonomy/classifications; verified N=381,231 taxonomy rows.",
+      "verified_n": 381231,
+      "count_unit": "taxonomy_rows",
+      "prompt_paths": [
+        "annotation_prompt.txt",
+        "initial-setup/annotation/prompt.txt"
+      ],
+      "result_locations": [
+        "postgres://russian_ukrainian_war.public.taxonomy",
+        "postgres://russian_ukrainian_war.public.classifications"
+      ]
     },
     {
       "project": "ruw-transparent-battlefield",
       "prompts_repo": "https://github.com/hcss-utils/russian-ukrainian-war-database",
-      "results_source": "postgres://russian_ukrainian_war tb_first_pass/taxonomy_transparent_battlefield"
+      "results_source": "Postgres russian_ukrainian_war transparent battlefield; verified N=95,755 taxonomy rows.",
+      "verified_n": 95755,
+      "count_unit": "taxonomy_rows",
+      "prompt_paths": [
+        "annotation_prompt_tb.txt",
+        "prompts/first_pass/tb.txt"
+      ],
+      "result_locations": [
+        "postgres://russian_ukrainian_war.public.taxonomy_transparent_battlefield",
+        "postgres://russian_ukrainian_war.public.tb_first_pass_annotation"
+      ]
     },
     {
       "project": "ruw-red-lines",
       "prompts_repo": "https://github.com/hcss-utils/red-lines-database",
-      "results_source": "postgres://russian_ukrainian_war red_line_annotation"
+      "results_source": "Postgres russian_ukrainian_war red_line_annotation; verified N=164 rows.",
+      "verified_n": 164,
+      "count_unit": "annotation_rows",
+      "prompt_paths": [
+        "prompts/first_pass/rls.txt",
+        "prompts/second_pass/rls.txt",
+        "prompts/third_pass/rls.txt"
+      ],
+      "result_locations": [
+        "postgres://russian_ukrainian_war.public.red_line_annotation"
+      ]
     },
     {
       "project": "space",
       "prompts_repo": "https://github.com/hcss-utils/space",
-      "results_source": "github reports + project DB pipeline"
+      "results_source": "GitHub prompt verified, but denominator is still not materialized on the current Postgres host.",
+      "verified_n": null,
+      "count_unit": "pending",
+      "prompt_paths": [
+        "prompts/prompt.txt"
+      ],
+      "result_locations": [
+        "project DB pipeline not present on the currently queried Postgres host"
+      ]
     },
     {
-      "project": "transparent-battlefields-report",
-      "prompts_repo": "https://github.com/hcss-utils/transparent-battlefields-report",
-      "results_source": "github report artifacts + russian_ukrainian_war source rows"
+      "project": "ruw-strengths-and-weaknesses",
+      "prompts_repo": "https://github.com/hcss-utils/russian-ukrainian-war-database/tree/initial-setup/annotation",
+      "results_source": "Historical RUW strengths/weaknesses prompt logic plus local report artifacts; verified 116 report leaves, but no consolidated row-level table yet.",
+      "verified_n": 116,
+      "count_unit": "report_leaves",
+      "prompt_paths": [
+        "initial-setup/annotation/shallow.py",
+        "initial-setup/annotation/id_prompt.txt",
+        "initial-setup/annotation/prompt.txt"
+      ],
+      "result_locations": [
+        "/mnt/g/My Drive/HCSS Projects - trash/HCSS Projects/Russian Assessments of the Russian-Ukrainian War/Analysis/LLM/Strengths and Weaknesses/reports"
+      ]
     },
     {
-      "project": "event-extraction-ruw",
-      "prompts_repo": "https://github.com/hcss-utils/event-extraction-ruw",
-      "results_source": "github taxonomy_classifications/responses_*"
+      "project": "ruw-regeneration",
+      "prompts_repo": "https://github.com/hcss-utils/russian-ukrainian-war-database",
+      "results_source": "Local RUW regeneration workflow; verified N=44,618 row-level results in regeneration_df_241231.json.",
+      "verified_n": 44618,
+      "count_unit": "row_level_results",
+      "prompt_paths": [
+        "local: Analysis/Taxonomy/taxonomy_regeneration.ipynb",
+        "local: Analysis/Taxonomy/taxonomy_regeneration_old.ipynb"
+      ],
+      "result_locations": [
+        "/mnt/g/My Drive/HCSS Projects - trash/HCSS Projects/Russian Assessments of the Russian-Ukrainian War/Analysis/LLM/regeneration_df_241231.json",
+        "/mnt/g/My Drive/HCSS Projects - trash/HCSS Projects/Russian Assessments of the Russian-Ukrainian War/Analysis/LLM/regeneration_df_241231.csv"
+      ]
     },
     {
-      "project": "red-lines",
-      "prompts_repo": "https://github.com/hcss-utils/red-lines",
-      "results_source": "github annotations jsonl/csv"
+      "project": "ruw-nato-intentions-malign-political-diplomatic",
+      "prompts_repo": "https://github.com/hcss-utils/russian-ukrainian-war-database",
+      "results_source": "Local NATO intentions workflow; verified N=440 rows in the current Political and Diplomatic export.",
+      "verified_n": 440,
+      "count_unit": "verified_export_rows",
+      "prompt_paths": [
+        "local: Analysis/LLM/NATO v1/stage-1.ipynb",
+        "local: Stephan/Help/1. assigning indicators.ipynb"
+      ],
+      "result_locations": [
+        "/tmp/stephan-help-extract/Malign Intentions -_ Political & Diplomatic-20260316T185603Z-3-001/Malign Intentions -_ Political & Diplomatic/table.csv",
+        "/mnt/g/My Drive/HCSS Projects - trash/HCSS Projects/Russian Assessments of the Russian-Ukrainian War/Analysis/LLM/NATO v1"
+      ]
+    },
+    {
+      "project": "ruw-nato-intentions-malign-military-security",
+      "prompts_repo": "https://github.com/hcss-utils/russian-ukrainian-war-database",
+      "results_source": "Local NATO intentions workflow; the exported table is empty, but 14 unique cited chunks are recoverable from the raw response artifact.",
+      "verified_n": 14,
+      "count_unit": "recoverable_cited_chunks",
+      "prompt_paths": [
+        "local: Analysis/LLM/NATO v1/stage-1.ipynb",
+        "local: Stephan/Help/1. assigning indicators.ipynb"
+      ],
+      "result_locations": [
+        "/tmp/stephan-help-extract/Malign Intentions -_ Military & Security-20260316T185605Z-3-001/Malign Intentions -_ Military & Security/table.csv",
+        "/tmp/stephan-help-extract/Malign Intentions -_ Military & Security-20260316T185605Z-3-001/Malign Intentions -_ Military & Security/raw_response.json",
+        "/mnt/g/My Drive/HCSS Projects - trash/HCSS Projects/Russian Assessments of the Russian-Ukrainian War/Analysis/LLM/NATO v1"
+      ]
     }
   ]
 }

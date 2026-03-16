@@ -873,7 +873,7 @@
         <div class="eyebrow">Editorial Review Surface</div>
         <h1>See the sample before you judge it.</h1>
         <p>
-          A project-stratified 250-row review workspace for the RU benchmark. The dashboard makes the sample composition legible,
+          A project-stratified ground-truth review workspace for the RU benchmark. The dashboard makes the sample composition legible,
           exposes the annotation passes side by side, and gives reviewers a cleaner path to make and export judgments.
         </p>
         <div class="hero-actions">
@@ -1622,6 +1622,7 @@
         <article class="asset-card">
           <strong>${escapeHtml(project.project)}</strong>
           <span>${escapeHtml(project.results_source)}</span>
+          ${project.verified_n !== undefined ? `<div class="pill mono">${project.verified_n === null ? "N: pending" : `N: ${numberFmt(project.verified_n)} ${escapeHtml(project.count_unit || "")}`}</div>` : ""}
           <div class="asset-meta">
             <span class="mini-label">Prompt Logic</span>
           </div>
