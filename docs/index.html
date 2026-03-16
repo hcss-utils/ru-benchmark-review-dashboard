@@ -43,6 +43,7 @@
         radial-gradient(circle at 30% 120%, rgba(192, 243, 255, 0.1), transparent 40%),
         linear-gradient(180deg, #0b2340 0%, #102f54 52%, #13365e 100%);
       min-height: 100vh;
+      overflow: hidden;
     }
 
     body::before {
@@ -63,9 +64,13 @@
 
     .shell {
       width: min(1440px, calc(100vw - 32px));
-      margin: 24px auto 56px;
+      height: calc(100vh - 24px);
+      margin: 12px auto;
       position: relative;
       z-index: 1;
+      display: grid;
+      grid-template-rows: auto auto auto auto auto 1fr;
+      gap: 12px;
     }
 
     .topbar {
@@ -73,7 +78,7 @@
       justify-content: space-between;
       align-items: center;
       gap: 16px;
-      padding: 12px 4px 24px;
+      padding: 8px 4px 0;
       opacity: 0;
       transform: translateY(14px);
       animation: rise 0.7s ease forwards;
@@ -100,7 +105,7 @@
       grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
       gap: 20px;
       align-items: stretch;
-      margin-bottom: 20px;
+      margin-bottom: 0;
     }
 
     .hero-card,
@@ -113,7 +118,7 @@
     }
 
     .hero-main {
-      padding: 28px;
+      padding: 20px 24px;
       position: relative;
       overflow: hidden;
       opacity: 0;
@@ -133,8 +138,8 @@
     }
 
     .hero-main h1 {
-      margin: 18px 0 10px;
-      font-size: clamp(2.5rem, 5vw, 4.8rem);
+      margin: 12px 0 8px;
+      font-size: clamp(2.2rem, 4vw, 3.8rem);
       line-height: 0.94;
       letter-spacing: -0.04em;
       max-width: 10ch;
@@ -152,7 +157,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: 24px;
+      margin-top: 16px;
     }
 
     .cta,
@@ -194,7 +199,7 @@
     }
 
     .hero-side {
-      padding: 24px;
+      padding: 18px;
       display: grid;
       gap: 14px;
       align-content: start;
@@ -204,7 +209,7 @@
     }
 
     .side-stat {
-      padding: 18px 18px 16px;
+      padding: 14px 16px 12px;
       border-radius: var(--radius-lg);
       background: rgba(23, 60, 105, 0.56);
       border: 1px solid rgba(214, 232, 249, 0.14);
@@ -212,7 +217,7 @@
 
     .side-stat strong {
       display: block;
-      font-size: 2rem;
+      font-size: 1.55rem;
       line-height: 1;
       margin-bottom: 8px;
       letter-spacing: -0.04em;
@@ -229,11 +234,11 @@
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 16px;
-      margin-bottom: 20px;
+      margin-bottom: 0;
     }
 
     .stat-card {
-      padding: 18px;
+      padding: 14px 16px;
       opacity: 0;
       transform: translateY(18px);
       animation: rise 0.6s ease forwards;
@@ -244,9 +249,9 @@
     .stat-card:nth-child(3) { animation-delay: 0.34s; }
     .stat-card:nth-child(4) { animation-delay: 0.4s; }
 
-    .stat-card .mini-label { margin-bottom: 18px; }
+    .stat-card .mini-label { margin-bottom: 12px; }
     .stat-card .value {
-      font-size: clamp(2.1rem, 4vw, 3rem);
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
       line-height: 1;
       letter-spacing: -0.05em;
       margin-bottom: 8px;
@@ -267,7 +272,7 @@
       gap: 10px;
       flex-wrap: wrap;
       padding: 12px;
-      margin-bottom: 18px;
+      margin-bottom: 0;
       background: rgba(11, 35, 64, 0.84);
       border: 1px solid rgba(214, 232, 249, 0.18);
       border-radius: 999px;
@@ -293,6 +298,10 @@
     .tab-panel {
       display: none;
       animation: fade 0.35s ease;
+      min-height: 0;
+      height: 100%;
+      overflow: auto;
+      padding-right: 6px;
     }
 
     .tab-panel.active { display: block; }
@@ -305,7 +314,7 @@
     }
 
     .surface {
-      padding: 22px;
+      padding: 18px;
     }
 
     .section-head {
@@ -522,12 +531,12 @@
       border: 1px solid var(--line-strong);
       border-radius: 14px;
       padding: 12px 14px;
-      background: rgba(255, 255, 255, 0.72);
+      background: rgba(15, 41, 73, 0.96);
       color: var(--ink);
     }
 
     textarea {
-      min-height: 140px;
+      min-height: 120px;
       resize: vertical;
       line-height: 1.55;
     }
@@ -541,7 +550,7 @@
     .queue .queue-card {
       padding: 14px;
       border-radius: 16px;
-      background: rgba(255, 255, 255, 0.46);
+      background: rgba(22, 56, 98, 0.96);
       border: 1px solid var(--line);
     }
 
@@ -566,15 +575,15 @@
     }
 
     .control-btn {
-      background: rgba(255, 255, 255, 0.72);
+      background: rgba(18, 50, 89, 0.96);
       border: 1px solid var(--line-strong);
       color: var(--ink);
     }
 
     .save-btn {
-      background: var(--ink);
-      color: #fff8f0;
-      box-shadow: 0 14px 26px rgba(24, 33, 38, 0.14);
+      background: var(--accent);
+      color: #05213f;
+      box-shadow: 0 14px 26px rgba(124, 211, 255, 0.18);
     }
 
     .judgment-grid {
@@ -592,16 +601,17 @@
       padding: 14px 12px;
       border-radius: 16px;
       border: 1px solid var(--line-strong);
-      background: rgba(255, 255, 255, 0.58);
+      background: rgba(18, 50, 89, 0.92);
       font-weight: 700;
       text-align: center;
+      color: var(--ink);
     }
 
     .choice input:checked + span {
       background: var(--accent-soft);
-      border-color: rgba(191, 79, 47, 0.42);
-      color: var(--accent);
-      box-shadow: inset 0 0 0 1px rgba(191, 79, 47, 0.12);
+      border-color: rgba(124, 211, 255, 0.42);
+      color: var(--accent-2);
+      box-shadow: inset 0 0 0 1px rgba(124, 211, 255, 0.12);
     }
 
     .toggle {
@@ -611,7 +621,7 @@
       padding: 12px 14px;
       border-radius: 14px;
       border: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.45);
+      background: rgba(18, 50, 89, 0.9);
       font-weight: 500;
     }
 
@@ -626,7 +636,7 @@
       gap: 4px;
       padding: 16px;
       border-radius: 18px;
-      background: rgba(255, 255, 255, 0.42);
+      background: rgba(18, 50, 89, 0.56);
       border: 1px solid var(--line);
     }
 
@@ -879,6 +889,98 @@
 
     .hidden { display: none !important; }
 
+    body.focus-mode .hero,
+    body.focus-mode #overview {
+      display: none;
+    }
+
+    .tab-panel::-webkit-scrollbar,
+    .text-body::-webkit-scrollbar,
+    .table-shell::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    .tab-panel::-webkit-scrollbar-thumb,
+    .text-body::-webkit-scrollbar-thumb,
+    .table-shell::-webkit-scrollbar-thumb {
+      background: rgba(124, 211, 255, 0.24);
+      border-radius: 999px;
+    }
+
+    .review-shell {
+      height: 100%;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 14px;
+    }
+
+    .review-toolbar {
+      display: grid;
+      grid-template-columns: 1.1fr auto auto auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .review-toolbar .surface {
+      padding: 14px 16px;
+    }
+
+    .toolbar-copy strong {
+      display: block;
+      font-size: 1rem;
+      margin-bottom: 2px;
+    }
+
+    .toolbar-copy span {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .review-layout {
+      min-height: 0;
+      grid-template-columns: 350px minmax(0, 1fr);
+    }
+
+    .control-stack,
+    .review-stack {
+      min-height: 0;
+      align-content: start;
+    }
+
+    .review-stack .surface:last-child {
+      min-height: 0;
+    }
+
+    .check-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .check-chip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 12px;
+      border-radius: 14px;
+      background: rgba(18, 50, 89, 0.92);
+      border: 1px solid var(--line);
+    }
+
+    .check-chip input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+    }
+
+    .check-chip span {
+      color: var(--ink);
+      font-size: 0.9rem;
+      line-height: 1.35;
+    }
+
     @keyframes rise {
       to {
         opacity: 1;
@@ -897,6 +999,16 @@
     }
 
     @media (max-width: 1180px) {
+      body {
+        overflow: auto;
+      }
+
+      .shell {
+        height: auto;
+        margin: 18px auto 40px;
+        display: block;
+      }
+
       .hero,
       .section-grid,
       .review-layout {
@@ -915,7 +1027,9 @@
       .donut-grid,
       .donut-shell,
       .donut-figure,
-      .legend {
+      .legend,
+      .review-toolbar,
+      .check-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -1191,156 +1305,187 @@
     </section>
 
     <section id="reviewPanel" class="tab-panel hidden">
-      <div class="review-layout">
-        <aside class="control-stack">
-          <article class="surface">
-            <div class="section-head">
-              <div>
-                <h2>Review Queue</h2>
-                <p>Filter by project, navigate rows, and keep track of local review progress.</p>
-              </div>
-            </div>
-            <div class="queue">
-              <div class="queue-card">
-                <strong id="queueVisible">0</strong>
-                <span class="muted">Rows in current filter</span>
-              </div>
-              <div class="queue-card">
-                <strong id="queueReviewed">0</strong>
-                <span class="muted">Rows reviewed in browser</span>
-              </div>
-              <div class="queue-card">
-                <strong id="queueIndex">0 / 0</strong>
-                <span class="muted">Current position</span>
-              </div>
-            </div>
+      <div class="review-shell">
+        <div class="review-toolbar">
+          <article class="surface toolbar-copy">
+            <strong>Reviewer Flow</strong>
+            <span>Serve a fresh chunk, assess the passes, tick flags, leave notes, then save and move on.</span>
           </article>
+          <button class="control-btn" id="freshRow">Serve Fresh Chunk</button>
+          <button class="save-btn" id="saveAndNext">Save + Next</button>
+          <button class="control-btn" id="downloadJudgments">Download CSV</button>
+        </div>
 
-          <article class="surface">
-            <div class="controls-grid">
-              <div class="control-group">
-                <label for="projectFilter">Project filter</label>
-                <select id="projectFilter"></select>
+        <div class="review-layout">
+          <aside class="control-stack">
+            <article class="surface">
+              <div class="section-head">
+                <div>
+                  <h2>Review Queue</h2>
+                  <p>Dark, legible, and compact. Stay in one lane or pull a fresh item from the current filter.</p>
+                </div>
               </div>
-              <div class="control-group">
-                <label for="rowId">Row ID</label>
-                <input id="rowId" type="number" min="1" step="1" value="1" />
+              <div class="queue">
+                <div class="queue-card">
+                  <strong id="queueVisible">0</strong>
+                  <span class="muted">Rows in current filter</span>
+                </div>
+                <div class="queue-card">
+                  <strong id="queueReviewed">0</strong>
+                  <span class="muted">Rows reviewed in browser</span>
+                </div>
+                <div class="queue-card">
+                  <strong id="queueIndex">0 / 0</strong>
+                  <span class="muted">Current position</span>
+                </div>
               </div>
-            </div>
-            <div class="control-row" style="margin-top: 12px;">
-              <button class="control-btn" id="prevRow">Previous</button>
-              <button class="control-btn" id="nextRow">Next</button>
-              <button class="control-btn" id="randomRow">Random</button>
-              <button class="control-btn" id="loadRow">Jump to Row</button>
-            </div>
-          </article>
+            </article>
 
-          <article class="surface">
-            <div class="section-head">
-              <div>
-                <h2>Judgment</h2>
-                <p>Save to browser-local storage, then export all judgments as CSV when you are done.</p>
+            <article class="surface">
+              <div class="controls-grid">
+                <div class="control-group">
+                  <label for="projectFilter">Project filter</label>
+                  <select id="projectFilter"></select>
+                </div>
+                <div class="control-group">
+                  <label for="rowId">Row ID</label>
+                  <input id="rowId" type="number" min="1" step="1" value="1" />
+                </div>
               </div>
-            </div>
+              <div class="control-row" style="margin-top: 12px;">
+                <button class="control-btn" id="prevRow">Previous</button>
+                <button class="control-btn" id="nextRow">Next</button>
+                <button class="control-btn" id="randomRow">Random in Filter</button>
+                <button class="control-btn" id="loadRow">Jump to Row</button>
+              </div>
+            </article>
 
-            <div class="judgment-grid">
-              <label class="choice">
-                <input type="radio" name="judgment" value="correct" />
-                <span>Correct</span>
+            <article class="surface">
+              <div class="section-head">
+                <div>
+                  <h2>Judge This Chunk</h2>
+                  <p>Pick a verdict, tick the concrete review flags, and still keep a free-form note.</p>
+                </div>
+              </div>
+
+              <div class="judgment-grid">
+                <label class="choice">
+                  <input type="radio" name="judgment" value="correct" />
+                  <span>Correct</span>
+                </label>
+                <label class="choice">
+                  <input type="radio" name="judgment" value="partial" />
+                  <span>Partial</span>
+                </label>
+                <label class="choice">
+                  <input type="radio" name="judgment" value="incorrect" />
+                  <span>Incorrect</span>
+                </label>
+                <label class="choice">
+                  <input type="radio" name="judgment" value="unsure" checked />
+                  <span>Unsure</span>
+                </label>
+              </div>
+
+              <div class="check-grid">
+                <label class="check-chip">
+                  <input id="flagFaithful" type="checkbox" />
+                  <span>Faithful to source text</span>
+                </label>
+                <label class="check-chip">
+                  <input id="flagTaxonomy" type="checkbox" />
+                  <span>Taxonomy assignment looks right</span>
+                </label>
+                <label class="check-chip">
+                  <input id="flagMetadata" type="checkbox" />
+                  <span>Metadata and provenance look right</span>
+                </label>
+                <label class="check-chip">
+                  <input id="flagEscalate" type="checkbox" />
+                  <span>Needs escalation or follow-up</span>
+                </label>
+              </div>
+
+              <label class="toggle" style="margin-top: 12px;">
+                <input id="meets" type="checkbox" />
+                <span>Meets benchmark criteria</span>
               </label>
-              <label class="choice">
-                <input type="radio" name="judgment" value="partial" />
-                <span>Partial</span>
-              </label>
-              <label class="choice">
-                <input type="radio" name="judgment" value="incorrect" />
-                <span>Incorrect</span>
-              </label>
-              <label class="choice">
-                <input type="radio" name="judgment" value="unsure" checked />
-                <span>Unsure</span>
-              </label>
-            </div>
 
-            <label class="toggle" style="margin-top: 12px;">
-              <input id="meets" type="checkbox" />
-              <span>Meets benchmark criteria</span>
-            </label>
-
-            <div class="field" style="margin-top: 12px;">
-              <label for="reviewer">Reviewer</label>
-              <input id="reviewer" type="text" placeholder="sdspieg" />
-            </div>
-
-            <div class="field" style="margin-top: 12px;">
-              <label for="notes">Notes</label>
-              <textarea id="notes" placeholder="Why this row is correct, partial, or wrong. Capture corrections, ambiguity, or annotation risk."></textarea>
-            </div>
-
-            <div class="control-row" style="margin-top: 12px;">
-              <button class="save-btn" id="saveJudgment">Save Judgment</button>
-              <button class="control-btn" id="downloadJudgments">Download CSV</button>
-            </div>
-            <p class="save-status muted" id="saveStatus">No judgments saved yet.</p>
-          </article>
-        </aside>
-
-        <div class="review-stack">
-          <article class="surface">
-            <div class="section-head">
-              <div>
-                <h2 id="rowHeading">Sample Row</h2>
-                <p id="rowSubheading">Row metadata will appear here once the sample is loaded.</p>
+              <div class="field" style="margin-top: 12px;">
+                <label for="reviewer">Reviewer</label>
+                <input id="reviewer" type="text" placeholder="sdspieg" />
               </div>
-              <div class="pill mono" id="rowUidPill">row_uid: -</div>
-            </div>
-            <div class="meta-grid" id="rowMeta"></div>
-          </article>
 
-          <article class="surface">
-            <div class="section-head">
-              <div>
-                <h2>Annotation Passes</h2>
-                <p>Read the three passes side by side before making a judgment.</p>
+              <div class="field" style="margin-top: 12px;">
+                <label for="notes">Notes</label>
+                <textarea id="notes" placeholder="Why this row is correct, partial, or wrong. Capture corrections, ambiguity, or annotation risk."></textarea>
               </div>
-            </div>
-            <div class="pass-grid" id="rowPasses"></div>
-          </article>
 
-          <article class="surface">
-            <div class="text-card">
-              <div class="text-head">
-                <strong>Source Text</strong>
-                <span class="pill mono" id="rowWordPill">0 words</span>
+              <div class="control-row" style="margin-top: 12px;">
+                <button class="save-btn" id="saveJudgment">Save Judgment</button>
               </div>
-              <div class="text-body" id="rowText"></div>
-            </div>
-          </article>
+              <p class="save-status muted" id="saveStatus">No judgments saved yet.</p>
+            </article>
+          </aside>
 
-          <article class="surface">
-            <div class="section-head">
-              <div>
-                <h2>Latest Saved Judgments</h2>
-                <p>Most recent browser-local review decisions, reversed chronologically.</p>
+          <div class="review-stack">
+            <article class="surface">
+              <div class="section-head">
+                <div>
+                  <h2 id="rowHeading">Sample Row</h2>
+                  <p id="rowSubheading">Row metadata will appear here once the sample is loaded.</p>
+                </div>
+                <div class="pill mono" id="rowUidPill">row_uid: -</div>
               </div>
-            </div>
-            <div class="table-shell">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Saved</th>
-                    <th>Row</th>
-                    <th>Project</th>
-                    <th>Judgment</th>
-                    <th>Meets</th>
-                    <th>Reviewer</th>
-                    <th>Notes</th>
-                  </tr>
-                </thead>
-                <tbody id="judgmentTable"></tbody>
-              </table>
-            </div>
-          </article>
+              <div class="meta-grid" id="rowMeta"></div>
+            </article>
+
+            <article class="surface">
+              <div class="section-head">
+                <div>
+                  <h2>Annotation Passes</h2>
+                  <p>Read the three passes side by side before making a judgment.</p>
+                </div>
+              </div>
+              <div class="pass-grid" id="rowPasses"></div>
+            </article>
+
+            <article class="surface">
+              <div class="text-card">
+                <div class="text-head">
+                  <strong>Source Text</strong>
+                  <span class="pill mono" id="rowWordPill">0 words</span>
+                </div>
+                <div class="text-body" id="rowText"></div>
+              </div>
+            </article>
+
+            <article class="surface">
+              <div class="section-head">
+                <div>
+                  <h2>Latest Saved Judgments</h2>
+                  <p>Most recent browser-local review decisions, reversed chronologically.</p>
+                </div>
+              </div>
+              <div class="table-shell">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Saved</th>
+                      <th>Row</th>
+                      <th>Project</th>
+                      <th>Judgment</th>
+                      <th>Meets</th>
+                      <th>Flags</th>
+                      <th>Reviewer</th>
+                      <th>Notes</th>
+                    </tr>
+                  </thead>
+                  <tbody id="judgmentTable"></tbody>
+                </table>
+              </div>
+            </article>
+          </div>
         </div>
       </div>
     </section>
@@ -1384,6 +1529,22 @@
 
     function loadJudgments() {
       return safeJsonParse(localStorage.getItem(judgmentsKey) || "[]", []);
+    }
+
+    function collectFlags() {
+      return {
+        faithful_source: $("flagFaithful").checked,
+        taxonomy_ok: $("flagTaxonomy").checked,
+        metadata_ok: $("flagMetadata").checked,
+        escalate: $("flagEscalate").checked
+      };
+    }
+
+    function activeFlagLabels(flags) {
+      return Object.entries(flags || {})
+        .filter(([, value]) => Boolean(value))
+        .map(([key]) => key.replace(/_/g, " "))
+        .join("; ");
     }
 
     function saveJudgments(rows) {
@@ -1840,6 +2001,10 @@
         input.checked = input.value === selected;
       });
       $("meets").checked = existing?.is_correct === "yes";
+      $("flagFaithful").checked = Boolean(existing?.flags?.faithful_source);
+      $("flagTaxonomy").checked = Boolean(existing?.flags?.taxonomy_ok);
+      $("flagMetadata").checked = Boolean(existing?.flags?.metadata_ok);
+      $("flagEscalate").checked = Boolean(existing?.flags?.escalate);
       $("reviewer").value = existing?.reviewer || "";
       $("notes").value = existing?.notes || "";
     }
@@ -1885,6 +2050,19 @@
       setCurrentRow(activeRows[index]);
     }
 
+    function serveFreshRow() {
+      applyFilter();
+      const reviewedIds = new Set(loadJudgments().map((row) => String(row.row_uid)));
+      const pool = activeRows.filter((row) => !reviewedIds.has(String(row.row_uid)));
+      if (pool.length) {
+        setCurrentRow(pool[Math.floor(Math.random() * pool.length)]);
+        $("saveStatus").textContent = `Served a fresh unreviewed chunk from the current filter.`;
+        return;
+      }
+      randomRow();
+      $("saveStatus").textContent = `Everything in this filter is already reviewed locally, so a previously seen row was loaded.`;
+    }
+
     function renderJudgments() {
       const rows = loadJudgments().slice(-18).reverse();
       $("judgmentTable").innerHTML = rows.map((row) => `
@@ -1894,6 +2072,7 @@
           <td>${escapeHtml(row.project)}</td>
           <td>${escapeHtml(row.judgment)}</td>
           <td>${escapeHtml(row.is_correct)}</td>
+          <td>${escapeHtml(activeFlagLabels(row.flags) || "none")}</td>
           <td>${escapeHtml(row.reviewer)}</td>
           <td>${escapeHtml(row.notes)}</td>
         </tr>
@@ -1911,6 +2090,7 @@
         project: currentRow.project,
         judgment,
         is_correct: $("meets").checked ? "yes" : "no",
+        flags: collectFlags(),
         reviewer: $("reviewer").value.trim(),
         notes: $("notes").value.trim()
       };
@@ -1923,11 +2103,19 @@
       renderJudgments();
     }
 
+    function saveAndNext() {
+      saveCurrentJudgment();
+      serveFreshRow();
+    }
+
     function downloadJudgmentsCsv() {
       const rows = loadJudgments();
-      const columns = ["saved_at", "sample_row_id", "row_uid", "project", "judgment", "is_correct", "reviewer", "notes"];
+      const columns = ["saved_at", "sample_row_id", "row_uid", "project", "judgment", "is_correct", "flags", "reviewer", "notes"];
       const escapeCsv = (value) => `"${String(value ?? "").replace(/"/g, '""')}"`;
-      const lines = [columns.join(",")].concat(rows.map((row) => columns.map((column) => escapeCsv(row[column])).join(",")));
+      const lines = [columns.join(",")].concat(rows.map((row) => columns.map((column) => {
+        if (column === "flags") return escapeCsv(activeFlagLabels(row.flags));
+        return escapeCsv(row[column]);
+      }).join(",")));
       const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8;" });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
@@ -1963,6 +2151,7 @@
           ["atlasPanel", "reviewPanel", "assetsPanel"].forEach((panelId) => {
             $(panelId).classList.toggle("active", panelId === button.dataset.tab);
           });
+          document.body.classList.toggle("focus-mode", button.dataset.tab !== "atlasPanel");
         });
       });
     }
@@ -1988,7 +2177,9 @@
       $("prevRow").addEventListener("click", () => moveRow(-1));
       $("nextRow").addEventListener("click", () => moveRow(1));
       $("randomRow").addEventListener("click", randomRow);
+      $("freshRow").addEventListener("click", serveFreshRow);
       $("saveJudgment").addEventListener("click", saveCurrentJudgment);
+      $("saveAndNext").addEventListener("click", saveAndNext);
       $("downloadJudgments").addEventListener("click", downloadJudgmentsCsv);
     }
 
