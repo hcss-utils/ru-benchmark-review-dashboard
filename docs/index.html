@@ -5,30 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RU Benchmark Review Dashboard</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
     :root {
-      --bg: #f3efe5;
-      --bg-strong: #ebe2d0;
-      --paper: rgba(255, 252, 246, 0.82);
-      --paper-solid: #fffaf1;
-      --ink: #182126;
-      --muted: #5f6a6c;
-      --line: rgba(24, 33, 38, 0.12);
-      --line-strong: rgba(24, 33, 38, 0.22);
-      --accent: #bf4f2f;
-      --accent-2: #1d5f65;
-      --accent-3: #c69028;
-      --accent-soft: rgba(191, 79, 47, 0.12);
-      --good: #17653f;
-      --warn: #a66a13;
-      --bad: #9f2e2e;
-      --shadow: 0 24px 80px rgba(39, 34, 23, 0.12);
+      --bg: #0d2748;
+      --bg-strong: #13355f;
+      --paper: rgba(13, 39, 72, 0.82);
+      --paper-solid: #163760;
+      --ink: #edf6ff;
+      --muted: #aec6de;
+      --line: rgba(214, 232, 249, 0.14);
+      --line-strong: rgba(214, 232, 249, 0.24);
+      --accent: #7cd3ff;
+      --accent-2: #c0f3ff;
+      --accent-3: #ffd88a;
+      --accent-soft: rgba(124, 211, 255, 0.14);
+      --good: #98f1c1;
+      --warn: #ffd88a;
+      --bad: #ff9fa8;
+      --shadow: 0 24px 80px rgba(3, 12, 26, 0.42);
       --radius-xl: 28px;
       --radius-lg: 20px;
       --radius-md: 14px;
       --mono: "IBM Plex Mono", monospace;
-      --sans: "Space Grotesk", sans-serif;
+      --sans: "Titillium Web", sans-serif;
     }
 
     * { box-sizing: border-box; }
@@ -38,9 +38,10 @@
       color: var(--ink);
       font-family: var(--sans);
       background:
-        radial-gradient(circle at top left, rgba(191, 79, 47, 0.18), transparent 34%),
-        radial-gradient(circle at top right, rgba(29, 95, 101, 0.14), transparent 30%),
-        linear-gradient(180deg, #f7f1e6 0%, #f1ebdf 48%, #ece4d7 100%);
+        radial-gradient(circle at top left, rgba(124, 211, 255, 0.2), transparent 34%),
+        radial-gradient(circle at top right, rgba(255, 216, 138, 0.12), transparent 24%),
+        radial-gradient(circle at 30% 120%, rgba(192, 243, 255, 0.1), transparent 40%),
+        linear-gradient(180deg, #0b2340 0%, #102f54 52%, #13365e 100%);
       min-height: 100vh;
     }
 
@@ -50,8 +51,8 @@
       inset: 0;
       pointer-events: none;
       background-image:
-        linear-gradient(rgba(24, 33, 38, 0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(24, 33, 38, 0.025) 1px, transparent 1px);
+        linear-gradient(rgba(214, 232, 249, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(214, 232, 249, 0.035) 1px, transparent 1px);
       background-size: 30px 30px;
       mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.7), transparent 90%);
       opacity: 0.5;
@@ -87,7 +88,7 @@
       border-radius: 999px;
       border: 1px solid var(--line-strong);
       padding: 7px 12px;
-      background: rgba(255, 250, 241, 0.72);
+      background: rgba(20, 53, 94, 0.72);
       backdrop-filter: blur(10px);
       font-size: 12px;
       letter-spacing: 0.08em;
@@ -104,7 +105,7 @@
 
     .hero-card,
     .surface {
-      border: 1px solid rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(214, 232, 249, 0.18);
       background: var(--paper);
       backdrop-filter: blur(18px);
       box-shadow: var(--shadow);
@@ -128,7 +129,7 @@
       right: -80px;
       top: -110px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(191, 79, 47, 0.18) 0%, rgba(191, 79, 47, 0) 72%);
+      background: radial-gradient(circle, rgba(124, 211, 255, 0.22) 0%, rgba(124, 211, 255, 0) 72%);
     }
 
     .hero-main h1 {
@@ -174,12 +175,12 @@
 
     .cta {
       background: var(--accent);
-      color: #fff8f0;
-      box-shadow: 0 16px 36px rgba(191, 79, 47, 0.24);
+      color: #05213f;
+      box-shadow: 0 16px 36px rgba(124, 211, 255, 0.22);
     }
 
     .ghost {
-      background: rgba(255, 250, 241, 0.85);
+      background: rgba(18, 50, 89, 0.88);
       color: var(--ink);
       border: 1px solid var(--line-strong);
     }
@@ -205,8 +206,8 @@
     .side-stat {
       padding: 18px 18px 16px;
       border-radius: var(--radius-lg);
-      background: rgba(255, 255, 255, 0.48);
-      border: 1px solid rgba(24, 33, 38, 0.08);
+      background: rgba(23, 60, 105, 0.56);
+      border: 1px solid rgba(214, 232, 249, 0.14);
     }
 
     .side-stat strong {
@@ -267,8 +268,8 @@
       flex-wrap: wrap;
       padding: 12px;
       margin-bottom: 18px;
-      background: rgba(250, 245, 237, 0.82);
-      border: 1px solid rgba(255, 255, 255, 0.5);
+      background: rgba(11, 35, 64, 0.84);
+      border: 1px solid rgba(214, 232, 249, 0.18);
       border-radius: 999px;
       backdrop-filter: blur(18px);
       box-shadow: 0 14px 34px rgba(39, 34, 23, 0.1);
@@ -284,9 +285,9 @@
     }
 
     .tab-btn.active {
-      background: var(--ink);
-      color: #fff8f0;
-      box-shadow: 0 10px 26px rgba(24, 33, 38, 0.18);
+      background: var(--accent);
+      color: #05213f;
+      box-shadow: 0 10px 26px rgba(124, 211, 255, 0.18);
     }
 
     .tab-panel {
@@ -338,7 +339,7 @@
     .summary-band .band {
       padding: 16px;
       border-radius: 16px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.54), rgba(255, 255, 255, 0.2));
+      background: linear-gradient(180deg, rgba(26, 68, 117, 0.72), rgba(14, 41, 74, 0.5));
       border: 1px solid var(--line);
     }
 
@@ -381,7 +382,7 @@
       align-items: center;
       padding: 13px 14px;
       border-radius: 16px;
-      background: rgba(255, 255, 255, 0.42);
+      background: rgba(18, 50, 89, 0.56);
       border: 1px solid var(--line);
     }
 
@@ -391,8 +392,8 @@
       display: inline-grid;
       place-items: center;
       border-radius: 50%;
-      background: var(--ink);
-      color: #fff8f0;
+      background: var(--accent);
+      color: #05213f;
       font-size: 0.82rem;
       font-weight: 700;
     }
@@ -459,7 +460,7 @@
       width: 100%;
       height: 14px;
       border-radius: 999px;
-      background: rgba(24, 33, 38, 0.08);
+      background: rgba(214, 232, 249, 0.08);
       overflow: hidden;
       position: relative;
     }
@@ -471,10 +472,10 @@
       animation: stretch 0.8s ease;
     }
 
-    .bar-fill.project { background: linear-gradient(90deg, #bf4f2f, #de8b42); }
-    .bar-fill.time { background: linear-gradient(90deg, #1d5f65, #5d9fa5); }
-    .bar-fill.words { background: linear-gradient(90deg, #7e5b2a, #c69028); }
-    .bar-fill.sources { background: linear-gradient(90deg, #3b4f7f, #7d99cf); }
+    .bar-fill.project { background: linear-gradient(90deg, #7cd3ff, #c0f3ff); }
+    .bar-fill.time { background: linear-gradient(90deg, #87b9ff, #d4e7ff); }
+    .bar-fill.words { background: linear-gradient(90deg, #ffd88a, #fff1bc); }
+    .bar-fill.sources { background: linear-gradient(90deg, #a7ffd9, #d9ffef); }
 
     .bar-value {
       font-family: var(--mono);
@@ -640,7 +641,7 @@
     .pass-card {
       padding: 18px;
       border-radius: 18px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.66), rgba(255, 255, 255, 0.34));
+      background: linear-gradient(180deg, rgba(24, 63, 110, 0.88), rgba(14, 40, 73, 0.7));
       border: 1px solid var(--line);
       min-height: 180px;
     }
@@ -663,9 +664,9 @@
     .text-card {
       padding: 20px;
       border-radius: 22px;
-      background: #fffdf7;
-      border: 1px solid rgba(24, 33, 38, 0.08);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      background: rgba(9, 27, 49, 0.9);
+      border: 1px solid rgba(214, 232, 249, 0.16);
+      box-shadow: inset 0 1px 0 rgba(214, 232, 249, 0.08);
     }
 
     .text-head {
@@ -687,7 +688,7 @@
       padding-right: 8px;
       white-space: pre-wrap;
       font-size: 0.98rem;
-      color: #1c2529;
+      color: var(--ink);
     }
 
     .mono {
@@ -698,7 +699,7 @@
       overflow: auto;
       border-radius: 18px;
       border: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.42);
+      background: rgba(18, 50, 89, 0.56);
     }
 
     table {
@@ -718,7 +719,7 @@
     th {
       position: sticky;
       top: 0;
-      background: rgba(243, 239, 229, 0.96);
+      background: rgba(10, 31, 57, 0.96);
       backdrop-filter: blur(8px);
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -727,7 +728,7 @@
     }
 
     tbody tr:hover td {
-      background: rgba(191, 79, 47, 0.04);
+      background: rgba(124, 211, 255, 0.06);
     }
 
     .asset-grid {
@@ -737,7 +738,7 @@
     .asset-card {
       padding: 18px;
       border-radius: 18px;
-      background: rgba(255, 255, 255, 0.5);
+      background: rgba(18, 50, 89, 0.56);
       border: 1px solid var(--line);
       display: grid;
       gap: 10px;
@@ -760,15 +761,120 @@
     .status {
       padding: 16px 18px;
       border-radius: 18px;
-      background: rgba(255, 255, 255, 0.68);
+      background: rgba(18, 50, 89, 0.68);
       border: 1px solid var(--line);
       color: var(--muted);
     }
 
     .status.error {
       border-color: rgba(159, 46, 46, 0.28);
-      background: rgba(159, 46, 46, 0.08);
+      background: rgba(255, 159, 168, 0.08);
       color: var(--bad);
+    }
+
+    .donut-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .donut-shell {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      align-content: start;
+      padding: 20px;
+      border-radius: 22px;
+      background: rgba(18, 50, 89, 0.56);
+      border: 1px solid var(--line);
+    }
+
+    .donut-figure {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 340px minmax(0, 1fr);
+      gap: 18px;
+      align-items: center;
+    }
+
+    .donut-art {
+      width: min(340px, 100%);
+      aspect-ratio: 1;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .donut-art svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .donut-center {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      pointer-events: none;
+      padding: 72px;
+    }
+
+    .donut-center strong {
+      display: block;
+      font-size: 2.1rem;
+      letter-spacing: -0.05em;
+      line-height: 1;
+    }
+
+    .donut-center span {
+      color: var(--muted);
+      font-size: 0.86rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1.4;
+    }
+
+    .legend {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      align-self: start;
+    }
+
+    .legend-item {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--line);
+    }
+
+    .swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.08);
+    }
+
+    .legend-item strong {
+      font-size: 0.95rem;
+    }
+
+    .legend-item span {
+      color: var(--muted);
+      font-size: 0.86rem;
+      white-space: normal;
+    }
+
+    .legend-item .delta {
+      font-family: var(--mono);
+      display: block;
+      margin-top: 2px;
     }
 
     .hidden { display: none !important; }
@@ -805,7 +911,11 @@
       .pass-grid,
       .summary-band,
       .list-grid,
-      .asset-grid {
+      .asset-grid,
+      .donut-grid,
+      .donut-shell,
+      .donut-figure,
+      .legend {
         grid-template-columns: 1fr;
       }
     }
@@ -878,7 +988,7 @@
         </p>
         <div class="hero-actions">
           <button class="cta" data-jump="review">Open Review Workspace</button>
-          <button class="ghost" data-jump="overview">Inspect Sample Composition</button>
+          <button class="ghost" data-jump="atlas">Open Stratification Atlas</button>
         </div>
       </article>
 
@@ -922,14 +1032,56 @@
     </section>
 
     <nav class="tabs" aria-label="Dashboard sections">
-      <button class="tab-btn active" data-tab="overviewPanel">Overview</button>
+      <button class="tab-btn active" data-tab="atlasPanel">Stratification Atlas</button>
       <button class="tab-btn" data-tab="reviewPanel">Review Workspace</button>
       <button class="tab-btn" data-tab="assetsPanel">Project Assets</button>
     </nav>
 
     <div id="appStatus" class="status">Loading dashboard data...</div>
 
-    <section id="overviewPanel" class="tab-panel active hidden">
+    <section id="atlasPanel" class="tab-panel active hidden">
+      <div class="section-grid">
+        <article class="surface">
+          <div class="section-head">
+            <div>
+              <h2>Atlas View</h2>
+              <p>Each chart compares the full candidate universe against the current review sample. Outer ring is overall; inner ring is the benchmark sample.</p>
+            </div>
+            <div class="pill mono" id="atlasMeta">Awaiting strata</div>
+          </div>
+          <div class="donut-grid">
+            <article class="donut-shell">
+              <div>
+                <h3>Project Balance</h3>
+                <p>How the eleven project strata compare between the overall universe and the 250-row sample.</p>
+              </div>
+              <div class="donut-figure" id="projectDonut"></div>
+            </article>
+            <article class="donut-shell">
+              <div>
+                <h3>Database Balance</h3>
+                <p>Outer ring shows the full source universe; inner ring shows the constrained draw, including the Kremlin target.</p>
+              </div>
+              <div class="donut-figure" id="databaseDonut"></div>
+            </article>
+            <article class="donut-shell">
+              <div>
+                <h3>Time Balance</h3>
+                <p>Coverage across pre-invasion, war-year buckets, and unknown-date rows.</p>
+              </div>
+              <div class="donut-figure" id="timeDonut"></div>
+            </article>
+            <article class="donut-shell">
+              <div>
+                <h3>Length Balance</h3>
+                <p>Word-bucket comparison so reviewers can see whether the sample drifts long or short.</p>
+              </div>
+              <div class="donut-figure" id="wordDonut"></div>
+            </article>
+          </div>
+        </article>
+      </div>
+
       <div class="section-grid">
         <article class="surface">
           <div class="section-head">
@@ -1211,10 +1363,12 @@
     const judgmentsKey = "ru_benchmark_judgments_v2";
     const timeOrder = ["pre-invasion", "year-1", "year-2", "year-3", "year-4+", "unknown"];
     const wordOrder = ["40-79", "80-149", "150-299", "300-599", "600+"];
+    const chartPalette = ["#b7d4ff", "#7fc7ff", "#8fe3db", "#f4f0b3", "#ffc88f", "#ff9a8b", "#f6b7e0", "#d6c8ff", "#8bb0ff", "#c4f2c5", "#ffe6a6", "#9ef0ff", "#ffd4cc", "#e7ecff", "#c8f6ef", "#ffdea8"];
 
     let sample = [];
     let summary = {};
     let assets = { projects: [] };
+    let population = {};
     let activeRows = [];
     let currentRow = null;
 
@@ -1277,6 +1431,171 @@
       return new URL(relativePath, `${window.location.origin}${inferBasePath()}`).toString();
     }
 
+    function normalizeKey(value, axis) {
+      const raw = String(value ?? "unknown").trim();
+      if (axis === "database") {
+        return raw.toLowerCase().replace(/\s+/g, " ");
+      }
+      return raw;
+    }
+
+    function prettyLabel(value, axis) {
+      const raw = String(value ?? "unknown").trim();
+      const normalized = normalizeKey(value, axis);
+      if (axis === "database") {
+        const labels = {
+          "google drive": "Google Drive",
+          "google_scholar": "Google Scholar",
+          "evp-mil": "EVP-MIL",
+          "evp-vm": "EVP-VM",
+          "telegram_official": "Telegram Official",
+          "telegram_experts": "Telegram Experts",
+          "telegram_propagandist": "Telegram Propagandist",
+          "telegram_cossack": "Telegram Cossack",
+          "telegram_war correspondent": "Telegram War Correspondent",
+          "telegram_expert analysis": "Telegram Expert Analysis",
+          "telegram_aggregator": "Telegram Aggregator",
+          "telegram_local": "Telegram Local",
+          "telegram_military units": "Telegram Military Units",
+          "russiamatters": "Russia Matters",
+          "realclearworld": "RealClearWorld",
+          "therussiaprogram": "The Russia Program",
+          "state_duma": "State Duma",
+          "federation_council": "Federation Council",
+          "kremlin": "Kremlin",
+          "isw": "ISW",
+          "ponars": "PONARS",
+          "vk": "VK",
+          "vm": "VM",
+          "wotr": "WOTR",
+          "bluesky": "Bluesky",
+          "integrum": "Integrum",
+          "telegram": "Telegram"
+        };
+        return labels[normalized] || raw;
+      }
+      return raw;
+    }
+
+    function axisOrder(axis) {
+      if (axis === "project") {
+        return Object.keys(summary.notes?.project_targets || summary.projects || {});
+      }
+      if (axis === "time_group") return timeOrder;
+      if (axis === "word_bucket") return wordOrder;
+      if (axis === "database") {
+        return Object.keys(summary.notes?.axis_targets?.database || {}).map((value) => normalizeKey(value, "database"));
+      }
+      return [];
+    }
+
+    function mapFromObject(source, axis) {
+      const map = new Map();
+      Object.entries(source || {}).forEach(([key, value]) => {
+        if (value === null || value === undefined || Number.isNaN(Number(value))) return;
+        map.set(normalizeKey(key, axis), Number(value));
+      });
+      return map;
+    }
+
+    function styleSegments(items, radius, strokeWidth, total) {
+      if (!total) return "";
+      let offset = 0;
+      return items.map((item) => {
+        const dash = (item.overall / total) * (2 * Math.PI * radius);
+        const segment = `<circle cx="120" cy="120" r="${radius}" fill="none" stroke="${item.color}" stroke-width="${strokeWidth}" stroke-dasharray="${dash.toFixed(2)} ${(2 * Math.PI * radius).toFixed(2)}" stroke-dashoffset="${(-offset).toFixed(2)}"></circle>`;
+        offset += dash;
+        return segment;
+      }).join("");
+    }
+
+    function buildDonutItems(axis) {
+      const sampleMap = mapFromObject(summary.notes?.axis_actuals?.[axis] || {}, axis);
+      const populationMap = mapFromObject(population[axis] || {}, axis);
+      const knownOrder = axisOrder(axis);
+      const seen = new Set();
+      const labels = [];
+
+      knownOrder.forEach((label) => {
+        const normalized = normalizeKey(label, axis);
+        if (!seen.has(normalized)) {
+          seen.add(normalized);
+          labels.push(normalized);
+        }
+      });
+      [...populationMap.keys(), ...sampleMap.keys()].forEach((label) => {
+        if (!seen.has(label)) {
+          seen.add(label);
+          labels.push(label);
+        }
+      });
+
+      return labels
+        .map((label, index) => ({
+          key: label,
+          label: prettyLabel(label, axis),
+          overall: populationMap.get(label) || 0,
+          sample: sampleMap.get(label) || 0,
+          color: chartPalette[index % chartPalette.length]
+        }))
+        .filter((item) => item.overall > 0 || item.sample > 0);
+    }
+
+    function compressItems(items, axis) {
+      if (axis !== "database" || items.length <= 10) return items;
+      const ranked = [...items].sort((a, b) => {
+        const aScore = a.sample * 1000 + a.overall;
+        const bScore = b.sample * 1000 + b.overall;
+        return bScore - aScore;
+      });
+      const kept = ranked.slice(0, 9);
+      const other = ranked.slice(9).reduce((acc, item) => {
+        acc.overall += item.overall;
+        acc.sample += item.sample;
+        return acc;
+      }, { key: "other", label: "Other Databases", overall: 0, sample: 0, color: chartPalette[9] });
+      return other.overall > 0 || other.sample > 0 ? [...kept, other] : kept;
+    }
+
+    function renderDonut(targetId, axis, title) {
+      const target = $(targetId);
+      const items = compressItems(buildDonutItems(axis), axis);
+      const overallTotal = items.reduce((sum, item) => sum + item.overall, 0);
+      const sampleTotal = items.reduce((sum, item) => sum + item.sample, 0);
+      const outer = styleSegments(items, 78, 20, overallTotal);
+      const inner = styleSegments(items.map((item) => ({ ...item, overall: item.sample })), 54, 20, sampleTotal);
+
+      target.innerHTML = `
+        <div class="donut-art">
+          <svg viewBox="0 0 240 240" aria-label="${escapeHtml(title)} donut comparison">
+            <circle cx="120" cy="120" r="78" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="20"></circle>
+            <circle cx="120" cy="120" r="54" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="20"></circle>
+            <g transform="rotate(-90 120 120)">
+              ${outer}
+              ${inner}
+            </g>
+          </svg>
+          <div class="donut-center">
+            <strong>${numberFmt(sampleTotal)}</strong>
+            <span>sample rows</span>
+            <span>Outer: overall</span>
+            <span>Inner: sample</span>
+          </div>
+        </div>
+        <div class="legend">
+          ${items.map((item) => `
+            <div class="legend-item">
+              <span class="swatch" style="background:${item.color}"></span>
+              <span>
+                <strong>${escapeHtml(item.label)}</strong>
+                <span class="delta">${percent(item.sample, sampleTotal)} sample · ${item.overall ? percent(item.overall, overallTotal) : "overall pending"}</span>
+              </span>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
     function countBy(rows, key) {
       const map = new Map();
       rows.forEach((row) => {
@@ -1336,7 +1655,7 @@
     }
 
     function revealApp() {
-      $("overviewPanel").classList.remove("hidden");
+      $("atlasPanel").classList.remove("hidden");
       $("reviewPanel").classList.remove("hidden");
       $("assetsPanel").classList.remove("hidden");
     }
@@ -1429,10 +1748,15 @@
 
       $("projectsMeta").textContent = `${projectCounts.length} categories`;
       $("sourcesMeta").textContent = `${sourceCounts.length} tracked`;
+      $("atlasMeta").textContent = `${numberFmt(summary.sample_size || sample.length)} rows vs ${numberFmt(Object.values(population.project || {}).filter((value) => Number.isFinite(value)).reduce((sum, value) => sum + value, 0))} known project rows`;
 
       renderBars("projectBars", projectCounts, "project", (item) => `${numberFmt(item.value)} · ${percent(item.value, sample.length)}`);
       renderBars("timeBars", timeCounts, "time", (item) => `${numberFmt(item.value)} · ${percent(item.value, sample.length)}`);
       renderBars("wordBars", wordCounts, "words", (item) => `${numberFmt(item.value)} · ${percent(item.value, sample.length)}`);
+      renderDonut("projectDonut", "project", "Project balance");
+      renderDonut("databaseDonut", "database", "Database balance");
+      renderDonut("timeDonut", "time_group", "Time balance");
+      renderDonut("wordDonut", "word_bucket", "Length balance");
 
       renderRankList("projectRank", projectCounts, sample.length, (item, total) => `${percent(item.value, total)} of the total review sample.`);
       renderRankList("sourceRank", sourceCounts.slice(0, 12), sample.length, (item, total) => `${percent(item.value, total)} of the sample, ${numberFmt(item.value)} rows.`);
@@ -1636,7 +1960,7 @@
       buttons.forEach((button) => {
         button.addEventListener("click", () => {
           buttons.forEach((item) => item.classList.toggle("active", item === button));
-          ["overviewPanel", "reviewPanel", "assetsPanel"].forEach((panelId) => {
+          ["atlasPanel", "reviewPanel", "assetsPanel"].forEach((panelId) => {
             $(panelId).classList.toggle("active", panelId === button.dataset.tab);
           });
         });
@@ -1651,7 +1975,7 @@
             document.querySelector('.tab-btn[data-tab="reviewPanel"]').click();
             $("reviewPanel").scrollIntoView({ behavior: "smooth", block: "start" });
           } else {
-            document.querySelector('.tab-btn[data-tab="overviewPanel"]').click();
+            document.querySelector('.tab-btn[data-tab="atlasPanel"]').click();
             $("overview").scrollIntoView({ behavior: "smooth", block: "start" });
           }
         });
@@ -1670,20 +1994,22 @@
 
     async function boot() {
       try {
-        const [sampleRes, summaryRes, assetsRes] = await Promise.all([
+        const [sampleRes, summaryRes, assetsRes, populationRes] = await Promise.all([
           fetch(assetUrl("data/sample.json")),
           fetch(assetUrl("data/sample_latest_summary.json")),
-          fetch(assetUrl("data/project_assets_manifest.json"))
+          fetch(assetUrl("data/project_assets_manifest.json")),
+          fetch(assetUrl("data/population_strata_counts.json"))
         ]);
 
-        if (!sampleRes.ok || !summaryRes.ok || !assetsRes.ok) {
+        if (!sampleRes.ok || !summaryRes.ok || !assetsRes.ok || !populationRes.ok) {
           throw new Error("One or more dashboard data files failed to load.");
         }
 
-        [sample, summary, assets] = await Promise.all([
+        [sample, summary, assets, population] = await Promise.all([
           sampleRes.json(),
           summaryRes.json(),
-          assetsRes.json()
+          assetsRes.json(),
+          populationRes.json()
         ]);
 
         renderOverview();
