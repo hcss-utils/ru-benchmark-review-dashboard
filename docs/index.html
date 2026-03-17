@@ -64,8 +64,8 @@
 
     .shell {
       width: min(1440px, calc(100vw - 32px));
-      height: calc(100vh - 24px);
-      margin: 12px auto;
+      height: 100vh;
+      margin: 0 auto;
       position: relative;
       z-index: 1;
       display: grid;
@@ -78,7 +78,7 @@
       justify-content: space-between;
       align-items: center;
       gap: 16px;
-      padding: 8px 4px 0;
+      padding: 2px 4px 0;
       opacity: 0;
       transform: translateY(14px);
       animation: rise 0.7s ease forwards;
@@ -271,7 +271,7 @@
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
-      padding: 12px;
+      padding: 8px;
       margin-bottom: 0;
       background: rgba(11, 35, 64, 0.84);
       border: 1px solid rgba(214, 232, 249, 0.18);
@@ -282,7 +282,7 @@
 
     .tab-btn {
       min-width: 0;
-      padding: 12px 16px;
+      padding: 10px 14px;
       border-radius: 999px;
       background: transparent;
       color: var(--muted);
@@ -769,7 +769,7 @@
     .asset-link:hover { text-decoration: underline; }
 
     .status {
-      padding: 16px 18px;
+      padding: 10px 14px;
       border-radius: 18px;
       background: rgba(18, 50, 89, 0.68);
       border: 1px solid var(--line);
@@ -784,32 +784,36 @@
 
     .donut-grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-      margin-bottom: 16px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      height: 100%;
+      align-content: stretch;
     }
 
     .donut-shell {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
+      grid-template-rows: auto 1fr;
+      gap: 10px;
       align-content: start;
-      padding: 20px;
-      border-radius: 22px;
+      padding: 10px 12px;
+      border-radius: 18px;
       background: rgba(18, 50, 89, 0.56);
       border: 1px solid var(--line);
+      min-height: 0;
     }
 
     .donut-figure {
       width: 100%;
       display: grid;
-      grid-template-columns: 340px minmax(0, 1fr);
-      gap: 18px;
+      grid-template-columns: 130px minmax(0, 1fr);
+      gap: 8px;
       align-items: center;
+      min-height: 0;
     }
 
     .donut-art {
-      width: min(340px, 100%);
+      width: min(130px, 100%);
       aspect-ratio: 1;
       margin: 0 auto;
       position: relative;
@@ -828,19 +832,19 @@
       place-items: center;
       text-align: center;
       pointer-events: none;
-      padding: 72px;
+      padding: 30px;
     }
 
     .donut-center strong {
       display: block;
-      font-size: 2.1rem;
+      font-size: 1.2rem;
       letter-spacing: -0.05em;
       line-height: 1;
     }
 
     .donut-center span {
       color: var(--muted);
-      font-size: 0.86rem;
+      font-size: 0.62rem;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       line-height: 1.4;
@@ -848,9 +852,10 @@
 
     .legend {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
       align-self: start;
+      align-content: start;
     }
 
     .legend-item {
@@ -858,8 +863,8 @@
       grid-template-columns: auto minmax(0, 1fr);
       gap: 10px;
       align-items: center;
-      padding: 10px 12px;
-      border-radius: 14px;
+      padding: 6px 8px;
+      border-radius: 12px;
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--line);
     }
@@ -872,12 +877,12 @@
     }
 
     .legend-item strong {
-      font-size: 0.95rem;
+      font-size: 0.72rem;
     }
 
     .legend-item span {
       color: var(--muted);
-      font-size: 0.86rem;
+      font-size: 0.66rem;
       white-space: normal;
     }
 
@@ -889,9 +894,64 @@
 
     .hidden { display: none !important; }
 
+    body.compact-app .topbar,
+    body.compact-app .hero,
+    body.compact-app #overview,
+    body.compact-app #appStatus,
     body.focus-mode .hero,
     body.focus-mode #overview {
       display: none;
+    }
+
+    .chart-tooltip {
+      position: fixed;
+      z-index: 50;
+      max-width: 260px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(6, 21, 40, 0.96);
+      border: 1px solid rgba(214, 232, 249, 0.22);
+      color: var(--ink);
+      font-size: 0.86rem;
+      line-height: 1.45;
+      box-shadow: 0 16px 30px rgba(0, 0, 0, 0.28);
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 120ms ease, transform 120ms ease;
+    }
+
+    .chart-tooltip.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #atlasPanel > .section-grid {
+      height: 100%;
+      margin-bottom: 0;
+      grid-template-columns: 1fr;
+    }
+
+    #atlasPanel .surface {
+      height: 100%;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    #atlasPanel .section-head {
+      margin-bottom: 6px;
+    }
+
+    #atlasPanel .section-head h2,
+    .donut-shell h3 {
+      font-size: 0.92rem;
+    }
+
+    #atlasPanel .section-head p,
+    .donut-shell p {
+      font-size: 0.68rem;
+      line-height: 1.3;
+      margin: 2px 0 0;
     }
 
     .tab-panel::-webkit-scrollbar,
@@ -1152,6 +1212,7 @@
     </nav>
 
     <div id="appStatus" class="status">Loading dashboard data...</div>
+    <div id="chartTooltip" class="chart-tooltip"></div>
 
     <section id="atlasPanel" class="tab-panel active hidden">
       <div class="section-grid">
@@ -1193,113 +1254,6 @@
               <div class="donut-figure" id="wordDonut"></div>
             </article>
           </div>
-        </article>
-      </div>
-
-      <div class="section-grid">
-        <article class="surface">
-          <div class="section-head">
-            <div>
-              <h2>Benchmark Snapshot</h2>
-              <p>A fast read on the sample: size, spread, concentration, and what the latest generated files actually contain.</p>
-            </div>
-            <div class="pill mono" id="summaryStamp">Awaiting summary</div>
-          </div>
-          <div class="summary-band">
-            <div class="band">
-              <div class="kicker">Project Mix</div>
-              <strong id="bandProjectMix">-</strong>
-              <span id="bandProjectCopy">Waiting for project distribution...</span>
-            </div>
-            <div class="band">
-              <div class="kicker">Source Spread</div>
-              <strong id="bandSourceSpread">-</strong>
-              <span id="bandSourceCopy">Waiting for source spread...</span>
-            </div>
-            <div class="band">
-              <div class="kicker">Word Balance</div>
-              <strong id="bandWordBalance">-</strong>
-              <span id="bandWordCopy">Waiting for word bucket distribution...</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="surface">
-          <div class="section-head">
-            <div>
-              <h2>Reviewer Context</h2>
-              <p>The sample is not uniform. Use these cues before you start calling outputs good or bad.</p>
-            </div>
-          </div>
-          <div class="rank-list" id="contextNotes"></div>
-        </article>
-      </div>
-
-      <div class="section-grid">
-        <article class="surface chart-card">
-          <div class="section-head">
-            <div>
-              <h2>Projects</h2>
-              <p>How much of the sample comes from each benchmark project.</p>
-            </div>
-            <div class="pill mono" id="projectsMeta">0 categories</div>
-          </div>
-          <div class="bars" id="projectBars"></div>
-        </article>
-
-        <article class="surface">
-          <div class="section-head">
-            <div>
-              <h2>Project Ranking</h2>
-              <p>Quick ranking with counts and sample share.</p>
-            </div>
-          </div>
-          <div class="rank-list" id="projectRank"></div>
-        </article>
-      </div>
-
-      <div class="section-grid">
-        <article class="surface chart-card">
-          <div class="section-head">
-            <div>
-              <h2>Time Groups</h2>
-              <p>Coverage across pre-invasion content, explicit war years, and unknown-date rows.</p>
-            </div>
-          </div>
-          <div class="bars" id="timeBars"></div>
-        </article>
-
-        <article class="surface chart-card">
-          <div class="section-head">
-            <div>
-              <h2>Word Buckets</h2>
-              <p>Chunk-length balance, which affects review speed and interpretability.</p>
-            </div>
-          </div>
-          <div class="bars" id="wordBars"></div>
-        </article>
-      </div>
-
-      <div class="section-grid">
-        <article class="surface">
-          <div class="section-head">
-            <div>
-              <h2>Top Sources</h2>
-              <p>The most represented normalized sources in the sample.</p>
-            </div>
-            <div class="pill mono" id="sourcesMeta">0 tracked</div>
-          </div>
-          <div class="rank-list" id="sourceRank"></div>
-        </article>
-
-        <article class="surface">
-          <div class="section-head">
-            <div>
-              <h2>Coverage Notes</h2>
-              <p>Interpretive cues generated directly from the loaded sample and summary files.</p>
-            </div>
-          </div>
-          <div class="rank-list" id="coverageNotes"></div>
         </article>
       </div>
     </section>
@@ -1573,6 +1527,11 @@
       return `${Math.round((part / total) * 100)}%`;
     }
 
+    function percentPrecise(part, total) {
+      if (!total) return "0.0%";
+      return `${((part / total) * 100).toFixed(1)}%`;
+    }
+
     function escapeHtml(value) {
       return String(value ?? "")
         .replace(/&/g, "&amp;")
@@ -1659,12 +1618,14 @@
       return map;
     }
 
-    function styleSegments(items, radius, strokeWidth, total) {
+    function styleSegments(items, radius, strokeWidth, total, ringLabel, valueKey) {
       if (!total) return "";
       let offset = 0;
       return items.map((item) => {
-        const dash = (item.overall / total) * (2 * Math.PI * radius);
-        const segment = `<circle cx="120" cy="120" r="${radius}" fill="none" stroke="${item.color}" stroke-width="${strokeWidth}" stroke-dasharray="${dash.toFixed(2)} ${(2 * Math.PI * radius).toFixed(2)}" stroke-dashoffset="${(-offset).toFixed(2)}"></circle>`;
+        const value = item[valueKey];
+        const dash = (value / total) * (2 * Math.PI * radius);
+        const tooltip = `${item.label}<br>${ringLabel}: ${numberFmt(value)} rows<br>Share: ${percentPrecise(value, total)}`;
+        const segment = `<circle cx="120" cy="120" r="${radius}" fill="none" stroke="${item.color}" stroke-width="${strokeWidth}" stroke-dasharray="${dash.toFixed(2)} ${(2 * Math.PI * radius).toFixed(2)}" stroke-dashoffset="${(-offset).toFixed(2)}" data-tooltip="${escapeHtml(tooltip)}"><title>${item.label} | ${ringLabel}: ${numberFmt(value)} rows | Share: ${percentPrecise(value, total)}</title></circle>`;
         offset += dash;
         return segment;
       }).join("");
@@ -1718,13 +1679,29 @@
       return other.overall > 0 || other.sample > 0 ? [...kept, other] : kept;
     }
 
+    function attachDonutTooltips(target) {
+      const tooltip = $("chartTooltip");
+      const segments = target.querySelectorAll("circle[data-tooltip]");
+      segments.forEach((segment) => {
+        segment.addEventListener("mousemove", (event) => {
+          tooltip.innerHTML = segment.dataset.tooltip || "";
+          tooltip.classList.add("visible");
+          tooltip.style.left = `${Math.min(window.innerWidth - 280, event.clientX + 18)}px`;
+          tooltip.style.top = `${Math.min(window.innerHeight - 120, event.clientY + 18)}px`;
+        });
+        segment.addEventListener("mouseleave", () => {
+          tooltip.classList.remove("visible");
+        });
+      });
+    }
+
     function renderDonut(targetId, axis, title) {
       const target = $(targetId);
       const items = compressItems(buildDonutItems(axis), axis);
       const overallTotal = items.reduce((sum, item) => sum + item.overall, 0);
       const sampleTotal = items.reduce((sum, item) => sum + item.sample, 0);
-      const outer = styleSegments(items, 78, 20, overallTotal);
-      const inner = styleSegments(items.map((item) => ({ ...item, overall: item.sample })), 54, 20, sampleTotal);
+      const outer = styleSegments(items, 78, 20, overallTotal, "Overall", "overall");
+      const inner = styleSegments(items, 54, 20, sampleTotal, "Sample", "sample");
 
       target.innerHTML = `
         <div class="donut-art">
@@ -1755,6 +1732,7 @@
           `).join("")}
         </div>
       `;
+      attachDonutTooltips(target);
     }
 
     function countBy(rows, key) {
@@ -1821,77 +1799,15 @@
       $("assetsPanel").classList.remove("hidden");
     }
 
-    function buildContextNotes(projectCounts, sourceCounts, timeCounts) {
-      const total = sample.length;
-      const topProjectItem = topItem(projectCounts);
-      const unknownTime = timeCounts.find((item) => item.label === "unknown") || { value: 0 };
-      const topSourceItem = topItem(sourceCounts);
-      const notes = [
-        {
-          title: "Project concentration is real",
-          body: `${topProjectItem.label} accounts for ${percent(topProjectItem.value, total)} of the sample, so reviewer impressions can drift if that project's style dominates your reading.`
-        },
-        {
-          title: "Unknown dates need care",
-          body: `${numberFmt(unknownTime.value)} rows sit in the unknown-date bucket. Time-sensitive conclusions should separate those rows from clearly dated wartime material.`
-        },
-        {
-          title: "Source repetition can bias the feel of the set",
-          body: `${topSourceItem.label} is currently the most represented normalized source, which means voice and genre concentration can shape the apparent error profile.`
-        }
-      ];
-
-      $("contextNotes").innerHTML = notes.map((note) => `
-        <div class="record-line">
-          <strong>${escapeHtml(note.title)}</strong>
-          <span>${escapeHtml(note.body)}</span>
-        </div>
-      `).join("");
-    }
-
-    function buildCoverageNotes(projectCounts, sourceCounts, timeCounts, wordCounts) {
-      const projectSpread = `${projectCounts.length} projects`;
-      const sourceSpread = `${sourceCounts.length} normalized sources`;
-      const longestWords = topItem(wordCounts);
-      const dominantTime = topItem(timeCounts);
-      const notes = [
-        {
-          title: "Coverage breadth",
-          body: `This sample spans ${projectSpread} and ${sourceSpread}, which is enough to compare project families rather than reading a single benchmark in isolation.`
-        },
-        {
-          title: "Temporal center of gravity",
-          body: `${dominantTime.label} is the largest time bucket. That is the period most likely to dominate reviewer intuition unless you intentionally move across buckets.`
-        },
-        {
-          title: "Chunk-length pressure",
-          body: `${longestWords.label} is the largest word bucket. Longer chunks slow review and often hide more subtle pass-to-pass disagreements.`
-        }
-      ];
-
-      $("coverageNotes").innerHTML = notes.map((note) => `
-        <div class="record-line">
-          <strong>${escapeHtml(note.title)}</strong>
-          <span>${escapeHtml(note.body)}</span>
-        </div>
-      `).join("");
-    }
-
     function renderOverview() {
       const projectCounts = sortByValue(countBy(sample, "project"));
       const timeCounts = sortByKnownOrder(countBy(sample, "time_group"), timeOrder);
-      const wordCounts = sortByKnownOrder(countBy(sample, "word_bucket"), wordOrder);
-      const sourceCounts = sortByValue(countBy(sample, "source_norm"));
-
       const topProjectItem = topItem(projectCounts);
-      const topSourceItem = topItem(sourceCounts);
-      const longestBucket = topItem(wordCounts);
 
       $("topGenerated").textContent = `Generated ${formatDateTime(summary.generated_at)}`;
-      $("summaryStamp").textContent = `Build ${formatDateTime(summary.generated_at)}`;
 
       $("heroProjects").textContent = numberFmt(projectCounts.length);
-      $("heroSources").textContent = numberFmt(sourceCounts.length);
+      $("heroSources").textContent = numberFmt(countBy(sample, "source_norm").length);
       $("heroLatest").textContent = formatDateTime(summary.generated_at);
 
       $("statSampleSize").textContent = numberFmt(summary.sample_size || sample.length);
@@ -1900,30 +1816,11 @@
       $("statTimeSpread").textContent = numberFmt(timeCounts.length);
       $("statReviewCount").textContent = numberFmt(loadJudgments().length);
 
-      $("bandProjectMix").textContent = `${projectCounts.length} active projects`;
-      $("bandProjectCopy").textContent = `${topProjectItem.label} leads the set with ${numberFmt(topProjectItem.value)} rows.`;
-      $("bandSourceSpread").textContent = `${sourceCounts.length} normalized sources`;
-      $("bandSourceCopy").textContent = `${topSourceItem.label} is the largest single source family in the sample.`;
-      $("bandWordBalance").textContent = `${longestBucket.label} leads`;
-      $("bandWordCopy").textContent = `${numberFmt(longestBucket.value)} rows fall into the largest word bucket.`;
-
-      $("projectsMeta").textContent = `${projectCounts.length} categories`;
-      $("sourcesMeta").textContent = `${sourceCounts.length} tracked`;
       $("atlasMeta").textContent = `${numberFmt(summary.sample_size || sample.length)} rows vs ${numberFmt(Object.values(population.project || {}).filter((value) => Number.isFinite(value)).reduce((sum, value) => sum + value, 0))} known project rows`;
-
-      renderBars("projectBars", projectCounts, "project", (item) => `${numberFmt(item.value)} · ${percent(item.value, sample.length)}`);
-      renderBars("timeBars", timeCounts, "time", (item) => `${numberFmt(item.value)} · ${percent(item.value, sample.length)}`);
-      renderBars("wordBars", wordCounts, "words", (item) => `${numberFmt(item.value)} · ${percent(item.value, sample.length)}`);
       renderDonut("projectDonut", "project", "Project balance");
       renderDonut("databaseDonut", "database", "Database balance");
       renderDonut("timeDonut", "time_group", "Time balance");
       renderDonut("wordDonut", "word_bucket", "Length balance");
-
-      renderRankList("projectRank", projectCounts, sample.length, (item, total) => `${percent(item.value, total)} of the total review sample.`);
-      renderRankList("sourceRank", sourceCounts.slice(0, 12), sample.length, (item, total) => `${percent(item.value, total)} of the sample, ${numberFmt(item.value)} rows.`);
-
-      buildContextNotes(projectCounts, sourceCounts, timeCounts);
-      buildCoverageNotes(projectCounts, sourceCounts, timeCounts, wordCounts);
     }
 
     function populateProjectFilter() {
@@ -2213,6 +2110,7 @@
         setupJumpLinks();
         setupReviewActions();
         revealApp();
+        document.body.classList.add("compact-app");
         setStatus("Dashboard ready.");
       } catch (error) {
         console.error(error);
