@@ -31,38 +31,37 @@
       },
       "database": {
         "integrum": 36,
-        "EVP-MIL": 7,
+        "EVP-MIL": 6,
         "telegram_Experts": 9,
         "telegram_Propagandist": 14,
-        "kremlin": 17,
-        "telegram_Cossack": 4,
+        "kremlin": 16,
+        "telegram_Cossack": 3,
         "telegram_Official": 15,
         "telegram_War correspondent": 19,
         "isw": 20,
-        "google_scholar": 8,
-        "russiamatters": 2,
+        "russiamatters": 1,
         "bluesky": 2,
         "therussiaprogram": 1,
         "Google Drive": 5,
         "telegram": 1,
         "edge_case": 11,
         "evp": 1,
-        "edge_case_ruw": 78
+        "edge_case_ruw": 90
       },
       "time_group": {
         "year-1": 35,
         "year-2": 29,
-        "year-3": 27,
-        "year-4+": 32,
-        "unknown": 120,
-        "pre-invasion": 7
+        "year-3": 26,
+        "year-4+": 30,
+        "unknown": 124,
+        "pre-invasion": 6
       },
       "word_bucket": {
-        "300-599": 36,
-        "600+": 66,
-        "150-299": 48,
-        "80-149": 41,
-        "40-79": 59
+        "300-599": 34,
+        "600+": 62,
+        "150-299": 45,
+        "80-149": 46,
+        "40-79": 63
       }
     },
     "axis_targets": {

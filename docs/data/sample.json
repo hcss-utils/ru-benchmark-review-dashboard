@@ -5089,285 +5089,6 @@
   {
     "project": "ruw-strengths-and-weaknesses",
     "project_db": "russian_ukrainian_war",
-    "document_id": "BGANNGLUL2WJ_J KIM_A STUDY ON THE DEVELOPMEN",
-    "doc_pk": 83235,
-    "chunk_pk": 108650,
-    "database": "google_scholar",
-    "source_norm": "{\"J Kim\",\"J Choi\",\"H Kwon\"}",
-    "author": "{\"J Kim\",\"J Choi\",\"H Kwon\"}",
-    "date": null,
-    "lang": "EN",
-    "chunk_index": 0,
-    "word_count": 213,
-    "word_bucket": "150-299",
-    "time_group": "unknown",
-    "pass1": "weaknesses",
-    "pass2": "Lessons-Learned Processes, Wargaming, Simulation",
-    "pass3": "Russia's struggle with organizational adaptability hampers strategic effectiveness.",
-    "chunk_text": "The Analytic Hierarchy Process (AHP), proposed by Thomas L. Saaty in 1976, is a tool that provides logical support for decision-making on complex, multi-criteria problems [96,97]. The process of AHP consists of five steps: (1) Designing for 'hierarchy', (2) Steps to determine the preference of each criterion through cross-comparison [98-100], (3) Steps to calculate relative importance [101], (4) Steps to check confidence with sensitivity analysis, (5) Synthesizing responses from multiple experts. Therefore, AHP is highly significant as it allows for the hierarchical classification of various attributes of counter-drone systems, enabling the determination of the relative importance of each attribute. This facilitates the identification of relatively more important counter-drone systems, making it easier to prioritize them. Additionally, AHP serves as a valuable analytical technique for determining how to effectively allocate limited resources across different areas, thereby confirming its utility. To design the AHP hierarchy, various sources such as previous research and cases from advanced military nations were utilized to understand the balanced construction of detection, governance, and response for a comprehensive counter-drone system. Considering that the effectiveness of a counter-drone system heavily depends on technological advancements, technological trends were identified as independent variables and included as evaluation criteria. Furthermore, experts were surveyed during a preliminary investigation to ensure thorough validation of the evaluation criteria.",
-    "row_uid": "ruw-strengths-and-weaknesses:russian_ukrainian_war:108650",
-    "sample_row_id": 159,
-    "classifications": [
-      {
-        "HLTP": "Lessons-Learned Processes, Wargaming, Simulation",
-        "2nd_level_TE": "",
-        "3rd_level_TE": "",
-        "confidence": null,
-        "explanation": "Russia's struggle with organizational adaptability hampers strategic effectiveness."
-      }
-    ]
-  },
-  {
-    "project": "ruw-strengths-and-weaknesses",
-    "project_db": "russian_ukrainian_war",
-    "document_id": "IAUGSR5NJCMJ_EA CAVALLO_2022 LATIN AMERICAN AND C",
-    "doc_pk": 56364,
-    "chunk_pk": 16493,
-    "database": "google_scholar",
-    "source_norm": "{\"EA Cavallo\",\"A Galindo\",\"V Nuguer\",\"A Powell\"}",
-    "author": "{\"EA Cavallo\",\"A Galindo\",\"V Nuguer\",\"A Powell\"}",
-    "date": null,
-    "lang": "EN",
-    "chunk_index": 0,
-    "word_count": 3988,
-    "word_bucket": "600+",
-    "time_group": "unknown",
-    "pass1": "ambiguities",
-    "pass2": "Mobilization of Society, Civil Defense Initiatives",
-    "pass3": "Discrepancies between elite mobilization and grassroots resistance may foster societal divisions.",
-    "chunk_text": "T he worst part of the COVID-19 pandemic may already be in the rearview window as vaccines have become more widely available, better information about how the virus is transmitted has emerged, and countries have begun to adapt to living with the virus. However, the global economy now faces new challenges stemming from the Russia-Ukraine war with its multiple implications.\n\nLatin America and the Caribbean was the hardest hit region in 2020, with GDP growth declining by 7%-the largest one-year decline on record since the struggles for independence in the xIx century. Poverty and inequality increased significantly, erasing some of the hard-fought gains of the preceding decades. Fiscal deficits and debt levels rose as countries responded to the unprecedented challenges with fiscal support to families and firms that was smaller in size compared to advanced economies but larger than the stimulus provided during previous crises. Many countries now face the triple challenge of continuing to provide support where needed, while at the same time maintaining fiscal sustainability and price stability.\n\nGovernments and central banks worked closely together to provide liquidity and support credit during the worst part of the pandemic. Central banks reduced policy interest rates to an effective zero lower bound, brought down reserve requirements, and expanded their balance sheets, thereby providing resources to banks and governments as their restrictive charters allowed. As the crisis recedes, the challenge now is to reverse these exceptional interventions, support the recovery process, and closely coordinate fiscal and monetary policies.\n\nCountries were able to access external financing from private and multilateral sources and thus, largely avoided sudden stops in capital flows. Governments and corporates in most countries were able to tap international markets at reasonable rates to help finance the fiscal support measures and face the unprecedented demands for liquidity. The international community supported countries through lending and via the allocation of IMF's Special Drawing Rights (SDRs), which enlarged international reserves. However, countries depleted other buffers-especially fiscal-and thus increased vulnerability to a reversal of capital flows in the future.\n\nDuring 2021, the recovery phase gained strength. GDP in the region rebounded by 6.8%. Fiscal deficits declined from 7.5% of GDP in 2020 to 5.8% of GDP as countries pared down (but did not eliminate) fiscal expansion. Debt service, which includes interest payments and debt amortizations, reached an estimated 5% of GDP in 2021 and is expected to remain close to 4% of GDP in 2022 and 2023. Despite the still high fiscal deficits, average debt-to-GDP ratios stabilized and declined marginally from 72.6% in 2020 to 71.6% of GDP in 2021 due to stronger than expected growth.\n\nStill, the recovery and the Russia-Ukraine war have brought new challenges. Resurgent demand combined with higher commodity prices and supply disruptions have increased inflationary pressures. Central banks have reacted by raising policy interest rates to ensure that inflation expectations remain anchored, and some have started to reverse the expansions of their balance sheets. Higher demand also resulted in widening current account deficits that require additional external financing at a time when external financing conditions could become tighter.\n\nThe pandemic led to large job losses that have not fully recovered despite the rebound in economic growth. As of September 2021, employment remained 3.3% below the levels projected if the crisis had not occurred but with a wide variation across countries. In four countries analyzed, that deficit remained above 8%. Notably, female employment explains most of the persistent loss in jobs. While in previous crises, the informal sector acted as a buffer, during the pandemic, informal employment suffered comparatively more given the prevalence of informality in high-contact sectors impacted by lockdowns and behavioral responses. The recovery has prompted a strong come-back for the informal sector in many countries and preexisting structural problems in labor markets have returned to the fore.\n\nThe Russia-Ukraine conflict is having significant effects on the global economy and, in turn, Latin America and the Caribbean. Pre-war growth projections for the region were 2.4% for 2022. The war has increased uncertainty and will have competing impacts. On the one hand, higher commodity prices will be positive for growth and for fiscal revenues in commodity exporters. On the other hand, lower world growth, in particular in Europe and the United States, will dampen growth projections. In a war scenario outlined in Chapter 1, growth in 2022 may be somewhat below the pre-war projections. In addition, if monetary policy normalization in the United States proves to be complicated and the Federal Reserve needs to raise interest rates or sell assets more aggressively than anticipated to bring down inflation, then the region could suffer yet lower growth and even be pushed into recession.\n\nSometimes, economists frame policies as being either short-term or medium-term. This approach is frequently misguided. The medium-term or structural issues hang over the region and are impacting economic prospects this year. The longer-term and the shorter-term challenges are intertwined. This report provides recommendations to help policymakers navigate through the challenges. In particular, the report calls for meaningful reforms to develop new architectures for both fiscal and labor markets. Substantial improvements in these areas could have significant effects on growth and equality this year and beyond. Moreover, the health crisis and the war may provide a window of opportunity to pursue such reforms.\n\nFiscal frameworks remain inefficient in many countries, as policy changes could enhance growth and reduce inequality. In the past, piecemeal actions have led to dysfunctional structures. Substantial and well-crafted changes to eliminate waste, reduce inefficient spending, lower tax evasion, expand the tax base, and boost public investment could yield significant benefits. As countries' starting positions vary widely, the right package and sequence of reforms will be country-dependent and will need to consider the relevant political economy constraints. Still, a new fiscal architecture could lead to both lower inequality and higher growth.\n\nMost countries are pursuing some type of fiscal consolidation to reduce fiscal deficits, prevent the cost of servicing debts from rising, and lower debt levels. The temporary windfall from higher commodity prices for some countries may assist in this process and is not a reason to delay. However, the form of that consolidation may be as important as the headline deficit reduction. Expenditure switching policies that protect productive public investments, for example in infrastructure, and investments in health and skills building can reduce the negative impacts of fiscal consolidation on output and reduce income inequality. They can even be expansionary a few years out as they stimulate complementary productive private investments. More generally, credible fiscal institutions are vital to guarantee medium-term fiscal planning and instill high confidence in fiscal sustainability.\n\nCritical to those efforts is to reduce labor informality, which is behind the high tax evasion that plagues the region and, in turn, both limits the effectiveness of fiscal policies and undermines reforms.\n\nLabor markets were hit hard during the pandemic. The region now faces both challenges and opportunities. First, active policies are needed to accelerate the recovery of employment and include: (i) programs that combine transfers to unemployed workers with other interventions that increase workers' future employability (e.g., labor intermediation policies that improve the quality and efficiency of matching workers to jobs and training);\n\n(ii) hiring credits in the form of reduced labor costs (e.g., wages, payroll taxes, and training), that help spur employment creation while improving employability and encouraging formalization, and; (iii) policies that encourage firms to adopt digital systems to support transactions such as targeted subsidies.\n\nSecond, given the resurgence in informality, policies to address this problem are needed now more than ever. Informality provides only low-paid, insecure, and unproductive jobs. In addition, it shrinks the tax base and explains much of the poor coverage of pension systems in the region. Addressing informality requires a concerted effort on several fronts. Reforms to social security systems to make benefits universal and independent of an individual's labor-market status with financing from general taxation rather than labor taxes would promote formal work. High labor taxes provide strong disincentives for firms to formalize or for formal firms to hire formal workers.\n\nFiscal policies should complement labor market interventions to boost more productive, higher-wage formal jobs. For example, digitalizing tax records and transactions would help tackle the problem of incomplete, asymmetric, and obsolete information, which breeds tax evasion and informality. A negative income tax (NIT), or tax credits akin to the Earned Income Tax Credit (EITC) in the United States, would reward formality by ensuring that the payoff for working formally (formal net salary plus any additional transfers) is always greater than working informally. And refunding value-added taxes (VAT) to poorer households, instead of exempting food or other essential products that all households consume, would improve the progressivity of tax systems while creating incentives to reduce evasion and informality.\n\nThird, the gender gap, now accentuated by the crisis, demands a serious policy response. Girls and women should be given opportunities to acquire the skills demanded by the most dynamic sectors. In addition, since the burden of caregiving falls disproportionately on women, universal systems to care for children, the elderly, and others in need of care would help more women enter the labor market.\n\nFourth, in many countries in the region, there are significant opportunities to improve information systems to make job search and skill matching more efficient. Labor intermediation programs have been shown to be cost effective by shortening the duration of unemployment and/or promoting formal work, especially for those with weaker job prospects. Moreover, harnessing the information gathered may help both the public and private sectors see which skills are most in demand to then create appropriate training programs.\n\nFifth, the crisis has accelerated the trend towards digitalization and automation, which may have profound impacts on labor markets. Evidence is already emerging that in the recovery, job losses are continuing in professions most vulnerable to automation.\n\nOutsourcing may become more and more common and fundamentally impact the organization of firms. While these trends present a challenge, they also create opportunities.\n\nPolicymakers will need to stay abreast of how rapid technological changes affect the labor market. Regulations in different areas may need to adapt for countries to take full advantage of the opportunities. Tax authorities may find that firms remit less in taxes, but authorities can also harness the digital tools to monitor transactions. Digitalization and automation will both create and destroy jobs. The net impacts remain controversial and may depend on the type of innovation and government policies. As these are global and fundamental trends, simply attempting to resist technological change is likely to be a losing strategy. The challenge is to craft policies that maximize the creation of new, productive jobs and help those who may lose out to gain skills and transition to the new economy.\n\nAccelerating job growth, reducing informality, addressing the gender gap, and finding paths to benefit from digitalization and automation could significantly improve labor market outcomes in the region. In turn, since unemployment and low wages are strongly associated with poverty and inequality, higher employment and wages could serve to markedly improve these social indicators. While reducing poverty and inequality is a top priority, it may also help promote social cohesion and diminish the risk of unrest.\n\nFiscal and monetary policy must also be closely coordinated. A critical question for those countries fortunate enough to export and tax commodities is, what to do with the temporary windfall revenues? The additional income provides an excellent opportunity to reduce debt ratios and minimize the interest cost of carrying higher debts. As inflation has risen and is well above inflation targets in many cases, additional spending, which might prompt central banks to raise policy interest rates even further, could be highly inefficient.\n\nAny additional spending should be specific and well-targeted to address higher poverty or boost supply through, for example, high quality and well-chosen infrastructure investments. Oil importers will have the additional burden of the cost of oil imports and the higher costs of energy subsidies, which may also impact exporters by reducing or even eliminating the additional revenues in net terms. Refining energy subsidy policies to ensure they are targeted to assist only poorer households or key sectors for specific purposes would be valuable in this context. More generally, close coordination and consistency between fiscal and monetary policies will be critical in the months ahead.\n\nA danger in countries that face the need for fiscal consolidation and are not enjoying additional revenues is that central banks might be pressured towards monetary financing of deficits which would weaken the credibility of monetary regimes and threaten central bank independence. This road would lead to higher inflation and weaker economic performance, which would be counterproductive in terms of delivering better living standards, especially for the most vulnerable. Instead, fiscal and monetary policy should work together to sustain the recovery but also ensure the credibility of the monetary regime. This requires independent central banks that can take the action necessary to anchor inflation expectations. If inflation expectations become de-anchored, the costs of reducing inflation and restoring credibility tend to be greater than the cost of maintaining credibility ex-ante.\n\nOne remarkable achievement during the pandemic was that the region was able to avoid balance of payment crises. Despite the initial volatility in financial markets, most countries were able to access financing from international capital markets and multilateral sources. A key question is how the rise in global monetary policy interest rates may impact capital flows and access to, or the cost of, financing. The muted impact on emerging market spreads in recent weeks, despite the advent of the Russia-Ukraine war, and as the policy interest rate in the United States was raised in March, indicates some cautious optimism may be in order. However, if unanticipated additional action on interest rates is required, or asset sales become necessary (quantitative tightening), to bring down inflation and ensure inflation expectations are anchored, then emerging market spreads and domestic interest rates in the region may rise further. It is also hoped that if Russia or Ukraine fall into arrears with creditors or need to restructure their debts, then the market would differentiate such cases from general emerging economy debt and financial contagion can be averted. Still, countries in the region should maintain strong macroeconomic fundamentals to ensure continued access to capital markets at reasonable cost during this period. Countries should work to rebuild fiscal buffers and ensure consistent macroeconomic policy frameworks.\n\nThe pandemic has also disrupted global supply chains, presenting the region with significant opportunities. Shortages and bottlenecks have induced firms in advanced economies to reconfigure their suppliers in favor of sources closer to their operations and create supplier-redundancy to hedge against disruptions in supply chains. This trend is likely to increase as the Russia-Ukraine conflict unfolds, given that Russia is a significant exporter of oil, gas, grains, and fertilizers, so, at a minimum, these markets are likely to be affected during the conflict. While supply bottlenecks and demand shifts may be temporary, global trade links are persistent, which means the region may be able to increase its share in global trade. As prices for some key products that the region already exports have soared and pushed global inflation higher, Latin America and the Caribbean may be well-placed to limit the volatility in these markets and help the world contain global inflationary pressures. If the region could increase exports of oil and gas, certain minerals, and grains (products exported by Russia and/or Ukraine), this could limit the price movements in these important global markets. Still, a careful analysis of the required investments and time horizons would be required. Current futures price curves suggest prices will stay elevated for many months but any early resolution to the war would likely cause prices to fall sharply. Hedging techniques to lock in prices would be valuable in this context. Multilateral development banks, such as the IDB, are able to advise and assist countries in these types of operations. More generally, trade policies going forward should seek to strengthen export networks through better infrastructure and logistics, and fortify institutions that can promote trade and provide useful information to exporters. In addition, much work remains to be done to ensure that the many trade agreements already signed are consistent with each other, and to finish constructing the web of trade agreements across the region and with the rest of the world where there are missing links. 1 The region benefitted from a strong financial sector as the pandemic hit. Moreover, early evidence suggests that the direct and even indirect links between banking systems in the region and Russia and Ukraine are limited. Financial policies adopted in many countries to contain the pandemic were useful to avoid costly loan defaults. Some policies, 1 See Powell (2017) and Mesquita Moreira and Stein (2019) for a discussion. however, may be hiding higher than reported levels of credit risk. Given loan moratoria and associated reporting standards, traditional balance sheet indicators of risk may not reflect the actual situation of banks. Moreover, bank balance sheets have shifted in favor of public sector assets that attract very low risk ratings. As these policies are phased out, and as credit to the private sector grows, regulators and supervisors should work with banks to ensure traditional balance-sheet indicators properly reflect the risks. A useful additional tool in this environment would be regular stress-testing exercises that reveal the risks associated with individual banks and indicate the need, if any, for greater capital over time as economies recover. While many countries employ stress tests as a tool to analyze systemic financial stability, given the uncertainty and the issues with traditional balance sheet indicators, using this additional tool for supervisory purposes may be valuable.\n\nThe pandemic has posed many serious challenges for the region. They may now be compounded by the conflict between Russia and Ukraine given its implications for the global economy. Still, the region's resilience in the face of adversity creates reasons for optimism. The crisis provides a window of opportunity to work towards new policy architectures in critical areas to improve both equity and efficiency. Greater equity would help reduce social tensions and facilitate the implementation of growth enhancing reforms.\n\nGreater efficiency would improve fiscal outlooks, help reduce debt levels, and cement the basis for faster, more equitable post-pandemic growth.\n\nWhile less than the 4.9% projected in October\n\n2021, this remains a percentage point above the 1980-2019 average global growth rate of 3.4% (calculations sourced from IMF [2021c]). Baseline projections illustrated in this chapter are consistent with IMF (2022).\n\nThe OECD suggested a loss in GDP of over 0.8% of GDP for the United States in the first full year as a result of the war (OECD, 2022).\n\nThe ECB sets a series of interest rates. The Main Refinancing Operation rate is currently set at 0% and the rate paid by the ECB on deposits of banks is -0.5%. See ECB (2021).\n\nThe OECD indicated a potential loss of 1.4% for Eurozone GDP in the first full year after the war (OECD, 2022).\n\nSee Cavallo and Powell (2021).\n\nThis is based on the survey conducted and reported by Bloomberg of professional forecasters.\n\nThe 1980-2019 average growth rate was 2.5%, as was the 2000-2019 average growth rate (sourced fromIMF [2021c]).\n\nFor information on vaccinations and other aspects of the pandemic in Latin America and the Caribbean, please visit the IDB's Coronavirus portal and select the current situation here: https://www.iadb.org/en/coronavirus/ current-situation-pandemic.\n\nFor further analysis of financial systems and the disconnect between traditional and market measures of risk please, refer toGalindo and Powell (forthcoming).\n\nSee IMF (2021c), Chapter 1, Scenario Box 1, p. 23 for further details.\n\nThe financial shock is calibrated to be one standard deviation of stock market returns for the United States, the United Kingdom, and Germany, which is roughly a correction of 7% to 9%, depending on the market.\n\nNote that baseline growth in this modeling exercise differs from the baseline projections for the Latin American and Caribbean region, as not all countries are included in the regional aggregate.\n\nFiscal stimulus measured by the change in the primary fiscal balance may be impacted by changes in the denominator. An alternative measure that uses changes in structural primary balances shows similar results but is available for fewer countries.\n\nFor example, Colombia passed a Social Investment Law, which includes a public investment plan for the next 10 years and the creation of formal jobs (Ministry of Finance and Public Credit of Colombia, 2021) while Chile expanded the social protection network, strengthened the health system, and made significant progress in public investment (Ministry of Finance of Chile, 2021). Ecuador also expanded social programs during 2021 (seeIMF [2021a]).\n\nSee Izquierdo, Pessino, and Vuletin (2018) andCavallo and Powell (2021).\n\nFor further details of the model and assumptions, seeValencia (2021).\n\nThese are likely underestimates as the figures reflect the amortization schedules of debt issued; this analysis does not contemplate the roll-over of liabilities within the period.\n\nThe ratio of interest payments to fiscal revenues was 2.6%,\n\n7.8%, and 9.7% in advanced economies, emerging economies, and Latin America and the Caribbean, respectively, prior to the pandemic.\n\nIn line with the fiscal framework relevant to companies in the extractive sector, and in line with the way public companies in the sector distribute dividends, most commodity exporting economies receive the additional fiscal revenues (tax and capital) in the year following the price increase.\n\nSee Cavallo, Powell, and Serebrisky (2020).\n\nOn the role of fiscal rules design in addressing the bias against public investment in a large sample of countries, seeArdanaz et al. (2021a).\n\nSee Izquierdo, Pessino, and Vuletin (2018).\n\nThis structural issue has been aggravated, even in the case of defined contribution systems, due to lower long-term interest rates and lost contributions during the pandemic. Thus, fiscal risks stemming from guaranteed minimum pensions have increased and overall sustainability has been threatened even for capitalized systems. SeePessino and Ter-Minassian (2021)andCont and Pessino (forthcoming).\n\nA long-term challenge in Latin America is that at 22.4% of GDP, tax collection is far below that in advanced economies (i.e., in the OECD it is 34.3%). Collection is not easy to increase without causing collateral damage to growth, inequality or both.\n\nStudies found that in developed countries, high rates of tax evasion concentrate at the top: the 0.01% richest households evade about 25% of their taxes(Alstadsaeter, Johannesen, and Zucman, 2019).\n\nSee Gunter et al. (2021).\n\nSee Dellas et al. (2017) andPappa, Sajedi, and Vella (2015).\n\nFor developing countries in particular, the conventional advice of managing the windfall to smooth consumption over time should be modified to address two prevalent market imperfections: the inability to access capital markets at low costs, and the high domestic interest rates due to the premium faced on high levels of debt. See van derPloeg and Venables (2011).\n\nSee Cavallo and Powell (2021) andAyres, Neumeyer, and Powell (2021).\n\nThe sample includes end-of-the-month exchange rates from Haver Analytics data for Brazil, Chile, Colombia, Costa Rica, Dominican Republic, Guatemala, Haiti, Honduras, Jamaica, Mexico, Paraguay, Peru, and Uruguay.\n\nThis dilemma is exacerbated in a scenario of complications in monetary policy normalization such as the one discussed in Chapter 1.\n\nMost central banks in the region are highly constrained in such activities (seeAyres, Neumeyer and Powell [2021]for a discussion).\n\nSee Cavallo and Powell (2021) andAyres, Neumeyer, and Powell (2021).\n\nThat expansion is even larger if the valuation of their foreign reserves due to exchange rate depreciations is considered. In this case, the expansions are 22%, 15%, 14.5%, and 11.6% for Chile, Brazil, Peru, and Bolivia, respectively.\n\nNet government assets include government debt securities held by the central bank (and direct loans to the central government and state-owned enterprises in the case of Bolivia), net of government deposits.\n\nSee Ayres, Neumeyer, and Powell (2021) for a discussion.\n\nSee Kehoe and Nicolini (2021).\n\nSee Parrado and Powell (2021) for a discussion of the importance of central bank autonomy.\n\nThe regional average corresponds to average annual inflation rates for all IDB borrowing countries except Argentina and Venezuela.",
-    "row_uid": "ruw-strengths-and-weaknesses:russian_ukrainian_war:16493",
-    "sample_row_id": 161,
-    "classifications": [
-      {
-        "HLTP": "Mobilization of Society, Civil Defense Initiatives",
-        "2nd_level_TE": "",
-        "3rd_level_TE": "",
-        "confidence": null,
-        "explanation": "Discrepancies between elite mobilization and grassroots resistance may foster societal divisions."
-      }
-    ]
-  },
-  {
-    "project": "ruw-strengths-and-weaknesses",
-    "project_db": "russian_ukrainian_war",
-    "document_id": "XFTE1LDH6CSJ_D SMOLCIC_ART_ CRAFT_ OR SCIENCE_ A",
-    "doc_pk": 56541,
-    "chunk_pk": 17564,
-    "database": "google_scholar",
-    "source_norm": "{\"D SMOLCIC\"}",
-    "author": "{\"D SMOLCIC\"}",
-    "date": null,
-    "lang": "EN",
-    "chunk_index": 0,
-    "word_count": 332,
-    "word_bucket": "300-599",
-    "time_group": "unknown",
-    "pass1": "long_term_strategic_insights",
-    "pass2": "Ground Forces  Motorized, Mechanized, Elite Airborne (VDV), Special Forces (Spetsnaz)",
-    "pass3": "The integration of unmanned systems within Russian ground forces represents a strategic adaptation.",
-    "chunk_text": "That management is often a challenging task can be seen from the amount of time managers invest in gathering and transmitting information and data, while not yet making any decisions (Mintzberg, 2009a). Already in his opus \"The Nature of Managerial Work\" (1973), Henry\n\nMintzberg pictures the complexity of management and calls for more systematic investigation.\n\nIn describing managerial work, he distinguishes between characteristics on the one hand (In which environment do managers work, with whom, for how long, and with what means?) and content on the other (What activities do managers perform in their work and why?). He subjects the activities of managers to a categorization process and assignes them to so-called 'affinity groups' or roles. Mintzberg describes that a manager's individual personality can have an impact on how his defined roles are interpreted, but it does not prevent them from being performed. His division differentiates between interpersonal, informational, and decisionmaking roles that characterize the responsibilities of every manager (see Figure 1). Consequently, according to Mintzberg (1973) can be summarized that, a manager can be regarded as an information processing system, where his authority and status (interpersonal component) help him to gather and distribute information (informative component) and ultimately to make decisions or to infer further information (decisional component). While a manger's interpersonal skills help him guide internally and connect externally, it is the informational roles that let him communicate circularly and monitor within the organization, and the decisional competencies that let him push his views internally and act externally (Mintzberg, 2009a(Mintzberg, , 2015)). Access to a range of information sources helps managers to acquire an in-depth knowledge of various contexts and to base decisions on a broader set of data. At the same time, however, this carries the risk that strategic decision makers may act superficially, as they process and evaluate information in different ways and, due to their heavy workload, develop more into \"adaptive information manipulators who prefer a stimulus-response milieu\" (p.5) than into \"reflective planners\" (Mintzberg, 1973, p. 5).",
-    "row_uid": "ruw-strengths-and-weaknesses:russian_ukrainian_war:17564",
-    "sample_row_id": 162,
-    "classifications": [
-      {
-        "HLTP": "Ground Forces  Motorized, Mechanized, Elite Airborne (VDV), Special Forces (Spetsnaz)",
-        "2nd_level_TE": "",
-        "3rd_level_TE": "",
-        "confidence": null,
-        "explanation": "The integration of unmanned systems within Russian ground forces represents a strategic adaptation."
-      }
-    ]
-  },
-  {
-    "project": "ruw-strengths-and-weaknesses",
-    "project_db": "russian_ukrainian_war",
-    "document_id": "TOLUWEMUWW4J_A KWIATKOWSKA_CINDERELLA BECAME THE EMP",
-    "doc_pk": 52121,
-    "chunk_pk": 177,
-    "database": "google_scholar",
-    "source_norm": "{\"A Kwiatkowska\"}",
-    "author": "{\"A Kwiatkowska\"}",
-    "date": null,
-    "lang": "EN",
-    "chunk_index": 0,
-    "word_count": 306,
-    "word_bucket": "300-599",
-    "time_group": "unknown",
-    "pass1": "weaknesses",
-    "pass2": "Use of Irregular Forces, Militias, and Private Military Companies (e.g., Wagner)",
-    "pass3": "Wagner's lack of adherence to international regulations raises ethical concerns and questions its operational legitimacy.",
-    "chunk_text": "Another conclusion Merkel made after the 2005 election that had a bearing on her the way she subsequently governed the country was the fact that it is necessary to develop those topics that have already been presented and pushed by other parties, and which the public supports and defines as being important. The unexpectedly good results of the SPD and the Greens (their combined result was over half of the electorate in 2005) prompted her to adopt this strategy.\n\nThis approach resulted in shifting the Christian Democrats' political manifesto to the left of the political scene and their domination in the centre and, at the same time, in demobilising the voters of other mainstream parties by implementing their demands. The introduction of a minimum wage, dual citizenship, a professional army and energy transformation were the ideas proposed by the left -wing. Merkel, however, endorsed their implementation, and her lack of attachment to traditional Christian Democrat positions and a pragmatic or even opportunistic approach to modifying them often caused irritation within her own party. She was famous for her saying \"Mal bin ich liberal, mal bin ich konservativ, mal bin ich christlich -sozial -und das macht die CDU aus\" (\"Sometimes I'm liberal, sometimes conservative, sometimes\n\nChristian -Social -that's what the CDU is like\").\n\nThe strategy of asymmetric demobilisation also required searching for and the constant use of the most reliable opinion polls, which also became a hallmark of Merkel's style of governance. Awareness of the importance of polls was also a lesson she learned from the botched campaign of 2005. The failure of public opinion research institutes, which did not predict the CDU's poor performance or even the dynamics of the changing trend, had painful consequences for the Christian Democrats.\n\nLater on, Merkel would verify the results of such polls during regular confidential meetings with selected journalists.",
-    "row_uid": "ruw-strengths-and-weaknesses:russian_ukrainian_war:177",
-    "sample_row_id": 163,
-    "classifications": [
-      {
-        "HLTP": "Use of Irregular Forces, Militias, and Private Military Companies (e.g., Wagner)",
-        "2nd_level_TE": "",
-        "3rd_level_TE": "",
-        "confidence": null,
-        "explanation": "Wagner's lack of adherence to international regulations raises ethical concerns and questions its operational legitimacy."
-      }
-    ]
-  },
-  {
-    "project": "ruw-strengths-and-weaknesses",
-    "project_db": "russian_ukrainian_war",
-    "document_id": "VHK9KXELAZUJ_S RAGA_PUBLIC DEBT PROFILE OF SE",
-    "doc_pk": 56733,
-    "chunk_pk": 18396,
-    "database": "google_scholar",
-    "source_norm": "{\"S Raga\",\"Y Ayele\",\"DW te Velde\"}",
-    "author": "{\"S Raga\",\"Y Ayele\",\"DW te Velde\"}",
-    "date": null,
-    "lang": "EN",
-    "chunk_index": 0,
-    "word_count": 218,
-    "word_bucket": "150-299",
-    "time_group": "unknown",
-    "pass1": "weaknesses",
-    "pass2": "Media Control and Censorship Shaping Civilian Perception",
-    "pass3": "Censorship and information control may lead to increased public skepticism and dissent over time.",
-    "chunk_text": "Senegal's public debt has been increasing gradually over the past decade, partly to support investment identified in the country's development strategy, the Plan for an Emerging Senegal. However, Covid-19 impacts led to increased public expenditure and lower revenues, widened the fiscal deficit to 6.4% of GDP and pushed public debts to 69% of GDP in 2020. To ease this financing gap, Senegal has participated in the DSSI, which provided debt service relief worth 0.2% of GDP in 2020 and 0.5% of GDP in 2021 (IMF, 2022d). Senegal has also increased its recourse to domestic borrowing (Figure 7), which typically has relatively higher interest rates and shorter maturities than external sources (see Table 28).\n\nPublic debt remained elevated, at 73% of GDP, in 2021, and is expected to peak at 75% of GDP in 2022 to cope with ongoing external and domestic challenges. These include expenses related to the food and energy price shock (worth 1.7% of GDP), public sector wage increases (0.6% of GDP) and additional security-related spending (0.4% of GDP), which together are higher than the planned offsetting savings and revenue measures (1.1% of GDP) in the supplemental budget adopted in May 2022 (IMF, 2022d). To meet the financing gap, the government expects increased financing through multilateral lending (e.g., IMF, World Bank, AfDB) and government debt issuances.",
-    "row_uid": "ruw-strengths-and-weaknesses:russian_ukrainian_war:18396",
-    "sample_row_id": 164,
-    "classifications": [
-      {
-        "HLTP": "Media Control and Censorship Shaping Civilian Perception",
-        "2nd_level_TE": "",
-        "3rd_level_TE": "",
-        "confidence": null,
-        "explanation": "Censorship and information control may lead to increased public skepticism and dissent over time."
-      }
-    ]
-  },
-  {
-    "project": "ruw-strengths-and-weaknesses",
-    "project_db": "russian_ukrainian_war",
-    "document_id": "2WJBRCRPSQIJ_A KHLOPINA_THE CURRENT SITUATION OF",
-    "doc_pk": 57300,
-    "chunk_pk": 21500,
-    "database": "google_scholar",
-    "source_norm": "{\"A Khlopina\"}",
-    "author": "{\"A Khlopina\"}",
-    "date": null,
-    "lang": "EN",
-    "chunk_index": 0,
-    "word_count": 364,
-    "word_bucket": "300-599",
-    "time_group": "unknown",
-    "pass1": "strengths",
-    "pass2": "Conventional Warfare Principles (Deep Battle Heritage)",
-    "pass3": "Russia has substantial artillery capabilities and advanced weapon systems.",
-    "chunk_text": "Foundation for the Support of Public Diplomacy, one of several Russian non-governmental but government-controlled organizations whose mission is to develop and disseminate pro-Kremlin foreign policy narratives, both domestically and among foreign expert circles. The Foundation distributes grant money for projects by young people who aspire to develop in the fields of international relations, political science, economics, history or journalism, to implement projects focused on public diplomacy, which, however, must fit into specific areas of Russian foreign policy. Another component of the Foundation's activity is its own projects as summer schools or conferences devoted to discussions of international affairs in certain regions.\n\nThrough scholarly and educational programs, the Foundation forms a network of young experts and specialists who gradually study the Kremlin's foreign policy narrative and are likely to become the next generation of Russian and foreign political elites. Through larger formats at the highest political level, as in the case of the regular Potsdam meetings with Russian and German parliamentarians, the Foundation supports initiatives to establish an understanding between Russians and Europeans as part of the Kremlin's policy of revising the global \"security architecture\".\n\nDespite its legal status as a nongovernmental organization, the Gorchakov Foundation is subordinate to the government structures of the Russian regime. The Foundation is almost halfsubsidized from the federal budget, and its governing bodies include many representatives of the Russian power vertical. In addition, a significant portion of the Foundation's funds comes from unknown individuals, probably Russian oligarchs and the heads of Russia's largest state enterprises.\n\nThe Foundation deals with projects of different levels of ambition: the lowest level involves the distribution of relatively small grants for projects of very young researchers in the field of public diplomacy. At the intermediate level, summer schools or conferences are organized on countries or regions of priority for Russian foreign policy. There are also several large-scale projects at the highest political level, such as the Potsdam meetings (suspended in March 2022)\n\nwith Russian and German parliamentarians, which pursued the logic of revising the global \"security architecture\" with the involvement of the European side (Tereshchenko/ Koval 2022).\n\nOther similar examples are the use of the network of Rossotrudnichestvo and Russian Dom, including world capitals.",
-    "row_uid": "ruw-strengths-and-weaknesses:russian_ukrainian_war:21500",
-    "sample_row_id": 165,
-    "classifications": [
-      {
-        "HLTP": "Conventional Warfare Principles (Deep Battle Heritage)",
-        "2nd_level_TE": "",
-        "3rd_level_TE": "",
-        "confidence": null,
-        "explanation": "Russia has substantial artillery capabilities and advanced weapon systems."
-      }
-    ]
-  },
-  {
-    "project": "ruw-strengths-and-weaknesses",
-    "project_db": "russian_ukrainian_war",
-    "document_id": "W5SNUZASMZOJ_D ZAITSEV_ASPECTS OF IMPLEMENTING T",
-    "doc_pk": 69433,
-    "chunk_pk": 67890,
-    "database": "google_scholar",
-    "source_norm": "{\"D Zaitsev\"}",
-    "author": "{\"D Zaitsev\"}",
-    "date": null,
-    "lang": "EN",
-    "chunk_index": 0,
-    "word_count": 1420,
-    "word_bucket": "600+",
-    "time_group": "unknown",
-    "pass1": "weaknesses",
-    "pass2": "Offensive Cyber Attacks on Enemy C2, Logistics",
-    "pass3": "Operational tempo challenges hinder the effectiveness of coalescing cyber capabilities with kinetic operations.",
-    "chunk_text": "Along with the rapid democratisation of all spheres of public life, the highest social value is defined as a person, their natural and positive rights. However, ensuring that human rights in Ukraine is not exclusively a political and legal slogan that does not correspond to actual trends that determine the construction of various types of public relations, the mechanism of the state must properly perform the tasks assigned to it. In the context of the development of modern criminal procedural relations, one of the essential tasks of the state is to ensure the human rights guaranteed by the Constitution of Ukraine, one of which is the right to inviolability of housing. Despite the detailed regulation of the implementation of the decision on a permit to search a home or other possession of a person in the Criminal Procedure Code (CPC) of Ukraine, this legal activity in the context of maintaining a reasonable balance of interests is accompanied by a number of problems. When forming the prescriptions of this norm, the legislator did not consider all the needs of modern criminal procedure practice, there is a violation of the principle of legal certainty, which hinders sustainable law enforcement in this area. Violating a reasonable balance of private and public interests in implementing these activities by authorised entities will lead to public distrust of law enforcement agencies and the lack of partnership between the individual and the state, creating problems for ensuring legal order in other areas. That is why achieving procedural justice is impossible without examining and solving problems related to the implementation of a decision on permission to search a personʼs home or other property and at the same time ensuring a balance between private and public interests in the future in criminal procedure legislation and law enforcement.\n\nThe rule of law, as a fundamental value of any modern democratic state, is ensured through a number of legal principles. One of these principles is the principle of proportionality, which indicates the need to ensure a reasonable balance between private and public interests in society, and therefore, its implementation in the implementation of procedural measures automatically indicates compliance with the rule of law. The examination of certain aspects of the implementation of the principle of proportionality in the direct execution of a decision on permission to search a home or other property will allow the investigator, prosecutor to prevent unjustified restriction of the rights of participants in criminal proceedings despite the legislative uncertainty of this legal procedure. It will allow forming a more thorough knowledge of the problem under study and choosing the method of procedural restrictions that will be necessary and sufficient to fulfil the tasks of criminal proceedings. Scientific analysis will serve as a doctrinal basis for improving the criminal procedure legislation.\n\nThe analysis and examination of problems related to the implementation of certain aspects of the rule of law, the principle of proportionality, and a reasonable balance of interests in criminal proceedings attracted the attention of many scientists. Thus, researchers from Kutztown University of Pennsylvania, P.C. Bolger & G.D. Walters (2019) substantiated the importance of fair restriction of human rights by law enforcement officers in the implementation of procedural measures and has proved that this approach encourages society to cooperate with them and, as a result, increases the effectiveness of their activities in general. Other American researchers C.N. Braaten & M.S. Vaughn (2023) conducted an analysis of judicial practice in the United States of America regarding the appeal of illegal and unauthorised actions of authorised entities during the housing search. The conclusions proposed by researchers can serve as a guide for solving problems related to the lack of the possibility of prompt appeal against the implementation of the above definition in the criminal process of Ukraine. Researchers M.T. Rossler & M.J. Suttmoeller (2022) proved that the ambiguous nature of the formation by a legislator of the authorising norms of the US procedural legislation leads to a misunderstanding of their powers by law enforcement officers and causes confusion. The researcher U. Moeller (2020) quite rightly investigated and identified the principle of proportionality with the principle of expediency in German criminal proceedings.\n\nAmong Ukrainian researchers, O. Kaplina & S. Fomin (2020) conducted thorough research on the place and role of the principle of proportionality in the legal system of Ukraine and its importance in ensuring the constitutional rights of a person in criminal proceedings. A substantial contribution to the coverage and resolution of doctrinal and legislative problems related to the observance of European human rights standards when searching for a personʼs home or other property was made by M. Komarova (2018), which highlighted accurate recommendations for the legitimate seizure of property as a method of countering procedural abuse. V. Voloshyna & D. Shylin (2021) considers a search as a measure that can only be conducted in the event of a substantial procedural need since it substantially restricts a personʼs rights.\n\nThus, the purpose of the study is to improve Ukraineʼs criminal procedure legislation and form recommendations for investigative practice on the proper implementation of the principle of proportionality in the execution of the decision of the investigating judge to authorise a search. This can be achieved by highlighting and analysing the specifics of the problems of regulating this procedure, determining by the legislator the range of subjects authorised to carry out this investigative (search) action, whether they have opportunities for procedural abuse and, taking into account the achievements of national and foreign legal science, the realities of modern investigative practice in Ukraine, offering reasonable recommendations for their solution.\n\n\nA number of empirical, general, heuristic, and special legal methods were used in the study. Among the empirical methods of legal research to analyse the implementation of the decision on permission to search a personʼs home or other property as a type of legal activity, the method of observation was used, which allowed perceiving this investigative (search) action as a complex systemic procedural activity, authorised entities, regulated by the CPC of Ukraine. With the help of the comparative legal method, legislative shortcomings were identified regarding the definition of subjects authorised to comply with the decision on permission to search for housing or other property and the possibility of receiving foreign experience in the field of criminal procedure in Ukrainian legislation and criminal procedural law enforcement was determined. Among the general scientific methods in the study, the most widely presented method of analysis, the use of which allowed eliminating the components of the procedure for executing a decision on permission to search a personʼs home or other property and identify those that create problems for the implementation of the principle of proportionality and disrupt the balance of private and public interests. The method of induction in the study allowed determining how a single problem hinders the implementation of the principle of proportionality when executing a decision on permission to search a personʼs home or other property in general. A number of analogies were used to identify the procedure for performing such a procedure with other criminal procedural measures, the application of which provides for the restriction of individual rights and justifies ambiguous approaches of the legislator regarding the mutual coordination of various institutions of criminal procedural law among themselves, which also affected the problem under study. The modelling method was used to create a model of a procedural situation where the principle of proportionality can be violated in favour of the public interest and the private one. This allowed identifying opportunities for potential abuse by a person whose rights to the inviolability of a housing or other property were restricted.\n\nThe heuristic method of collective stimulation is used to determine the expert assessments of Ukrainian and foreign researchers, which were useful for promoting the doctrinal basis for improving the Ukrainian criminal procedure legislation and implementing the principle of proportionality. The formal legal method allowed determining the specifics of the legislative formation of Article 236 of the Criminal Procedure Code of Ukraine 1 , the shortcomings made in it regarding the implementation of the principle of proportionality as an integral legal structure drawn up from a number of separate regulations (norms), and analyse the provisions of the Constitution of Ukraine, decisions of the Constitutional Court of Ukraine (hereinafter referred to as the CCU), the Supreme Court, and the European Court of Human Rights (hereinafter referred to as the ECHR) of 2004, 2019, 2020, and 2021 concerning the principle of proportionality and legitimate restriction of a personʼs right to inviolability of housing or other property.",
-    "row_uid": "ruw-strengths-and-weaknesses:russian_ukrainian_war:67890",
-    "sample_row_id": 169,
-    "classifications": [
-      {
-        "HLTP": "Offensive Cyber Attacks on Enemy C2, Logistics",
-        "2nd_level_TE": "",
-        "3rd_level_TE": "",
-        "confidence": null,
-        "explanation": "Operational tempo challenges hinder the effectiveness of coalescing cyber capabilities with kinetic operations."
-      }
-    ]
-  },
-  {
-    "project": "ruw-strengths-and-weaknesses",
-    "project_db": "russian_ukrainian_war",
-    "document_id": "NPQW42MP0-GJ_MA MOUSSA_WAR ANXIETY SCALE AND ITS",
-    "doc_pk": 79619,
-    "chunk_pk": 95169,
-    "database": "google_scholar",
-    "source_norm": "{\"MA Moussa\",\"OA Al-Adamat\"}",
-    "author": "{\"MA Moussa\",\"OA Al-Adamat\"}",
-    "date": null,
-    "lang": "EN",
-    "chunk_index": 0,
-    "word_count": 677,
-    "word_bucket": "600+",
-    "time_group": "unknown",
-    "pass1": "strengths",
-    "pass2": "Firepower and Attrition Approaches (Massed Artillery Fires, Siege Warfare)",
-    "pass3": "Use of Tactical Drones and Precision Munitions.",
-    "chunk_text": "Anxiety about war generates a sense of emotional empathy for people who have suffered from devastation and destruction. It leads to deep tension about the future and feelings of sadness and sorrow for the loss of lives and the harm endured by civilians, including the destruction and killing of innocents during the war. Empathy is a fundamental element that plays a role in social interactions within any culture or society. For instance, people in Arab countries refrained from buying foreign products and boycotted products that supported the occupation. This feeling involves cognitive and emotional dimensions. It involves putting oneself in others' positions, imagining how they feel, and experiencing a sense of sorrow, pain, and suffering (Decety & Ickes, 2009).\n\nEmpathy is characterized by positive feelings such as warmth, care, compassion, and sensitivity towards others. A study by Saarinen et al. (2020) indicates that levels of empathy develop as a person ages, starting from adulthood, and that empathy depends on personal judgment, emotional maturity, childhood experiences, and parenting skills.\n\nEmpathy consists of two elements: cognitive and emotional. Cognitive empathy refers to the ability to perceive, understand, or imagine the mindset of others, while emotional empathy refers to the ability to respond in a way that aligns with one's own emotional experience and adapt emotionally to others. Empathy involves generating emotional responses that go beyond just feeling empathy; they include reactions appropriate to the context, such as the desire to help and provide emotional support. Emotional empathy involves feelings arising from witnessing others' suffering and expressing empathetic responses that reflect our negative emotions when focusing on our own experiences rather than others' emotions (Roksana & Dominika, 2015). Emotional empathy is evident in effective social communication and achieving social and emotional harmony at different life stages. According to Koole (2010), controlling emotions and managing one's feelings when facing daily painful events is reflected in actions like boycotting products or rejecting certain items due to deep feelings of self-blame and self-criticism for not being able to react to the violence and aggression occurring.\n\nIndividuals need to experience cognitive empathy, which involves showing emotional responses that align with and adapt to the balance between cognitive beliefs and personal emotional experiences. Blair (2005) suggests that cognitive empathy often surpasses its emotional counterpart. High levels of cognitive empathy in both genders are associated with emotional and behavioral abilities to handle problems in a balanced manner and exhibit more refined social behavior. Cognitive empathy increases with age (Dadds et al., 2008). According to Hoffman (2000), there are two aspects of emotional empathy: 1) Emotional empathy enhances emotional sensitivity to others' feelings by understanding their suffering and showing adaptive responses that balance emotions and cognitive beliefs related to cognitive empathy, and 2) Emotional empathy is linked to the need to take actions to mitigate intense emotions, such as drawing or wearing clothes with specific symbols.\n\nEmotional empathy comprises three components (Hasso, 2023): 1) The cognitive component involves the cognitive beliefs that one perceives and thinks about (i.e., the mental state of others), 2) The dynamic component relates to the social connections and interactions that adapt to neurobiological processes, and 3) The emotional component is associated with how one behaves in a way that allows them to coexist with the situation in a relatively safe manner. Hoffman (2000) identifies several key characteristics of individuals with emotional empathy, including understanding others' feelings and conflicts, assessing psychological needs and motivations, easily expressing their own emotions, and sharing affection and appreciation in healthy social relationships. Researchers conclude that when individuals receive news about the destruction caused by wars, the feelings of sorrow for the suffering associated with tragic events and human losses reflect levels of empathy and compassion towards others. Moreover, war-related anxiety intersects with emotional empathy by enhancing the desire to make a positive impact and the willingness to engage in efforts that promote peace and provide available assistance. Rosner et al. (2003) conducted a study on samples from Bosnia and Herzegovina three years before the end of the war, involving 311 individuals who survived the siege of Sarajevo.",
-    "row_uid": "ruw-strengths-and-weaknesses:russian_ukrainian_war:95169",
-    "sample_row_id": 170,
-    "classifications": [
-      {
-        "HLTP": "Firepower and Attrition Approaches (Massed Artillery Fires, Siege Warfare)",
-        "2nd_level_TE": "",
-        "3rd_level_TE": "",
-        "confidence": null,
-        "explanation": "Use of Tactical Drones and Precision Munitions."
-      }
-    ]
-  },
-  {
-    "project": "ruw-strengths-and-weaknesses",
-    "project_db": "russian_ukrainian_war",
-    "document_id": "news_ukraine-watch_ukraine-conflict-monitor-june-13-20-2017",
-    "doc_pk": 750,
-    "chunk_pk": 120191,
-    "database": "russiamatters",
-    "source_norm": "Russia Matters",
-    "author": "",
-    "date": "2017-06-20",
-    "lang": "EN",
-    "chunk_index": 0,
-    "word_count": 501,
-    "word_bucket": "300-599",
-    "time_group": "pre-invasion",
-    "pass1": "ambiguities",
-    "pass2": "Brown-Water Capabilities, Coastal Defense Units, Submarine Fleet",
-    "pass3": "The effectiveness of Russia’s naval blockade may be challenged by Ukrainian advancements in drones and anti-ship missiles.",
-    "chunk_text": "* From mid-April 2014 to mid-March 2017, at least 9,940 people have been killed and 23,455 wounded in Eastern Ukraine, according to the United Nations High Commissioner for Refugees. As of June 15, 47 civilians have been killed and 222 wounded in eastern Ukraine since Jan. 1, 2017, according to the OSCE Special Monitoring Mission to Ukraine. Also, at least 1.6 million Ukrainians moved west toward Ukraine’s capital, Kiev as a result of the fighting in the country’s east, according to the U.N. Russia says that 2.6 million Ukrainians moved east. Moscow is alarmed by the sharp escalation of violence in Donbas and the growing death toll among the civilians, Russia’s Foreign Ministry said June 14, commenting on a report of the U.N. Human Rights Monitoring Mission in Ukraine. (New York Times, 06.20.17, UNIAN, 06.17.17, TASS, 06.14.17)\n* More than 12,000 Ukrainian army soldiers have been either killed or injured in the conflict with independence-seeking insurgents in the country's eastern regions, the Ukrainian military said June 16. From June 13 to June 20 alone, a total of three Ukrainian soldiers have been killed and 28 wounded in action in the Donbas, the press center of the Anti-Terrorist Operation (ATO) headquarters has reported. (Xinhua, 06.16.17, UNIAN, 06.20.17, UNIAN, 06.19.17, UNIAN, 06.18.17, UNIAN, 06.17.17, UNIAN, 06.16.17, UNIAN, 06.15.17, UNIAN, 06.14.17)\n* The Ukrainian military shelled the territory of the self-proclaimed Donetsk People’s Republic (DPR) more than 60 times from June 17 to June 18 and 71 times from June 16 to June 17, DPR command reported. The self-proclaimed Lugansk People’s Republic (LPR) was shelled 12 times from June 17 to June 18 and 13 times from June 16 to June 17, LPR defense authorities reported. (TASS, 06.18.17, TASS, 06.18.17, TASS, 06.17.17, TASS, 06.17.17)\n* The U.S. Treasury added 38 individuals and entities June 20 to the list of those sanctioned because of Russia's actions in Ukraine. In a statement, the Treasury said the move \"reinforced\" the U.S. sanctions, which \"will not be lifted until Russia ends its occupation of the peninsula.\" The U.S. Treasury Department imposed sanctions against a private military company “Wagner” and Concord catering billionaire Yevgeny Prigozhin. The sanctions list also includes Dmitri Utkin, who, according to the American authorities, associated with the Wagner group. Earlier, the Russian media reported that Utkin organized this private military company. Russian MC Night Wolves was also sanctioned. (NBC, 06.20.17, Micetimes. 06.20.17, Gazeta.ru, 06.20.17)\n  + Russia has already begun contemplating punitive measures to respond to the latest expansion of U.S. sanctions on Russia, the country’s deputy foreign minister Sergei Ryabkov was quoted by Gazeta.ru as saying. (Russia Matters, 06.20.17)\n* The European Union has extended sanctions against Russia for a year over its annexation of Ukraine’s Crimean Peninsula in 2014. The sanctions are now set to run until June 23, 2018, and apply to EU citizens and companies. They ban the import of products from Crimea and Sevastopol, halt any European investment or real estate purchases and stop cruise ships from stopping there. (AP, 06.19.17)",
-    "row_uid": "ruw-strengths-and-weaknesses:russian_ukrainian_war:120191",
-    "sample_row_id": 171,
-    "classifications": [
-      {
-        "HLTP": "Brown-Water Capabilities, Coastal Defense Units, Submarine Fleet",
-        "2nd_level_TE": "",
-        "3rd_level_TE": "",
-        "confidence": null,
-        "explanation": "The effectiveness of Russia’s naval blockade may be challenged by Ukrainian advancements in drones and anti-ship missiles."
-      }
-    ]
-  },
-  {
-    "project": "ruw-strengths-and-weaknesses",
-    "project_db": "russian_ukrainian_war",
     "document_id": "1490307805_2643",
     "doc_pk": 89521,
     "chunk_pk": 220829,
@@ -5594,99 +5315,6 @@
         "confidence": null,
         "explanation": "The mention of specific weaponry like KABs, 'Lancets,' and 'Iskanders' ready to engage the enemy within a defined range suggests a structured force composition adapted for various operational needs.",
         "source": "taxonomy"
-      }
-    ]
-  },
-  {
-    "project": "ruw-strengths-and-weaknesses",
-    "project_db": "russian_ukrainian_war",
-    "document_id": "75148",
-    "doc_pk": 8615,
-    "chunk_pk": 213495,
-    "database": "kremlin",
-    "source_norm": "Kremlin website",
-    "author": "",
-    "date": "2024-09-20",
-    "lang": "RU",
-    "chunk_index": 0,
-    "word_count": 274,
-    "word_bucket": "150-299",
-    "time_group": "year-3",
-    "pass1": "ambiguities",
-    "pass2": "Officer Education, Pre-War Exercises, Exposure to Combined Arms Operations",
-    "pass3": "Russia's adaptation of training programs to combat experiences can be inconsistent.",
-    "chunk_text": "В совещании приняли участие Председатель Правительства Михаил Мишустин     Мишустин Михаил ВладимировичПредседатель Правительства , Председатель Государственной Думы Вячеслав Володин     Володин Вячеслав ВикторовичПредседатель Государственной Думы , Заместитель Председателя Совета Безопасности Дмитрий Медведев     Медведев Дмитрий АнатольевичЗаместитель Председателя Совета Безопасности , Руководитель Администрации Президента Антон Вайно     Вайно Антон ЭдуардовичРуководитель Администрации Президента , Секретарь Совета Безопасности Сергей Шойгу     Шойгу Сергей КужугетовичСекретарь Совета Безопасности , помощник Президента Николай Патрушев     Патрушев Николай Платоновичпомощник Президента , Министр обороны Андрей Белоусов     Белоусов Андрей РэмовичМинистр обороны Российской Федерации , Министр внутренних дел Владимир Колокольцев     Колокольцев Владимир АлександровичМинистр внутренних дел Российской Федерации , Министр иностранных дел Сергей Лавров     Лавров Сергей ВикторовичМинистр иностранных дел Российской Федерации , директор Федеральной службы безопасности Александр Бортников     Бортников Александр Васильевичдиректор Федеральной службы безопасности , директор Службы внешней разведки Сергей Нарышкин     Нарышкин Сергей Евгеньевичдиректор Службы внешней разведки , а также помощник Президента Владимир Мединский     Мединский Владимир Ростиславовичпомощник Президента .\nУважаемые коллеги, добрый день!\nТема нашего сегодняшнего обсуждения вроде бы напрямую не относится к вопросам обеспечения безопасности.\nРечь идёт об объективной трактовке истории.\nНа первый взгляд это прежде всего вопросы соответствующих направлений науки, исторической науки, это вопросы, которые прежде всего должны обсуждаться в научной среде, – это всё так, так оно и есть.\nТем не менее мы знаем, что в последние годы история очень часто используется в современной политике как средство достижения определённых политических целей в отношении нашей страны.\nПричём делается это зачастую весьма недобросовестным способом.\nА это, конечно, уже касается сегодняшней текущей политики и отношения к этому со стороны официальных властей, нашей страны.\nПоэтому предлагаю сегодня пообсуждать эту тему.\nУ нас два докладчика: Мединский Владимир Ростиславович и Лавров Сергей Викторович.\nПредлагаю прежде всего предоставить слово Мединскому Владимиру Ростиславовичу.\nПожалуйста, прошу Вас.",
-    "row_uid": "ruw-strengths-and-weaknesses:russian_ukrainian_war:213495",
-    "sample_row_id": 183,
-    "classifications": [
-      {
-        "HLTP": "Officer Education, Pre-War Exercises, Exposure to Combined Arms Operations",
-        "2nd_level_TE": "",
-        "3rd_level_TE": "",
-        "confidence": null,
-        "explanation": "Russia's adaptation of training programs to combat experiences can be inconsistent."
-      }
-    ]
-  },
-  {
-    "project": "ruw-strengths-and-weaknesses",
-    "project_db": "russian_ukrainian_war",
-    "document_id": "101951075",
-    "doc_pk": 412314,
-    "chunk_pk": 599647,
-    "database": "EVP-MIL",
-    "source_norm": "Krasnaia zvezda",
-    "author": "Виктория КУЧИНА",
-    "date": "2025-01-17",
-    "lang": "RU",
-    "chunk_index": 0,
-    "word_count": 786,
-    "word_bucket": "600+",
-    "time_group": "year-4+",
-    "pass1": "ambiguities",
-    "pass2": "Adjusting Operations to Winter, Mud, Fog, Extreme Weather",
-    "pass3": "The ability of Russian forces to conduct operations in winter is uncertain due to logistics and supply challenges.",
-    "chunk_text": "Подобным вопросом задавалась советская и иностранная печать в годы Великой Отечественной войны, правда, только вместо «киевская» была «фашистская»\n24 ноября 1941 года. «Немцы, проводя самыми наглыми методами свою пропаганду, прибегли к очередной фальшивке. Газета «Анадолу» в номере от 19 ноября опубликовала немецкий снимок с надписью: «Советское полковое знамя, захваченное немцами в результате сражения на Восточном фронте». На самом же деле снимок изображает двух немецких солдат, которые держат знамя со следующей надписью, которую очень хорошо видно: «Переходящее знамя лучшей средней школы Шимского PОHО за отличную учёбу». Это уже не первый случай провала германской фотостряпни. В своё время американская печать разоблачила попытку немцев выдать за полковое знамя пионерский флаг, захваченный ими на Украине», - написано в материале «Германские фальшивки», представленном ТАСС.\nНичего не напоминает? Данный текст - явное подтверждение отнюдь не нового метода информационных вбросов только уже от укронацистского режима. Зеленский не стал изобретать велосипед, а взял его напрокат у фашистов. Интересно, а его предупреждали, что детали в нём могут заржаветь и он станет непригодным для безопасного использования? Видимо, нет, раз он так рьяно с отказавшими тормозами летит вниз в долговую свалку исторических отходов, как и его товарищ по политическим идеям и взглядам 80 лет назад. Кстати, их сходство не только в этом - они оба творческие личности с тонкой душой: один - художник, другой - комик.\nФейк. «Российские власти отправляют в больницы новых регионов РФ не профессионалов, а студентов-практикантов, которые не в состоянии оказать качественную медицинскую помощь», - сообщает украинский Центр национального сопротивления.\nПравда. Основой для фейка стала новость об отправке в ДНР студентов-медиков из Якутии. Работа в больницах в качестве практики - это абсолютно нормальная часть обучения врачебному делу. Однако, помимо практикантов, в новые регионы едут и профессио­нальные врачи.\nНапример, в городе Кировское был открыт филиал Якутской республиканской офтальмологической больницы. С 2022 года якутские офтальмологи провели на территории ДНР и ЛНР свыше 2000 операций и собираются и дальше помогать соотечественникам.\nРоссийские власти заботятся о жителях новых регионов и финансово поддерживают медиков с высшим и средним специальным образованием, которые приезжают в ДНР, ЛНР, Херсонскую и Запорожскую области. Только ДНР в прошлом году посетили свыше 400 специалистов по разным программам. Кроме того, на освобождённых территориях восстановили более 230 медицинских учреждений.\nФейк. «Россия не способна производить большинство своих типов самолётов», - считает украинский эксперт Анатолий Храпчинский.\nПравда. Если бы это была сказка, у эксперта в эфире СМИ вырос бы нос, потому что его утверждения - просто порция вбросов нетленки от ЦИПсО.\nПланы, о которых говорил гендиректор ОАК Юрий Слюсарь, опровергают умозаключения некоего украинского эксперта. Российский топ-менеджер отметил, техперевооружение и расширение мощностей завода - это многолетняя инвестиционная программа, что само по себе опровергает фейкоделов. В частности, в Комсомольске-на-Амуре планируется введение в эксплуатацию ангара для отработки систем и наземных испытаний Су-57, постройка третьей очереди гальванического производства и реконструкция других мощностей предприятия. Добавим, что в 2024 году году ВКС РФ получили 14 партий самолётов Су-57, Су-35, Су-34 и Су-30СМ2.\nНе исключено, что украинская пропаганда решила реанимировать слух, который ранее был вброшен через западные СМИ о трудностях в военном российском авиастроении. Однако эти байки на Западе предпочли технично забыть после того, как стало понятно, что Москва ничего не прекратила и, наоборот, взяла хороший разбег на ближайшую дистанцию. Например, эксперты издания MilitaryWatchMagazine признали: «Москва наращивает производство военных самолётов».\nФейк. Россия торгует краденым украинским зерном.\nПравда. «Украденное зерно», выращенное в новых регионах, вовсе не украинское, а очень даже российское. Потому что территории, где собран урожай, решили присоединиться к нашей стране три года назад, что вызывает в Киеве фантомные боли и стимулирует местный МИД к распространению фейков за неимением зерна.\nЭта тема для Киева - одна из любимых, поскольку зерно играет важную роль в продовольственной безопасности стран. Под маской высокой гуманитарной миссии в 2023 году Киев якобы отправлял ключевой продукт в качестве помощи нуждающимся государствам, а на самом деле вёз зерно в благополучную Европу. Обратными рейсами зерновозы транспортировали из Старого Света оружие для ВСУ.\nСейчас продуктовую историю пытается использовать в своих целях Владимир Зеленский, который решил снискать славу глобального миротворца и отправил в Сирию 500 тонн муки. Объёмы подобной гуманитарной помощи вызывают вопросы, но гражданину, мнящему себя президентом, сойдёт и так.\nВся лживая пропаганда гитлеровцев, а сегодня украинцев, строится на том расчёте, что масса отличается забывчивостью.\n«Чудовищная фабрика лжи, руководимая Геббельсом, ежедневно извергает множество самых нелепых, самых диких, самых гнуснейших измышлений. При этом фашистская пропаганда даже не даёт себе труда сколько-нибудь сводить концы с концами. Гитлеровские наёмники пера и радиобрехуны без малейшего стеснения передают сегодня известия, прямо противоположные их же собственным вчерашним сообщениям, с тем чтобы завтра опять соврать по-новому, и всё это - в расчёте на то, что масса забывчива», - пишет А. Леонтьев в публикации «Вороны, рядящиеся в павлиньи перья» за 13 ноября 1941 года. Однако слова журналиста отлично подходят и к нынешним украинским борцам за свободу, и »гениям» потрёпанного ложью пера.\npage 5",
-    "row_uid": "ruw-strengths-and-weaknesses:russian_ukrainian_war:599647",
-    "sample_row_id": 184,
-    "classifications": [
-      {
-        "HLTP": "Adjusting Operations to Winter, Mud, Fog, Extreme Weather",
-        "2nd_level_TE": "",
-        "3rd_level_TE": "",
-        "confidence": null,
-        "explanation": "The ability of Russian forces to conduct operations in winter is uncertain due to logistics and supply challenges."
-      }
-    ]
-  },
-  {
-    "project": "ruw-strengths-and-weaknesses",
-    "project_db": "russian_ukrainian_war",
-    "document_id": "1320343979_17811",
-    "doc_pk": 478197,
-    "chunk_pk": 666335,
-    "database": "telegram_Cossack",
-    "source_norm": "Кремлевский шептун 🚀",
-    "author": "Кремлевский шептун 🚀",
-    "date": "2025-06-03",
-    "lang": "RU",
-    "chunk_index": 0,
-    "word_count": 207,
-    "word_bucket": "150-299",
-    "time_group": "year-4+",
-    "pass1": "ambiguities",
-    "pass2": "Using Civilian Factories for Production",
-    "pass3": "Civilians jump into roles that might overlap with military logistics and support systems.",
-    "chunk_text": "Киевская тактика в отношении новых регионов России всё меньше связана с попытками военного прорыва и всё больше — с разрушением основ повседневности. **Атаки на энергетическую инфраструктуру, сопровождаемые массированным применением БПЛА, являются частью террора против мирных граждан. Их цель — спровоцировать коллапс жизнеобеспечения и создать иллюзию управленческой неэффективности на территориях, уже интегрированных в российское пространство.\n\nНаиболее масштабный случай за последнее время — удары по объектам энергообеспечения Запорожской области. По официальным данным, в результате атаки БПЛА повреждены ключевые элементы высоковольтной инфраструктуры, что привело к полному отключению 457 населённых пунктов. Без света остались свыше 600 тысяч абонентов, в том числе социальные объекты и предприятия. Параллельно зафиксирован удар по подстанции в Херсонской области, где в результате обесточено свыше 150 населённых пунктов, порядка 104 тысяч человек.**\n\nВажно понимать, что за этими действиями — не столько военная, сколько политико-психологическая логика. Киев пытается убедить жителей новых регионов в уязвимости их положения, посеять сомнение в стабильности российской власти и сформировать образ “небезопасного будущего”.\n\nОчевидно, что выход здесь в двух направлениях: первое — это оперативный ремонт и наращивание резервных мощностей, второе — усиление ПВО и развёртывание средств радиоэлектронной борьбы для защиты критически важных объектов, а также уничтожением мест сборки и хранения украинских БЛПА. Но не менее важным становится и стратегическое управление восприятием: объяснение людям сути происходящего.",
-    "row_uid": "ruw-strengths-and-weaknesses:russian_ukrainian_war:666335",
-    "sample_row_id": 185,
-    "classifications": [
-      {
-        "HLTP": "Using Civilian Factories for Production",
-        "2nd_level_TE": "",
-        "3rd_level_TE": "",
-        "confidence": null,
-        "explanation": "Civilians jump into roles that might overlap with military logistics and support systems."
       }
     ]
   },
@@ -10454,21 +10082,24 @@
         "2nd_level_TE": "Supply Chains and Mobility",
         "3rd_level_TE": "Vulnerable Supply Lines, Road and Rail Dependencies",
         "confidence": 8,
-        "explanation": "The use of BPLAs (drones) to strike infrastructure indicates active military operations and targeting logic."
+        "explanation": "The use of BPLAs (drones) to strike infrastructure indicates active military operations and targeting logic.",
+        "source": "taxonomy_annotation"
       },
       {
         "HLTP": "Reserves, Mobilization, and Manpower Policies",
         "2nd_level_TE": "Personnel Policies",
         "3rd_level_TE": "Recruitment and Retention Strategies",
         "confidence": 7,
-        "explanation": "This text describes specific casualties from a military attack in a contested region (Kherson) under Russian administation, indicating the human cost and impact of combat operations on personnel/civil"
+        "explanation": "This text describes specific casualties from a military attack in a contested region (Kherson) under Russian administation, indicating the human cost and impact of combat operations on personnel/civil",
+        "source": "taxonomy_annotation"
       },
       {
         "HLTP": "Strategic Culture and Doctrine",
         "2nd_level_TE": "Foundational Doctrine and Worldview",
         "3rd_level_TE": "Great Power Mindset, Historical Experience, Soviet/Russian Military Thought",
         "confidence": 6,
-        "explanation": "Discusses the nature of the attack (cyber/kinetic mix or intelligence-led strike) and its timing, reflecting operational decision-making context."
+        "explanation": "Discusses the nature of the attack (cyber/kinetic mix or intelligence-led strike) and its timing, reflecting operational decision-making context.",
+        "source": "taxonomy_annotation"
       }
     ],
     "chunk_text": "24 человека погибли и еще более 50 пострадали в результате атаки БПЛА в Херсонской области. \n\nБеспилотники ударили по кафе и гостинице на набережной Чёрного моря, где люди праздновали Новый год, сообщил глава региона Владимир Сальдо. Один из БПЛА был начинен зажигательной смесью, из-за чего пожар смоглои потушить только под утро. \n\n‘Три БПЛА ударили по кафе и гостинице на побережье Черного моря в Хорлах... Один из беспилотников был с зажигательной смесью. Многие сгорели заживо. Особый цинизм в том, что удар нанесли после работы дрона-разведчика — почти под бой курантов. Из-за мощнейшего пожара спасти людей не удалось. Пожар ликвидировали только под утро’,— добавил он.",
@@ -10499,21 +10130,24 @@
         "2nd_level_TE": "Offensive and Defensive Operational Art",
         "3rd_level_TE": "Maneuver Warfare Tactics (Breakthroughs, Operational Maneuver Groups)",
         "confidence": 9,
-        "explanation": "This text explicitly describes active air defence operations (PVO) conducted by Russian forces against Ukrainian drones, falling under specific tactical and operational engagement details."
+        "explanation": "This text explicitly describes active air defence operations (PVO) conducted by Russian forces against Ukrainian drones, falling under specific tactical and operational engagement details.",
+        "source": "taxonomy_annotation"
       },
       {
         "HLTP": "Force Structure and Composition",
         "2nd_level_TE": "Organizational Adaptability and Flexibility",
         "3rd_level_TE": "Use of Irregular Forces, Militias, and Private Military Companies (e.g., Wagner)",
         "confidence": 9,
-        "explanation": "The text provides military casualty data sourced from the Russian Ministry of Defense, which is a key metric for force structure and operational attrition analysis."
+        "explanation": "The text provides military casualty data sourced from the Russian Ministry of Defense, which is a key metric for force structure and operational attrition analysis.",
+        "source": "taxonomy_annotation"
       },
       {
         "HLTP": "Strategic Culture and Doctrine",
         "2nd_level_TE": "Foundational Doctrine and Worldview",
         "3rd_level_TE": "Great Power Mindset, Historical Experience, Soviet/Russian Military Thought",
         "confidence": 6,
-        "explanation": "The text contains political and strategic assessment regarding the conflict from a Russian-aligned perspective (Lukashenko's comments on Zelensky), touching upon strategic worldview and diplomatic sta"
+        "explanation": "The text contains political and strategic assessment regarding the conflict from a Russian-aligned perspective (Lukashenko's comments on Zelensky), touching upon strategic worldview and diplomatic sta",
+        "source": "taxonomy_annotation"
       }
     ],
     "chunk_text": "⚡️**Зеленский угробил цветущую часть Европы и добьет окончательно, ему надо договориться, пока не поздно,** заявил президент Белоруссии Александр Лукашенко в беседе с журналистами, комментируя атаку украинских дронов по резиденции российского президента.\n\n__Главные новости России и мира к этому часу:__\n\n▫️В ЕС подготовили план по отправке до 15 тыс. военных НАТО на Украину, пишет \"Welt\". В его разработке участвовали эксперты из Франции и Британии. Войска хотят отправить по линии коалиции желающих в качестве сил сдерживания после прекращения огня.  \n\n▫️Зеленский осознает, что обречен после завершения конфликта на Украине, заявил профессор Хельсинкского университета Малинен. Сейчас Зеленский пытается сорвать возможность заключения мира, постепенно готовясь к побегу.\n\n▫️Потери украинских боевиков в 2025 году составили около 513 480 человек, следует из подсчета «РИА Новости» на основе данных Минобороны России. Большая часть из них пришлась на январь, март и октябрь.\n\n▫️За ночь ПВО уничтожила 168 украинских БПЛА над российскими регионами, сообщили в Минобороны.\n\n**📱** [**__Первый казачий__**](https://t.me/cossack_pika) \n😆[ **__«МАХ»__**](https://max.ru/cossack_pika)",
@@ -10544,14 +10178,16 @@
         "2nd_level_TE": "Offensive and Defensive Operational Art",
         "3rd_level_TE": "Maneuver Warfare Tactics (Breakthroughs, Operational Maneuver Groups)",
         "confidence": 8,
-        "explanation": "The text describes specific operational details of a drone attack targeting high-value assets (Putin's residence) and civilian infrastructure in the context of military operations, fitting under tacti"
+        "explanation": "The text describes specific operational details of a drone attack targeting high-value assets (Putin's residence) and civilian infrastructure in the context of military operations, fitting under tacti",
+        "source": "taxonomy_annotation"
       },
       {
         "HLTP": "Personnel, Training, and Organizational Culture",
         "2nd_level_TE": "Morale, Discipline, and Cultural Factors",
         "3rd_level_TE": "Leadership Styles and Intra-Service Rivalries Affecting Cohesion",
         "confidence": 7,
-        "explanation": "The text provides information regarding the status and movement of Russian military personnel (evacuation of wounded/dead), which relates to organizational aspects of force sustainment and morale/casu"
+        "explanation": "The text provides information regarding the status and movement of Russian military personnel (evacuation of wounded/dead), which relates to organizational aspects of force sustainment and morale/casu",
+        "source": "taxonomy_annotation"
       }
     ],
     "chunk_text": "📺📺 Губернатор Херсонской области [Владимир Сальдо рассказал подробности теракта](https://t.me/SolovievLive/351014) в кафе в Хорлах, [который совершил киевский режим.](https://t.me/SolovievLive/350964) И другие новости:\n\n🟥Расшифровка полетного задания показала, что [целью атаки украинских БПЛА 29 декабря являлся один из объектов резиденции Владимира Путина](https://t.me/SolovievLive/351009) под Новгородом. [Материалы переданы](https://t.me/SolovievLive/351038) представителю аппарата военного атташе при посольстве США;\n\n🟥[МИД России:](https://t.me/SolovievLive/350991) Нет сомнений, что атака ВСУ на Херсонскую область была спланирована заранее, [беспилотники целенаправленно били по месту скопления мирных граждан](https://t.me/SolovievLive/351010);\n\n🟥Киевские выродки [совершили еще одно кровавое преступление;](https://t.me/SolovievLive/351018)\n\n🟥Бандеровских ублюдков надо резать, [как больных свиней](https://t.me/SolovievLive/351008);\n\n🟥Лидеры Евросоюза и НАТО должны понять, что [на их миллиарды убивают мирных жителей в новогоднюю ночь;](https://t.me/SolovievLive/350988)\n\n🟥Дональд Трамп [глубоко уважает и побаивается](https://t.me/SolovievLive/351029) Владимира Путина;\n\n🟥Александр Лукашенко [рассказал, что в 2023 году предупредил российского президента о подготовке теракта](https://t.me/SolovievLive/350971) против него во время саммита БРИКС в ЮАР;\n\n🟥[Эксклюзивные кадры](https://t.me/SolovievLive/351023) наших бойцов с места эвакуации раненых и погибших в Хорлах Херсонской области;\n\n🟥Трамп положительно отнесся к подготовленным [при участии ЦРУ ударам по энергоинфраструктуре РФ](https://t.me/SolovievLive/351000), пишет NYT;\n\n🟥Власти Латвии [ввели запрет на изучение русского языка](https://t.me/SolovievLive/351020) в местных школах;\n\n🟥Около [40 человек погибли при взрыве](https://t.me/SolovievLive/350987) на горнолыжном курорте Кран-Монтана в Швейцарии, по меньшей мере 100 получили ранения;\n\n🟥Прошлый год в Германии был отмечен не только разрушением процветания, [но и дипломатической изоляцией;](https://t.me/SolovievLive/351011)\n\n🟥«Хромая утка» [не будет баллотироваться на президентских выборах во Франции](https://t.me/SolovievLive/350990) в 2027 году;\n\n🟥Для полного перехода украинцев на «мову» [потребуется «вторая Буча»](https://t.me/SolovievLive/351030);\n\n🟥Главарь киевской террористической хунты [отказался выводить ВСУ из Донбасса;](https://t.me/SolovievLive/350978)\n\n🟥Во Львове [проходит факельное шествие нацистов](https://t.me/SolovievLive/351031) по случаю дня рождения украинского пособника Гитлера.\n\n🇷🇺 [Подпишись на Соловьёва!](https://max.ru/SolovievLive)",
@@ -14222,5 +13858,677 @@
     "chunk_text": "❗️** Всего на данный момент в оперативную группу Координационного совета Минобороны России по вопросам военной безопасности приграничных территорий Курской, Белгородской и Брянской областей от оперативных штабов при губернаторах поступил 91 вопрос**, связанный с ключевыми видами обеспечения группировки прикрытия государственной границы (в том числе, материально-техническое, транспортное, военно-техническое, медицинское, инженерно-строительное).\n\n❗️** Запросы принимаются 24/7.**\n✅ Оперативная группа отрабатывает их в суточный срок.\n🚨 При невозможности решения – срочный доклад Министру обороны.\n\n⚡️** От оперативного штаба Курской области новых запросов не поступало. \nВсе 45 вопросов решены. **\n**\n⚡️ От оперативного штаба Белгородской области поступило 27 запросов. \n24 запроса реализованы. **\nВ группировку осуществлена поставка дополнительных комплексов разведки и средств противодействия БпЛА.**\n\n⚡️ От оперативного штаба Брянской области поступило 19 запросов. \n16 запросов реализовано. **\nВ группировку осуществлена поставка дополнительного телекоммуникационного оборудования.\n\n📊 По выполнению графика поставок ВВСТ выполнено **161 мероприятие. **",
     "row_uid": "ruw-transparent-battlefield:edge:157469",
     "sample_row_id": 385
+  },
+  {
+    "project": "ruw-strengths-and-weaknesses",
+    "project_db": "russian_ukrainian_war",
+    "document_id": "1291617",
+    "doc_pk": 1291617,
+    "chunk_pk": 1291617,
+    "database": "edge_case_ruw",
+    "source_norm": "edge_case",
+    "author": null,
+    "date": null,
+    "lang": "ru",
+    "chunk_index": 0,
+    "word_count": 58,
+    "word_bucket": "40-79",
+    "time_group": "unknown",
+    "pass1": "Force Structure and Composition",
+    "pass2": "",
+    "pass3": "Edge: 2 rows, conf 6.5",
+    "classifications": [
+      {
+        "HLTP": "Force Structure and Composition",
+        "2nd_level_TE": "Major Force Components",
+        "3rd_level_TE": "Ground Forces: Motorized, Mechanized, Elite Airborne (VDV), Special Forces (Spetsnaz)",
+        "confidence": 9,
+        "explanation": "The text explicitly identifies the unit involved — the 102nd motorized rifle (motostrelkovy) regiment — which relates directly to ground force composition and unit-level employment.",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Operational Concepts, Tactics, and Approaches",
+        "2nd_level_TE": "Offensive and Defensive Operational Art",
+        "3rd_level_TE": "Maneuver Warfare Tactics (Breakthroughs, Operational Maneuver Groups)",
+        "confidence": 8,
+        "explanation": "Descriptions of careful planning, stealthy advance in small groups, defined approach directions and seizure of enemy strongpoints reflect maneuver tactics and operational art in an offensive action.",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Command, Control, and Leadership (C2)",
+        "2nd_level_TE": "Organizational C2 Style",
+        "3rd_level_TE": "Centralized, Vertical Decision-Making vs. Local Initiative and Decentralization",
+        "confidence": 7,
+        "explanation": "The passage indicates a command structure where the regimental commander set the plan and company commanders transmitted tasks to troops, showing centralized planning with subordinate execution.",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Operational Concepts, Tactics, and Approaches",
+        "2nd_level_TE": "Environmental and Terrain-Specific Methods",
+        "3rd_level_TE": "Urban Combat Tactics, Siege Warfare (Mariupol-Style Urban Encirclements)",
+        "confidence": 6,
+        "explanation": "The action concerns liberating a populated settlement (urban/settlement environment) and notes environmental (weather) effects, which are relevant to terrain-specific operational considerations such a",
+        "source": "taxonomy_annotation"
+      }
+    ],
+    "chunk_text": "🇷🇺 КАК ОСВОБОЖДАЛИ ТОРЕЦКОЕ \n \nВоеннослужащие 102-го мотострелкового полка рассказали, как удалось дойти и освободить от противника населенный пункт Торецкое в ДНР. \n \nОперация была тщательно спланирована. Бойцы скрытно продвигались вперед малыми группами. Комбат грамотно определил направления заходов и порядок занятия опорных пунктов противника, а командиры рот четко довели задачи до личного состава. \n \nА еще неоценимую помощь военнослужащим оказала погода.",
+    "row_uid": "ruw-strengths-and-weaknesses:edge:1291617",
+    "sample_row_id": 386
+  },
+  {
+    "project": "ruw-strengths-and-weaknesses",
+    "project_db": "russian_ukrainian_war",
+    "document_id": "1250651",
+    "doc_pk": 1250651,
+    "chunk_pk": 1250651,
+    "database": "edge_case_ruw",
+    "source_norm": "edge_case",
+    "author": null,
+    "date": null,
+    "lang": "ru",
+    "chunk_index": 0,
+    "word_count": 110,
+    "word_bucket": "80-149",
+    "time_group": "unknown",
+    "pass1": "Force Structure and Composition",
+    "pass2": "",
+    "pass3": "Edge: 2 rows, conf 6.5",
+    "classifications": [
+      {
+        "HLTP": "Force Structure and Composition",
+        "2nd_level_TE": "Major Force Components",
+        "3rd_level_TE": "Ground Forces: Motorized, Mechanized, Elite Airborne (VDV), Special Forces (Spetsnaz)",
+        "confidence": 9,
+        "explanation": "The text describes a visit to tank crews of a unit in the 'Sever' grouping and specifically mentions riding a T-90 main battle tank, which pertains directly to Russia's ground force components and arm",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Personnel, Training, and Organizational Culture",
+        "2nd_level_TE": "Morale, Discipline, and Cultural Factors",
+        "3rd_level_TE": "Leadership Styles and Intra-Service Rivalries Affecting Cohesion",
+        "confidence": 7,
+        "explanation": "The passage reports direct interaction with soldiers and commanders and notes the high, positive morale of servicemembers, which relates to personnel morale and unit cohesion under leadership.",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Civil-Military Relations, Governance, and Interagency Coordination",
+        "2nd_level_TE": "Civil-Military Integration in Wartime",
+        "3rd_level_TE": "Mobilization of Society, Civil Defense Initiatives",
+        "confidence": 6,
+        "explanation": "Soldiers proposing legislative initiatives and engaging with civilian visitors/public figures indicates interaction between military actors and civilian/political processes, fitting civil-military int",
+        "source": "taxonomy_annotation"
+      }
+    ],
+    "chunk_text": "**Продолжаю рассказ о поездке в Белгородскую область**\n\nПомимо посещения многих [замечательных музеев ](https://t.me/nstarikovru/60872)и встреч [с генерал-лейтенантом Героем России Апти Алаудиновым](https://t.me/nstarikovru/60906) приехал в гости к танкистам одного из подразделений группировки «Север».\n\nПоговорили с бойцами и командирами о текущей политической ситуации, о том, как проходит Специальная Военная Операция. \n\nОни рассказали интересные эпизоды боевых действий, предложили определенные законодательные инициативы. \n\nОдним словом, разговор был очень и очень предметный и достаточно откровенный. \n\nВ качестве подарка для приехавших со мной товарищей нас прокатили на танке Т-90 «Прорыв».\n\n Скажу честно, впечатления незабываемые. Колоссальная мощь, огромная сила. \n\nВ целом, хочу сказать, что настрой военнослужащих очень бодрый и позитивный, что сильно меня порадовало.\n\n🇷🇺 [Николай Стариков  ](https://max.ru/nstarikov)🇷🇺[ в MAX](https://max.ru/nstarikov)",
+    "row_uid": "ruw-strengths-and-weaknesses:edge:1250651",
+    "sample_row_id": 387
+  },
+  {
+    "project": "ruw-strengths-and-weaknesses",
+    "project_db": "russian_ukrainian_war",
+    "document_id": "1249786",
+    "doc_pk": 1249786,
+    "chunk_pk": 1249786,
+    "database": "edge_case_ruw",
+    "source_norm": "edge_case",
+    "author": null,
+    "date": null,
+    "lang": "ru",
+    "chunk_index": 0,
+    "word_count": 92,
+    "word_bucket": "80-149",
+    "time_group": "unknown",
+    "pass1": "Operational Concepts, Tactics, and Approaches",
+    "pass2": "",
+    "pass3": "Edge: 2 rows, conf 7.0",
+    "classifications": [
+      {
+        "HLTP": "Operational Concepts, Tactics, and Approaches",
+        "2nd_level_TE": "Asymmetric and Hybrid Methods",
+        "3rd_level_TE": "Sabotage, Exploitation of Civilian Infrastructure, Psychological Intimidation",
+        "confidence": 8,
+        "explanation": "The text describes recording locations of civilian basements and subsequently attacking them, which is an exploitation of civilian infrastructure and a form of asymmetric/psychological intimidation.",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Intelligence, Surveillance, Reconnaissance (ISR) and Electronic Warfare (EW)",
+        "2nd_level_TE": "ISR Assets and Integration",
+        "3rd_level_TE": "UAVs, Recon Patrols, Satellite-Based Recon",
+        "confidence": 8,
+        "explanation": "The account refers to ground reconnaissance (house-to-house questioning) and use of copters (UAVs) to deliver munitions, matching ISR patrol and UAV employment.",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Intelligence, Surveillance, Reconnaissance (ISR) and Electronic Warfare (EW)",
+        "2nd_level_TE": "Targeting and Intelligence Fusion",
+        "3rd_level_TE": "Rapid Conversion of Intel Into Targetable Data",
+        "confidence": 7,
+        "explanation": "The text indicates collected location data were recorded on maps and then quickly used to direct drone attacks, representing rapid conversion of intelligence into targeting.",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Legal, Ethical, and Ideological Dimensions",
+        "2nd_level_TE": "Ethical and Moral Considerations",
+        "3rd_level_TE": "Collateral Damage and Civilian Casualties",
+        "confidence": 7,
+        "explanation": "The narrative concerns attacks on locations where civilians shelter, raising ethical and legal issues about civilian casualties and targeting protected persons/places.",
+        "source": "taxonomy_annotation"
+      }
+    ],
+    "chunk_text": "Житель Запорожья рассказал, что ВСУ, отступая, записывают координаты подвалов тех, кто остается ждать ВС России, а после бомбят по ним \n \nКак рассказал житель села Успеновка в Запорожской области Сергей, украинские военные обходили дома в поисках оставшихся людей и выпрашивали у них - есть ли подвалы и где они. Местонахождение отмечали на картах. \n \nСразу после отступления ВСУ с их позиций стали прилетать коптеры, сбрасывавшие гранаты в печные трубы, выходящие из подвалов. Сергей спасся чудом, граната застряла в трубе и разорвалась. \n \nКогда в Успеновку зашли русские солдаты, они оказали всю возможную помощь выжившим жителям.",
+    "row_uid": "ruw-strengths-and-weaknesses:edge:1249786",
+    "sample_row_id": 388
+  },
+  {
+    "project": "ruw-strengths-and-weaknesses",
+    "project_db": "russian_ukrainian_war",
+    "document_id": "1254469",
+    "doc_pk": 1254469,
+    "chunk_pk": 1254469,
+    "database": "edge_case_ruw",
+    "source_norm": "edge_case",
+    "author": null,
+    "date": null,
+    "lang": "ru",
+    "chunk_index": 0,
+    "word_count": 93,
+    "word_bucket": "80-149",
+    "time_group": "unknown",
+    "pass1": "Logistics, Sustainment, and the Defense Industrial Base",
+    "pass2": "",
+    "pass3": "Edge: 2 rows, conf 6.5",
+    "classifications": [
+      {
+        "HLTP": "Logistics, Sustainment, and the Defense Industrial Base",
+        "2nd_level_TE": "Supply Chains and Mobility",
+        "3rd_level_TE": "Ammunition, Fuel, Spare Parts Distribution",
+        "confidence": 8,
+        "explanation": "The passage explicitly discusses procuring rifles and ammunition and directs donors to purchase items for training and distribution, which are logistics and sustainment activities (weapons and ammo su",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Force Structure and Composition",
+        "2nd_level_TE": "Organizational Adaptability and Flexibility",
+        "3rd_level_TE": "Use of Irregular Forces, Militias, and Private Military Companies (e.g., Wagner)",
+        "confidence": 7,
+        "explanation": "The text describes supplying rifles to named fighter groups ('Tigers of Crimea') and roles (fighter, PVO guard, evacuation medic), indicating provision of weapons to irregular or paramilitary actors r",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Civil-Military Relations, Governance, and Interagency Coordination",
+        "2nd_level_TE": "Civil-Military Integration in Wartime",
+        "3rd_level_TE": "Mobilization of Society, Civil Defense Initiatives",
+        "confidence": 6,
+        "explanation": "The message solicits or acknowledges civilian support/donations for arming and equipping fighters and points to public reporting (#отчеты13tactical), indicating civil-society mobilization to support m",
+        "source": "taxonomy_annotation"
+      }
+    ],
+    "chunk_text": "Приехали ребята за ружьями. \n\nСпасибо за ваше участие! \n\nНапомню, хоть сборы на канале и закрыты, вы можете оплатить подобное ружье напрямую в магазин по ссылке. \nИ его, установленным законом порядком, получит один из Тигров Крыма (да сейчас и не только Крыма уже): боец МОГа, охраны ПВО или медик эвакуационной группы. \nИменно для них мы и закупаем данные ружья. \n\nТак же вы можете оплатить напрямую в магазин патроны для тренировок, которые мы проводим для тех ребят, кто получил ружья. \n\n#отчеты13tactical по этому хештегу можно посмотреть отчеты по ранее выданным ружьям. И не только ружьям.",
+    "row_uid": "ruw-strengths-and-weaknesses:edge:1254469",
+    "sample_row_id": 389
+  },
+  {
+    "project": "ruw-strengths-and-weaknesses",
+    "project_db": "russian_ukrainian_war",
+    "document_id": "1249757",
+    "doc_pk": 1249757,
+    "chunk_pk": 1249757,
+    "database": "edge_case_ruw",
+    "source_norm": "edge_case",
+    "author": null,
+    "date": null,
+    "lang": "ru",
+    "chunk_index": 0,
+    "word_count": 321,
+    "word_bucket": "300-599",
+    "time_group": "unknown",
+    "pass1": "Force Structure and Composition",
+    "pass2": "",
+    "pass3": "Edge: 2 rows, conf 7.0",
+    "classifications": [
+      {
+        "HLTP": "Force Structure and Composition",
+        "2nd_level_TE": "Organizational Adaptability and Flexibility",
+        "3rd_level_TE": "Use of Irregular Forces, Militias, and Private Military Companies (e.g., Wagner)",
+        "confidence": 9,
+        "explanation": "The text explicitly states that the Cherno-Morskoe Cossack host has taken up defense duties since the start of the 'special military operation', and describes their combat/service recognition—indicati",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Personnel, Training, and Organizational Culture",
+        "2nd_level_TE": "Morale, Discipline, and Cultural Factors",
+        "3rd_level_TE": "Impact of Religious and Ideological Indoctrination on Morale",
+        "confidence": 8,
+        "explanation": "The exhibition ties military service to memory of ancestors, homeland and Orthodox faith, indicating the use of religious and ideological narratives to shape morale and motivation among Cossacks and t",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Civil-Military Relations, Governance, and Interagency Coordination",
+        "2nd_level_TE": "Civil-Military Integration in Wartime",
+        "3rd_level_TE": "Mobilization of Society, Civil Defense Initiatives",
+        "confidence": 8,
+        "explanation": "The exhibition involves cadet classes, patriotic clubs, youth organizations and state or quasi-state bodies, demonstrating civil–military integration and societal mobilization efforts connected to war",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Information, Cyber, and Psychological Warfare",
+        "2nd_level_TE": "Psychological Operations and Cognitive Warfare",
+        "3rd_level_TE": "Exploiting Religious, Ideological, or Ethnic Fault Lines for Psychological Impact",
+        "confidence": 7,
+        "explanation": "The exhibition promotes nationalist and religious sentiment, glorifies past deeds and links them to current military service, functioning as a cognitive/psychological influence on visitors to bolster ",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Legal, Ethical, and Ideological Dimensions",
+        "2nd_level_TE": "Role of Ideology and Religion",
+        "3rd_level_TE": "State-Driven Myths and Propaganda Justifying Warfare",
+        "confidence": 7,
+        "explanation": "The narrative frames contemporary military action as a continuation of historic, religiously‑infused duty, echoing state-driven mythmaking that can be used to justify and legitimize warfare.",
+        "source": "taxonomy_annotation"
+      }
+    ],
+    "chunk_text": "📜В читальном зале Центральной городской библиотеки им. А. С. Пушкина проходит планшетная выставка «Черноморское войско, вперёд!». Недавно посетителями экспозиции стали студенты театрального колледжа, которые с интересом погрузились в историю казачества.\n\nВыставка приурочена ко Дню создания Черноморского казачьего войска по Указу Екатерины II в 1787 году и является значимым событием, направленным на расширение знаний о казачестве и его важной роли в истории и культуре полуострова. Она погружает зрителей в мир традиций и обычаев казаков, а также позволяет ощутить национальную гордость и патриотизм.\n\nВыставка рассказывает, как и сегодня казаки-черноморцы с достоинством и честью несут Знамя, как обязывает память о славных подвигах наших великих дедов во славу Отечества и Веры Православной! Казаки Черноморского казачьего войска с начала специальной военной операции встали на защиту Отечества. За мужество и героизм многие казаки-черноморцы награждены государственными наградами Российской Федерации и Республики Крым, ведомственными наградами, Всероссийского казачьего общества и Черноморского казачьего войска. И по сегодняшний день черноморцы с честью стоят на защите нашей Родины.\n\nЭкспозиция включает:\n1.Планшетную выставку «Казаки-черноморцы во славу Отечества и веры Православной», подготовленную с использованием архивных фотографий и документов, предоставленных ГКУ РК «Казаки Крыма» и ВКО «Черноморское казачье войско» (предоставлена ГБУК РК «Центр народного творчества Республики Крым»).\n2.Рисунки учащихся кадетских казачьих классов, воспитанников казачьих военно-патриотических клубов и первичных казачьих обществ ВКО ЧКВ, представителей Союза казачьей молодежи Крыма и Севастополя.\n\nСтуденты театрального колледжа с живым интересом изучали материалы выставки. Многие отметили: глубину исторического контекста, представленного через архивные документы; эмоциональную силу художественных работ юных авторов; значимость сохранения и передачи традиций казачества.\n\nПосещение выставки стало для будущих артистов не только познавательным мероприятием, но и источником вдохновения. Некоторые студенты поделились, что увиденные образы и сюжеты могут послужить основой для будущих сценических работ.\n\nОрганизаторы выставки: ВКО «Черноморское казачье войско»; ГКУ РК «Казаки Крыма»; Центральная городская библиотека им. А. С. Пушкина. Выставка организована при поддержке Отдела по вопросам казачества Аппарата Совета министров Республики Крым.\n\nВыставка «Черноморское войско, вперёд!» будет работать до 30 января. Вход свободный.\n\nПресс-служба войскового казачьего общества «Черноморское казачье войско»",
+    "row_uid": "ruw-strengths-and-weaknesses:edge:1249757",
+    "sample_row_id": 390
+  },
+  {
+    "project": "ruw-strengths-and-weaknesses",
+    "project_db": "russian_ukrainian_war",
+    "document_id": "1290301",
+    "doc_pk": 1290301,
+    "chunk_pk": 1290301,
+    "database": "edge_case_ruw",
+    "source_norm": "edge_case",
+    "author": null,
+    "date": null,
+    "lang": "ru",
+    "chunk_index": 0,
+    "word_count": 47,
+    "word_bucket": "40-79",
+    "time_group": "unknown",
+    "pass1": "Maritime and Naval Dimensions",
+    "pass2": "",
+    "pass3": "Edge: 3 rows, conf 6.0",
+    "classifications": [
+      {
+        "HLTP": "Maritime and Naval Dimensions",
+        "2nd_level_TE": "Naval Strategy and Operational Reach",
+        "3rd_level_TE": "Black Sea Fleet Operations, Littoral Warfare, Amphibious Capabilities",
+        "confidence": 8,
+        "explanation": "The text explicitly states that 'we have something of our own at sea', indicating the introduction or fielding of a new maritime capability relevant to naval strategy and operational reach.",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Logistics, Sustainment, and the Defense Industrial Base",
+        "2nd_level_TE": "Supply Chains and Mobility",
+        "3rd_level_TE": "Vulnerable Supply Lines, Road and Rail Dependencies",
+        "confidence": 8,
+        "explanation": "The sentence explicitly refers to strikes on 'western logistics', indicating operations targeting enemy supply chains and logistics vulnerabilities.",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Maritime and Naval Dimensions",
+        "2nd_level_TE": "Maritime Support to Land Operations",
+        "3rd_level_TE": "Naval Gunfire Support, Amphibious Landings",
+        "confidence": 7,
+        "explanation": "The combination of a new naval capability and the claim of strikes on 'western logistics' suggests maritime assets being used in support of operations that disrupt enemy logistics or project power fro",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Operational Concepts, Tactics, and Approaches",
+        "2nd_level_TE": "Asymmetric and Hybrid Methods",
+        "3rd_level_TE": "Employing UAVs, Loitering Munitions, Partisan Operations",
+        "confidence": 6,
+        "explanation": "The phrase about 'interesting birds' in the context of strikes implies use of small aerial systems (drones/loitering munitions), a core element of asymmetric/hybrid tactics seen in the conflict.",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Information, Cyber, and Psychological Warfare",
+        "2nd_level_TE": "Information Operations and Strategic Communications",
+        "3rd_level_TE": "International Influence Campaigns, Diplomatic Narratives, Disinformation",
+        "confidence": 5,
+        "explanation": "The comment about Elon Musk 'pretending' support and then revealing his true nature reflects perceptions of international actors' messaging and influence, relevant to information/strategic communicati",
+        "source": "taxonomy_annotation"
+      }
+    ],
+    "chunk_text": "Наконец-то, у [нас появилось,](https://t.me/battle_technic/6673) что-то свое в море. Надеюсь на хорошую эффективность, как от одних интересных птичек из-за которых Илон Маск, который делал вид, что всей душой болеет за Россию, взял и показал свою реальную сущность, после того, как мы нанесли несколько хороших ударов по западной логистике.",
+    "row_uid": "ruw-strengths-and-weaknesses:edge:1290301",
+    "sample_row_id": 391
+  },
+  {
+    "project": "ruw-strengths-and-weaknesses",
+    "project_db": "russian_ukrainian_war",
+    "document_id": "1293031",
+    "doc_pk": 1293031,
+    "chunk_pk": 1293031,
+    "database": "edge_case_ruw",
+    "source_norm": "edge_case",
+    "author": null,
+    "date": null,
+    "lang": "ru",
+    "chunk_index": 0,
+    "word_count": 71,
+    "word_bucket": "40-79",
+    "time_group": "unknown",
+    "pass1": "Humanitarian Assistance, Disaster Relief, and Post-Conflict Efforts",
+    "pass2": "",
+    "pass3": "Edge: 2 rows, conf 7.0",
+    "classifications": [
+      {
+        "HLTP": "Humanitarian Assistance, Disaster Relief, and Post-Conflict Efforts",
+        "2nd_level_TE": "Civil-Military Coordination in Crises",
+        "3rd_level_TE": "Managing Refugee Flows, Civilian Evacuation",
+        "confidence": 7,
+        "explanation": "The text describes large-scale loss of heating and buildings becoming uninhabitable in Kyiv due to damage, a direct civilian humanitarian impact requiring civil-military coordination, evacuation plann",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Multi-Domain Operations",
+        "2nd_level_TE": "Human Terrain and Population-Centric Operations",
+        "3rd_level_TE": "Handling Humanitarian Issues Amid Conflict",
+        "confidence": 7,
+        "explanation": "The passage links destruction from shelling to loss of essential services (heat) for large urban populations, which is a population-centric operational effect of conflict and falls under managing huma",
+        "source": "taxonomy_annotation"
+      }
+    ],
+    "chunk_text": "‼🇺🇦🥶 В Киеве 1170 многоэтажек останутся без отопления до конца зимы \n \n▪Об этом заявил директор Центра исследований энергетики. \n▪ Вчера стало известно: вероятно, что эти дома не будут пригодны для жизни и следующей зимой. \n▪Речь идёт о домах, зависящих от Дарницкой ТЭЦ, разрушенной в результате обстрелов. Восстановление станции в ближайшее время маловероятно. \n▪Ранее Кличко оценивал сроки ремонта как минимум в два месяца, что фактически выводит значительную часть столицы из отопительного сезона.",
+    "row_uid": "ruw-strengths-and-weaknesses:edge:1293031",
+    "sample_row_id": 392
+  },
+  {
+    "project": "ruw-strengths-and-weaknesses",
+    "project_db": "russian_ukrainian_war",
+    "document_id": "1290504",
+    "doc_pk": 1290504,
+    "chunk_pk": 1290504,
+    "database": "edge_case_ruw",
+    "source_norm": "edge_case",
+    "author": null,
+    "date": null,
+    "lang": "ru",
+    "chunk_index": 0,
+    "word_count": 548,
+    "word_bucket": "300-599",
+    "time_group": "unknown",
+    "pass1": "Operational Concepts, Tactics, and Approaches",
+    "pass2": "",
+    "pass3": "Edge: 2 rows, conf 7.0",
+    "classifications": [
+      {
+        "HLTP": "Operational Concepts, Tactics, and Approaches",
+        "2nd_level_TE": "Asymmetric and Hybrid Methods",
+        "3rd_level_TE": "Sabotage, Exploitation of Civilian Infrastructure, Psychological Intimidation",
+        "confidence": 9,
+        "explanation": "The text describes Russian strikes on energy infrastructure and port facilities, which are tactics that exploit civilian and economic infrastructure to achieve military and political effects.",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Logistics, Sustainment, and the Defense Industrial Base",
+        "2nd_level_TE": "Supply Chains and Mobility",
+        "3rd_level_TE": "Vulnerable Supply Lines, Road and Rail Dependencies",
+        "confidence": 9,
+        "explanation": "The passage identifies Odessa as the principal transit hub for Western military aid and notes attacks on arriving assistance, indicating vulnerability and targeting of Ukrainian supply lines and logis",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Maritime and Naval Dimensions",
+        "2nd_level_TE": "Naval Strategy and Operational Reach",
+        "3rd_level_TE": "Black Sea Fleet Operations, Littoral Warfare, Amphibious Capabilities",
+        "confidence": 8,
+        "explanation": "The text frames Odessa and Black Sea control as central strategic objectives, highlighting naval and littoral considerations tied to control of sea lanes, ports, and regional influence.",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Strategic Culture and Doctrine",
+        "2nd_level_TE": "Foundational Doctrine and Worldview",
+        "3rd_level_TE": "Long-standing Emphasis on Strategic Depth, Territorial Integrity, and Sphere of Influence",
+        "confidence": 8,
+        "explanation": "The text discusses Russian territorial aims and representations (including official maps and commentary) that reflect a doctrine emphasizing strategic depth and a sphere-of-influence approach toward U",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Strategic Deterrence and Escalation Management",
+        "2nd_level_TE": "Conventional Deterrence and Compellence",
+        "3rd_level_TE": "Display of Military Muscle to Deter Enemy Counteroffensives",
+        "confidence": 7,
+        "explanation": "The conditional assertion that Russia would seize Odessa if the Ukrainian front collapses describes a conventional compellence dynamic where military advantage would be used to compel territorial gain",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Societal Factors and the Home Front",
+        "2nd_level_TE": "Historical and Cultural Influences",
+        "3rd_level_TE": "Martial Traditions and Memory of Past Wars",
+        "confidence": 7,
+        "explanation": "The passage references Odessa's historical military role and its cultural identification, which affect its strategic importance and societal significance in the conflict.",
+        "source": "taxonomy_annotation"
+      }
+    ],
+    "chunk_text": "РУССКИЕ ВОЗЬМУТ ОДЕССУ \n \nУкраинцы потребовали для Одессы особых условий. В США прямо сказали – русские возьмут город \"при одном условии\" \n \nНа очередном раунде переговоров в Абу-Даби украинцы потребовали для Одессы особых условий – отдельных гарантий безопасности. Тем временем в США прямо сказали, что русские возьмут этот город. Но лишь \"при одном условии\". Если фронт у ВСУ рухнет. По оценке западных СМИ, Одесса в \"осаде\", поскольку русские регулярно бьют по её энергетической инфраструктуре и атакуют объекты в порту. \nНакануне в Абу-Даби завершился второй раунд переговоров между делегациями России и Украины. На сей раз переговорный процесс отличается закрытостью: прежде становилось быстро известно о содержании бесед за закрытыми дверями. \n \nСейчас утечек очень мало, и о том, как продвигаются переговоры и что обсуждают стороны, известно немного. Что интересно, \"сливы\" прекратились, как только из состава украинской делегации выбросили Андрей Ермака, правую руку Владимира Зеленского. \n \nТем не менее некоторая информация всё же просачивается. Так, ТАСС со ссылкой на собственный источник пишет: украинцы потребовали особых гарантий безопасности для Одессы. Этот город - важнейший транспортный хаб, и Киев, несомненно, будет цепляться за него до последнего. \n \nУкраине в рамках пакета важны гарантии, что Россия не будет идти на Одессу, \n- отмечает источник агентства. \n \nКиев требует, чтобы эти гарантии были включены в текст будущего мирного соглашения. Украинцы заявляют, что это для них - важнейший пункт. \n \n\"Выкинуть русских из Чёрного моря\". Это – главная цель войны. Переговоры бесполезны. \"Ключ\" от Одессы у Герасимова \n \nНа днях западное издание The Wall Street Journal посетовало, что Одесса оказалась \"в осаде\" после ударов по энергетической инфраструктуре. При этом, напомним, русские регулярно бьют по порту и по прибывающей туда военной помощи для ВСУ. \nВ США тем временем прямо назвали условие, при котором Одесса будет взята русскими. Как объяснил профессор Чикагского университета Джон Миршаймер в эфире YouTube-канала Judging Freedom, если у ВСУ рухнет фронт, армия России не преминет этим воспользоваться. \n \nМиршаймер при этом добавил, что русские ни за что не откажутся от четырёх областей (ДНР, ЛНР, Херсонской и Запорожской областей), но вопрос, войдёт ли в состав России ещё больше территорий, пока открыт. \n \nЯ думаю, самый интересный вопрос: займут ли они больше областей, займут ли они Одессу, Харьков? \n- заметил американский профессор. \n \nЭксперт указал, что украинцы уже по факту проиграли войну: они способны держаться только за счёт внешней помощи. \n \nСтрах за Одессу у Киева, конечно, не беспочвенен. В прошлом году на брифинге начальника Генштаба ВС России Валерия Герасимова зоркие наблюдатели заметили карту, на которой юг нынешней Украины, Одесская и Николаевская области, включены в состав России. И, собственно, это означает, что Украина в случае реализации таких планов лишится выхода к морю. \n \nОдесса, которая носит звание \"русского города\", не зря так важна и для Украины, и для России. Наличие торгового порта делает город особо ценным. Это не только возможность вести, собственно, морскую торговлю, но и важный рычаг влияния в черноморской акватории. \n \nЕщё в советское время Одесский военный округ считался тыловой опорой Центральной группы войск Варшавского договора. Именно поэтому в городе было обустроено множество складов, где хранилось вооружение. Построили много военных объектов. \n \nОдесса и ныне город, активно использующийся для военных целей. С 2022-го именно Одесса стала главным транзитным хабом для поставок западной военной помощи. \n \nНе только поэтому Киеву страшно потерять портовый город. Без Одессы вступление в ЕС станет невозможным. Эксперты сходятся во мнении: в отсутствии выхода к морю украинская экономика скукожится, а европейские партнёры потеряют к остаткам страны интерес.",
+    "row_uid": "ruw-strengths-and-weaknesses:edge:1290504",
+    "sample_row_id": 393
+  },
+  {
+    "project": "ruw-strengths-and-weaknesses",
+    "project_db": "russian_ukrainian_war",
+    "document_id": "1252518",
+    "doc_pk": 1252518,
+    "chunk_pk": 1252518,
+    "database": "edge_case_ruw",
+    "source_norm": "edge_case",
+    "author": null,
+    "date": null,
+    "lang": "ru",
+    "chunk_index": 0,
+    "word_count": 74,
+    "word_bucket": "40-79",
+    "time_group": "unknown",
+    "pass1": "Information, Cyber, and Psychological Warfare",
+    "pass2": "",
+    "pass3": "Edge: 2 rows, conf 7.0",
+    "classifications": [
+      {
+        "HLTP": "Information, Cyber, and Psychological Warfare",
+        "2nd_level_TE": "Information Operations and Strategic Communications",
+        "3rd_level_TE": "Domestic Propaganda and Media Control to Shape Public Opinion",
+        "confidence": 9,
+        "explanation": "The text discusses restrictions on photographing/publishing strike results and clarifies which media actors are allowed to report, directly addressing media control and the management of information a",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Intelligence, Surveillance, Reconnaissance (ISR) and Electronic Warfare (EW)",
+        "2nd_level_TE": "Targeting and Intelligence Fusion",
+        "3rd_level_TE": "Counter-Recon Measures to Deny Enemy Information",
+        "confidence": 8,
+        "explanation": "The sentence explains the prohibition aims to prevent anonymous publications that would enable the adversary to refine targeting—this is a counter-reconnaissance measure to deny the enemy actionable i",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Civil-Military Relations, Governance, and Interagency Coordination",
+        "2nd_level_TE": "Civil-Military Integration in Wartime",
+        "3rd_level_TE": "Mobilization of Society, Civil Defense Initiatives",
+        "confidence": 7,
+        "explanation": "The excerpt concerns whether media restrictions interfere with the air-threat alerting and roll-call systems—an issue at the intersection of civil defense (public warning) and civilian information pol",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Legal, Ethical, and Ideological Dimensions",
+        "2nd_level_TE": "Legal Frameworks for War",
+        "3rd_level_TE": "Domestic Legal Justifications for Use of Force",
+        "confidence": 7,
+        "explanation": "The passage interprets a DNR decree and its scope, i.e., a domestic legal instrument regulating publication of military-related information, which falls under wartime legal frameworks and domestic leg",
+        "source": "taxonomy_annotation"
+      }
+    ],
+    "chunk_text": "Канал Lpr 1 [пишет,](https://t.me/lpr1_treugolnik/176898) что ограничения на съемку результатов прилета мешают системе оповещения и переклички о воздушных угрозах.\n\n1. На самом деле Указ ДНР насчет запрета на съемку прилетов не касается оповещения о воздушных угрозах и перекличек.\n2. Он касается только публикации результатов прилёта анонимными операторами, которые позволяют уточнять противнику поражение целей.\n3. Освещение результатов беспилотно-ракетных атак [разрешено СМИ и аккредитованным в РКН блогерам.](https://t.me/zhivoff/24989)\n\nТак что опасения уважаемых товарищей из Lpr 1 напрасны.\n\n[ЖИВОВЪ](https://t.me/zhivoff)",
+    "row_uid": "ruw-strengths-and-weaknesses:edge:1252518",
+    "sample_row_id": 394
+  },
+  {
+    "project": "ruw-strengths-and-weaknesses",
+    "project_db": "russian_ukrainian_war",
+    "document_id": "1249853",
+    "doc_pk": 1249853,
+    "chunk_pk": 1249853,
+    "database": "edge_case_ruw",
+    "source_norm": "edge_case",
+    "author": null,
+    "date": null,
+    "lang": "ru",
+    "chunk_index": 0,
+    "word_count": 84,
+    "word_bucket": "80-149",
+    "time_group": "unknown",
+    "pass1": "Technology, Innovation, and Adaptability",
+    "pass2": "",
+    "pass3": "Edge: 2 rows, conf 7.0",
+    "classifications": [
+      {
+        "HLTP": "Technology, Innovation, and Adaptability",
+        "2nd_level_TE": "Flexibility in Innovation",
+        "3rd_level_TE": "Ad-Hoc Solutions to Equipment Shortages, Improvisation Under Fire",
+        "confidence": 9,
+        "explanation": "The passage describes improvised fabrication of a weapons mount from scrap and shop-bought parts and praises grassroots ingenuity, directly illustrating ad-hoc innovation and field improvisation.",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Logistics, Sustainment, and the Defense Industrial Base",
+        "2nd_level_TE": "Repair, Maintenance, and Industrial Capacity",
+        "3rd_level_TE": "Defense Industrial Base: State Ownership, Domestic Production, Import Substitution",
+        "confidence": 7,
+        "explanation": "The text discusses Russia's military spending and shows improvised domestic production of weapon mounts from scrap and civilian-purchased items, which relates to domestic production and industrial cap",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Reserves, Mobilization, and Manpower Policies",
+        "2nd_level_TE": "Civil-Military Integration",
+        "3rd_level_TE": "Using Civilian Factories for Production",
+        "confidence": 7,
+        "explanation": "The use of civilian-sourced materials and non-military actors fabricating a combat-related mount indicates civil-military integration in production and use of civilian resources to support military ne",
+        "source": "taxonomy_annotation"
+      }
+    ],
+    "chunk_text": "Почти [6% ВВП ](https://t.me/naukapobezhdatZ/9794)тратит путинская Россия на войну и ВПК: \n\n«Вот вам видео, как люди из металлолома и вещей, купленных в строительном магазине, сварили установку для ПКТ. \n\nОчень важно обратить внимание, что установка простая, как 5 копеек, но работает и по земле, и по воздуху.  Прислал наш давний подписчик, за что ему благодарны. Другим наука: умная голова и ровные руки могут многое.\n\nОт тех, кто прислал нам видео, ждём результатов приведения оружия к нормальному бою и отзыва, насколько эффективна турель», - «Наука побеждать». \n\nhttps://t.me/naukapobezhdatZ/9794",
+    "row_uid": "ruw-strengths-and-weaknesses:edge:1249853",
+    "sample_row_id": 395
+  },
+  {
+    "project": "ruw-strengths-and-weaknesses",
+    "project_db": "russian_ukrainian_war",
+    "document_id": "1250307",
+    "doc_pk": 1250307,
+    "chunk_pk": 1250307,
+    "database": "edge_case_ruw",
+    "source_norm": "edge_case",
+    "author": null,
+    "date": null,
+    "lang": "ru",
+    "chunk_index": 0,
+    "word_count": 160,
+    "word_bucket": "150-299",
+    "time_group": "unknown",
+    "pass1": "Intelligence, Surveillance, Reconnaissance (ISR) and Electronic Warfare (EW)",
+    "pass2": "",
+    "pass3": "Edge: 2 rows, conf 7.0",
+    "classifications": [
+      {
+        "HLTP": "Intelligence, Surveillance, Reconnaissance (ISR) and Electronic Warfare (EW)",
+        "2nd_level_TE": "ISR Assets and Integration",
+        "3rd_level_TE": "UAVs, Recon Patrols, Satellite-Based Recon",
+        "confidence": 9,
+        "explanation": "The message documents the types and numbers of UAVs (FPV-drones and a named UAV 'ЧАКЛУН') observed and neutralized, indicating direct relevance to ISR assets (drone employment) and their operational f",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Intelligence, Surveillance, Reconnaissance (ISR) and Electronic Warfare (EW)",
+        "2nd_level_TE": "Electronic Warfare and Cyber Integration",
+        "3rd_level_TE": "Jamming Enemy Communications, Counter-UAV Electronic Measures",
+        "confidence": 9,
+        "explanation": "The repeated phrase \"подавлены РЭБ\" (suppressed/neutralized by EW) indicates the use of electronic warfare and counter-UAV electronic measures to defeat incoming drones.",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Operational Concepts, Tactics, and Approaches",
+        "2nd_level_TE": "Asymmetric and Hybrid Methods",
+        "3rd_level_TE": "Employing UAVs, Loitering Munitions, Partisan Operations",
+        "confidence": 8,
+        "explanation": "The report describes extensive use of small FPV attack drones (and a named UAV type), which are characteristic asymmetric/hybrid tactical methods in the Russia–Ukraine conflict.",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Force Structure and Composition",
+        "2nd_level_TE": "Organizational Adaptability and Flexibility",
+        "3rd_level_TE": "Use of Irregular Forces, Militias, and Private Military Companies (e.g., Wagner)",
+        "confidence": 7,
+        "explanation": "The text documents participation of regional units ('БАРС', 'ОРЛАН') and explicitly mentions 'бойцов самообороны' (self-defense fighters), indicating coordination between formal local units and irregu",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Information, Cyber, and Psychological Warfare",
+        "2nd_level_TE": "Information Operations and Strategic Communications",
+        "3rd_level_TE": "Domestic Propaganda and Media Control to Shape Public Opinion",
+        "confidence": 7,
+        "explanation": "The post is a public announcement that praises local units, reports successes, and includes motivational language and an official signature—characteristic of strategic communications aimed at bolsteri",
+        "source": "taxonomy_annotation"
+      }
+    ],
+    "chunk_text": "**Информация о сбитиях всех типов вражеских БПЛА на территории Белгородской области подразделениями «БАРС-Белгород» и «Орлан» \n\nС 07:00 ч. 27 января по 07:00 ч. 28 января ликвидированы 43 беспилотника\n\n«БАРС-Белгород» — 16 беспилотников:**\n\n📍 подавлены РЭБ: \n— Валуйский округ: 1 FPV-дрон;\n— Краснояружский округ: 10 FPV-дронов;\n— Шебекинский округ: 2 FPV-дрона.\n\n📍 сбиты из стрелкового оружия:\n— Грайворонский округ: 1 FPV-дрон;\n— Шебекинский округ: 1 FPV-дрон.\n\n📍 средствами противодействия БПЛА сбит:\n— Краснояружский округ: 1 БПЛА «ЧАКЛУН».\n\n**«Орлан» —  27 беспилотников: **\n\n📍подавлены РЭБ: \n— Белгородский округ: 4 FPV-дрона;\n— Валуйский округ: 1 FPV-дрон;\n— Краснояружский округ: 1 FPV-дрон.\n\n📍 сбиты из стрелкового оружия:\n— Борисовский округ: 1 FPV-дрон;\n— Грайворонский округ: 3 FPV-дрона;\n— Шебекинский округ: 1 FPV-дрон. \n\n📍 подавлены РЭБ совместными усилиями подразделения «ОРЛАН» и бойцов самообороны:\n— Шебекинский округ: 15 FPV-дронов;\n— Белгородский округ: 1 FPV-дрон. \n\nБлагодарю всех бойцов за эффективную работу по ликвидации вражеских беспилотников! Победа будет за нами! \n\nНа связи с вами в [**MAX**](https://max.ru/vvgladkov)\nВячеслав Гладков.",
+    "row_uid": "ruw-strengths-and-weaknesses:edge:1250307",
+    "sample_row_id": 396
+  },
+  {
+    "project": "ruw-strengths-and-weaknesses",
+    "project_db": "russian_ukrainian_war",
+    "document_id": "1249761",
+    "doc_pk": 1249761,
+    "chunk_pk": 1249761,
+    "database": "edge_case_ruw",
+    "source_norm": "edge_case",
+    "author": null,
+    "date": null,
+    "lang": "ru",
+    "chunk_index": 0,
+    "word_count": 99,
+    "word_bucket": "80-149",
+    "time_group": "unknown",
+    "pass1": "Information, Cyber, and Psychological Warfare",
+    "pass2": "",
+    "pass3": "Edge: 2 rows, conf 7.0",
+    "classifications": [
+      {
+        "HLTP": "Information, Cyber, and Psychological Warfare",
+        "2nd_level_TE": "Information Operations and Strategic Communications",
+        "3rd_level_TE": "Domestic Propaganda and Media Control to Shape Public Opinion",
+        "confidence": 9,
+        "explanation": "The statements shape a domestic narrative about the West's decline and prepare the public for acceptance of a harsh, prolonged period, consistent with domestic information operations and propaganda ai",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Strategic Culture and Doctrine",
+        "2nd_level_TE": "Influence of Ideology, Religion, and Politics",
+        "3rd_level_TE": "Ideological Justifications for Military Action",
+        "confidence": 8,
+        "explanation": "The speaker provides an ideological rationale for rejecting conciliatory approaches and for accepting a hard, protracted period as necessary to form a new world order—constituting ideological justific",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Logistics, Sustainment, and the Defense Industrial Base",
+        "2nd_level_TE": "Supply Chains and Mobility",
+        "3rd_level_TE": "Ammunition, Fuel, Spare Parts Distribution",
+        "confidence": 7,
+        "explanation": "This sentence asserts that Russia could supply itself better if the SVO continues, implying issues of sustainment, material provision and the capacity to maintain operations—topics within logistics an",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Information, Cyber, and Psychological Warfare",
+        "2nd_level_TE": "Information Operations and Strategic Communications",
+        "3rd_level_TE": "International Influence Campaigns, Diplomatic Narratives, Disinformation",
+        "confidence": 7,
+        "explanation": "The remarks comment on fragmentation within Western alliances and on individual leaders' reorientation, which reflects narratives intended to influence perceptions of international alignment and diplo",
+        "source": "taxonomy_annotation"
+      }
+    ],
+    "chunk_text": "Выступление на [Вечере с Владимиром Соловьёвым](https://t.me/SolovievLive)\n\n⚡️Запада больше не существует. В настоящий момент он существует как институция, как форма, но перестал существовать как сущность. \n\n⚡️То, с чем мы вошли в переговорный процесс — это в любом случае ниже того, что мы можем обеспечить самостоятельно, если будет продолжаться СВО.\n\n⚡️Трамп для себя строит уже собственную, абсолютно отдельную культурную парадигму. Он пытается максимально дистанцироваться от европейцев и строит новую национальную мифологию.  \n\n⚡️Никаких мягких сценариев решения наших проблем не существует. Нас ждёт очень жесткий, тяжелый период, потому что миропорядок по-другому не формируется никогда.\n\n⚫️ [САРДАРЯН в Telegram](https://t.me/sardaryanh) | ⚫️ [САРДАРЯН в MAX](https://max.ru/sardaryanh)",
+    "row_uid": "ruw-strengths-and-weaknesses:edge:1249761",
+    "sample_row_id": 397
   }
 ]
