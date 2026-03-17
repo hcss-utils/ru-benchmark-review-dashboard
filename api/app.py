@@ -52,6 +52,24 @@ class ReviewPayload(BaseModel):
     escalate: bool = False
     reviewer: str = ""
     notes: str = ""
+    annotations: dict = {}
+
+
+class AnnotationPayload(BaseModel):
+    row_uid: str
+    reviewer: str
+    annotation_index: int = 0
+    classification_value: str = ""
+    relevance: str = ""
+    confidence: str = ""
+    notes: str = ""
+    extra: dict = {}
+
+
+class AnnotationDeletePayload(BaseModel):
+    row_uid: str
+    reviewer: str
+    annotation_index: int
 
 
 @contextmanager
@@ -114,8 +132,8 @@ def upsert_review(payload: ReviewPayload) -> dict[str, Any]:
             INSERT INTO reviews (
                 row_uid, sample_row_id, project, judgment, meets_benchmark,
                 faithful_source, taxonomy_ok, metadata_ok, escalate,
-                reviewer, notes, saved_at
-            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                reviewer, notes, saved_at, annotations
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             ON CONFLICT (row_uid) DO UPDATE SET
                 sample_row_id = EXCLUDED.sample_row_id,
                 project = EXCLUDED.project,
@@ -127,7 +145,8 @@ def upsert_review(payload: ReviewPayload) -> dict[str, Any]:
                 escalate = EXCLUDED.escalate,
                 reviewer = EXCLUDED.reviewer,
                 notes = EXCLUDED.notes,
-                saved_at = EXCLUDED.saved_at
+                saved_at = EXCLUDED.saved_at,
+                annotations = EXCLUDED.annotations
             RETURNING *
             """,
             (
@@ -143,10 +162,72 @@ def upsert_review(payload: ReviewPayload) -> dict[str, Any]:
                 payload.reviewer.strip(),
                 payload.notes.strip(),
                 saved_at,
+                json.dumps(payload.annotations),
             ),
         )
         row = cur.fetchone()
     return dict(row)
+
+
+@app.get("/api/reviewer-annotations")
+def get_annotations(row_uid: str, reviewer: str = "") -> list[dict[str, Any]]:
+    with db_cursor() as cur:
+        if reviewer:
+            cur.execute(
+                "SELECT * FROM reviewer_annotations WHERE row_uid = %s AND reviewer = %s ORDER BY annotation_index",
+                (row_uid, reviewer),
+            )
+        else:
+            cur.execute(
+                "SELECT * FROM reviewer_annotations WHERE row_uid = %s ORDER BY reviewer, annotation_index",
+                (row_uid,),
+            )
+        return [dict(row) for row in cur.fetchall()]
+
+
+@app.post("/api/reviewer-annotations")
+def upsert_annotation(payload: AnnotationPayload) -> dict[str, Any]:
+    if payload.row_uid not in ROW_BY_UID:
+        raise HTTPException(status_code=404, detail="Unknown row_uid")
+    with db_cursor() as cur:
+        cur.execute(
+            """
+            INSERT INTO reviewer_annotations (
+                row_uid, reviewer, annotation_index,
+                classification_value, relevance, confidence, notes, extra
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (row_uid, reviewer, annotation_index) DO UPDATE SET
+                classification_value = EXCLUDED.classification_value,
+                relevance = EXCLUDED.relevance,
+                confidence = EXCLUDED.confidence,
+                notes = EXCLUDED.notes,
+                extra = EXCLUDED.extra,
+                created_at = NOW()
+            RETURNING *
+            """,
+            (
+                payload.row_uid,
+                payload.reviewer.strip(),
+                payload.annotation_index,
+                payload.classification_value.strip(),
+                payload.relevance,
+                payload.confidence,
+                payload.notes.strip(),
+                json.dumps(payload.extra),
+            ),
+        )
+        row = cur.fetchone()
+    return dict(row)
+
+
+@app.delete("/api/reviewer-annotations")
+def delete_annotation(payload: AnnotationDeletePayload) -> dict[str, str]:
+    with db_cursor() as cur:
+        cur.execute(
+            "DELETE FROM reviewer_annotations WHERE row_uid = %s AND reviewer = %s AND annotation_index = %s",
+            (payload.row_uid, payload.reviewer, payload.annotation_index),
+        )
+    return {"status": "deleted"}
 
 
 @app.get("/api/review/next")

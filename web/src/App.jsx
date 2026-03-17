@@ -345,10 +345,15 @@ function AtlasPanel({ summary, population }) {
   );
 }
 
+function emptyAnnotation(idx) {
+  return { annotation_index: idx, classification_value: "", relevance: "relevant", confidence: "medium", notes: "" };
+}
+
 function ReviewPanel({ sample, isStatic = false }) {
   const [project, setProject] = useState("ALL");
   const [current, setCurrent] = useState(null);
   const [reviews, setReviews] = useState([]);
+  const [gtRows, setGtRows] = useState([emptyAnnotation(0)]);
   const [form, setForm] = useState({
     judgment: "unsure",
     meets_benchmark: false,
@@ -369,11 +374,33 @@ function ReviewPanel({ sample, isStatic = false }) {
   function lsKey() { return "ru_benchmark_reviews"; }
   function lsLoad() { try { return JSON.parse(localStorage.getItem(lsKey()) || "[]"); } catch { return []; } }
   function lsSave(arr) { localStorage.setItem(lsKey(), JSON.stringify(arr)); }
+  function lsAnnoKey() { return "ru_benchmark_annotations"; }
+  function lsAnnoLoad() { try { return JSON.parse(localStorage.getItem(lsAnnoKey()) || "{}"); } catch { return {}; } }
+  function lsAnnoSave(obj) { localStorage.setItem(lsAnnoKey(), JSON.stringify(obj)); }
 
   async function refreshReviews() {
     if (isStatic) { setReviews(lsLoad()); return; }
     const res = await fetch("/api/reviews");
     setReviews(await res.json());
+  }
+
+  async function loadAnnotations(rowUid) {
+    if (isStatic) {
+      const all = lsAnnoLoad();
+      const rows = all[rowUid] || [];
+      setGtRows(rows.length ? rows : [emptyAnnotation(0)]);
+      return;
+    }
+    try {
+      const res = await fetch(`/api/reviewer-annotations?row_uid=${encodeURIComponent(rowUid)}&reviewer=${encodeURIComponent(form.reviewer)}`);
+      const rows = await res.json();
+      setGtRows(rows.length ? rows : [emptyAnnotation(0)]);
+    } catch { setGtRows([emptyAnnotation(0)]); }
+  }
+
+  function resetForm() {
+    setForm((prev) => ({ ...prev, judgment: "unsure", meets_benchmark: false, faithful_source: false, taxonomy_ok: false, metadata_ok: false, escalate: false, notes: "" }));
+    setGtRows([emptyAnnotation(0)]);
   }
 
   function pickLocal(freshOnly) {
@@ -385,25 +412,34 @@ function ReviewPanel({ sample, isStatic = false }) {
       if (unseen.length) rows = unseen;
     }
     rows = rows.sort((a, b) => a.sample_row_id - b.sample_row_id);
-    setCurrent(rows[reviewed.size % rows.length]);
-    setForm((prev) => ({ ...prev, judgment: "unsure", meets_benchmark: false, faithful_source: false, taxonomy_ok: false, metadata_ok: false, escalate: false, notes: "" }));
+    const next = rows[reviewed.size % rows.length];
+    setCurrent(next);
+    resetForm();
+    loadAnnotations(next.row_uid);
   }
 
   async function fetchFresh(freshOnly = true) {
     if (isStatic) { pickLocal(freshOnly); return; }
     const params = new URLSearchParams({ project, fresh_only: String(freshOnly) });
     const res = await fetch(`/api/review/next?${params}`);
-    setCurrent(await res.json());
-    setForm((prev) => ({ ...prev, judgment: "unsure", meets_benchmark: false, faithful_source: false, taxonomy_ok: false, metadata_ok: false, escalate: false, notes: "" }));
+    const next = await res.json();
+    setCurrent(next);
+    resetForm();
+    loadAnnotations(next.row_uid);
   }
 
   async function saveReview(andNext = false) {
     if (!current) return;
+    // Save ground truth annotations
+    const validGt = gtRows.filter((r) => r.classification_value.trim());
     if (isStatic) {
       const all = lsLoad().filter((r) => r.row_uid !== current.row_uid);
       all.unshift({ ...form, row_uid: current.row_uid, sample_row_id: current.sample_row_id, project: current.project, saved_at: new Date().toISOString() });
       lsSave(all);
       setReviews(all);
+      const annoAll = lsAnnoLoad();
+      annoAll[current.row_uid] = validGt;
+      lsAnnoSave(annoAll);
       if (andNext) pickLocal(true);
       return;
     }
@@ -412,8 +448,29 @@ function ReviewPanel({ sample, isStatic = false }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...form, row_uid: current.row_uid })
     });
+    // Save each annotation row
+    for (let i = 0; i < validGt.length; i++) {
+      await fetch("/api/reviewer-annotations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...validGt[i], annotation_index: i, row_uid: current.row_uid, reviewer: form.reviewer })
+      });
+    }
     await refreshReviews();
     if (andNext) await fetchFresh(true);
+  }
+
+  function updateGtRow(idx, field, value) {
+    setGtRows((prev) => prev.map((r, i) => i === idx ? { ...r, [field]: value } : r));
+  }
+
+  function addGtRow() {
+    if (gtRows.length >= 9) return;
+    setGtRows((prev) => [...prev, emptyAnnotation(prev.length)]);
+  }
+
+  function removeGtRow(idx) {
+    setGtRows((prev) => prev.length <= 1 ? [emptyAnnotation(0)] : prev.filter((_, i) => i !== idx).map((r, i) => ({ ...r, annotation_index: i })));
   }
 
   useEffect(() => {
@@ -484,6 +541,42 @@ function ReviewPanel({ sample, isStatic = false }) {
             <input type="checkbox" checked={form.meets_benchmark} onChange={(event) => setForm((prev) => ({ ...prev, meets_benchmark: event.target.checked }))} />
             <span>Meets benchmark criteria</span>
           </label>
+
+          <h3>Ground Truth Annotations</h3>
+          <div className="gt-annotations">
+            {gtRows.map((gt, idx) => (
+              <div className="gt-row" key={idx}>
+                <div className="gt-row-head">
+                  <span className="gt-row-num">#{idx + 1}</span>
+                  <select value={gt.relevance} onChange={(e) => updateGtRow(idx, "relevance", e.target.value)}>
+                    <option value="relevant">Relevant</option>
+                    <option value="partially_relevant">Partially</option>
+                    <option value="not_relevant">Not relevant</option>
+                  </select>
+                  <select value={gt.confidence} onChange={(e) => updateGtRow(idx, "confidence", e.target.value)}>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                  </select>
+                  <button className="gt-remove" onClick={() => removeGtRow(idx)}>x</button>
+                </div>
+                <input
+                  placeholder="Classification row (e.g. HLTP | TE | Classification)"
+                  value={gt.classification_value}
+                  onChange={(e) => updateGtRow(idx, "classification_value", e.target.value)}
+                />
+                <input
+                  placeholder="Notes (optional)"
+                  value={gt.notes}
+                  onChange={(e) => updateGtRow(idx, "notes", e.target.value)}
+                />
+              </div>
+            ))}
+            {gtRows.length < 9 && (
+              <button className="button secondary" onClick={addGtRow}>+ Add Classification Row</button>
+            )}
+          </div>
+
           <label>Reviewer</label>
           <input value={form.reviewer} onChange={(event) => setForm((prev) => ({ ...prev, reviewer: event.target.value }))} />
           <label>Notes</label>

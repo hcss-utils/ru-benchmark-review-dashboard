@@ -503,6 +503,64 @@ textarea { min-height: 110px; resize: vertical; }
   font-size: 1.2rem;
 }
 
+.gt-annotations {
+  display: grid;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.gt-row {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 8px 10px;
+  background: rgba(255,255,255,0.02);
+  display: grid;
+  gap: 6px;
+}
+
+.gt-row-head {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.gt-row-num {
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--accent);
+  min-width: 24px;
+}
+
+.gt-row-head select {
+  flex: 1;
+  padding: 5px 8px;
+  font-size: 0.78rem;
+}
+
+.gt-remove {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 2px 6px;
+  font-size: 0.9rem;
+  border-radius: 6px;
+}
+
+.gt-remove:hover {
+  background: var(--panel-2);
+  color: var(--text);
+}
+
+.gt-row input {
+  padding: 6px 10px;
+  font-size: 0.82rem;
+}
+
+.sidebar h3 {
+  margin: 16px 0 4px;
+}
+
 .info-btn {
   margin-left: auto;
   width: 32px;
