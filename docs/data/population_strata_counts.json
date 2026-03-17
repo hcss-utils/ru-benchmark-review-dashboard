@@ -2,17 +2,17 @@
   "generated_at": "2026-03-16T18:45:00Z",
   "notes": "Full-population counts derived from rnla, wacko, and russian_ukrainian_war Postgres databases using the same project slices as the review sample, extended with provisional local/artifact-backed counts for strengths-and-weaknesses, regeneration, and NATO intentions.",
   "project": {
-    "ruw-strengths-and-weaknesses": 31,
-    "ruw-core-taxonomy": 29,
-    "ruw-regeneration": 26,
-    "ruw-transparent-battlefield": 24,
-    "rnla-deterrence": 20,
-    "rnla-grey-zone": 20,
-    "ruw-nato-intentions-malign-military-security": 20,
-    "ruw-nato-intentions-malign-political-diplomatic": 20,
-    "ruw-red-lines": 20,
-    "space": 20,
-    "wacko": 20
+    "ruw-core-taxonomy": 381231,
+    "ruw-transparent-battlefield": 95755,
+    "ruw-strengths-and-weaknesses": 85412,
+    "ruw-regeneration": 44618,
+    "ruw-red-lines": 164,
+    "ruw-nato-intentions-malign-military-security": 14,
+    "ruw-nato-intentions-malign-political-diplomatic": 440,
+    "rnla-deterrence": 19557,
+    "rnla-grey-zone": 18069,
+    "wacko": 150351,
+    "space": 3015
   },
   "time_group": {
     "year-1": 99046,
