@@ -562,7 +562,7 @@ export default function App() {
           <img src={import.meta.env.BASE_URL + "rubase_logo.svg"} alt="RuBase" className="header-logo" />
         </a>
         <div className="header-center">
-          <div className="brand">RU Benchmark Review Dashboard</div>
+          <div className="brand">RU LLM Classification Benchmark Review Dashboard</div>
           <div className="chip">{new Date(boot.summary.generated_at).toLocaleString()}</div>
         </div>
         <a href="https://hcss.nl/" target="_blank" rel="noopener noreferrer">
