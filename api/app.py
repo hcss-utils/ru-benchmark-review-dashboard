@@ -1,24 +1,34 @@
 from __future__ import annotations
 
 import json
-import sqlite3
-from contextlib import closing
+import os
+from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import psycopg2
+import psycopg2.extras
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, Field
-
+from pydantic import BaseModel
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "docs" / "data"
-DB_DIR = ROOT / "data"
-DB_PATH = DB_DIR / "reviews.sqlite3"
 WEB_DIST = ROOT / "web" / "dist"
+
+load_dotenv(ROOT / ".env")
+
+DB_CONFIG = {
+    "host": os.getenv("DB_HOST", "138.201.62.161"),
+    "port": int(os.getenv("DB_PORT", "5432")),
+    "dbname": os.getenv("DB_NAME", "ru_benchmark_reviews"),
+    "user": os.getenv("DB_USER", "postgres"),
+    "password": os.getenv("DB_PASSWORD", ""),
+}
 
 
 def load_json(name: str) -> Any:
@@ -44,51 +54,15 @@ class ReviewPayload(BaseModel):
     notes: str = ""
 
 
-def db_connection() -> sqlite3.Connection:
-    DB_DIR.mkdir(exist_ok=True)
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    return conn
-
-
-def ensure_db() -> None:
-    with closing(db_connection()) as conn:
-        conn.execute(
-            """
-            create table if not exists reviews (
-                row_uid text primary key,
-                sample_row_id integer not null,
-                project text not null,
-                judgment text not null,
-                meets_benchmark integer not null,
-                faithful_source integer not null,
-                taxonomy_ok integer not null,
-                metadata_ok integer not null,
-                escalate integer not null,
-                reviewer text not null,
-                notes text not null,
-                saved_at text not null
-            )
-            """
-        )
-        conn.commit()
-
-
-def review_row_to_dict(row: sqlite3.Row) -> dict[str, Any]:
-    return {
-        "row_uid": row["row_uid"],
-        "sample_row_id": row["sample_row_id"],
-        "project": row["project"],
-        "judgment": row["judgment"],
-        "meets_benchmark": bool(row["meets_benchmark"]),
-        "faithful_source": bool(row["faithful_source"]),
-        "taxonomy_ok": bool(row["taxonomy_ok"]),
-        "metadata_ok": bool(row["metadata_ok"]),
-        "escalate": bool(row["escalate"]),
-        "reviewer": row["reviewer"],
-        "notes": row["notes"],
-        "saved_at": row["saved_at"],
-    }
+@contextmanager
+def db_cursor():
+    conn = psycopg2.connect(**DB_CONFIG)
+    try:
+        with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
+            yield cur
+            conn.commit()
+    finally:
+        conn.close()
 
 
 app = FastAPI(title="RU Benchmark Review Server")
@@ -101,14 +75,11 @@ app.add_middleware(
 )
 
 
-@app.on_event("startup")
-def startup() -> None:
-    ensure_db()
-
-
 @app.get("/api/health")
 def health() -> dict[str, str]:
-    return {"status": "ok"}
+    with db_cursor() as cur:
+        cur.execute("SELECT 1")
+    return {"status": "ok", "db": "postgresql"}
 
 
 @app.get("/api/bootstrap")
@@ -123,12 +94,12 @@ def bootstrap() -> dict[str, Any]:
 
 @app.get("/api/reviews")
 def list_reviews(limit: int = Query(default=50, ge=1, le=500)) -> list[dict[str, Any]]:
-    with closing(db_connection()) as conn:
-        rows = conn.execute(
-            "select * from reviews order by datetime(saved_at) desc limit ?",
+    with db_cursor() as cur:
+        cur.execute(
+            "SELECT * FROM reviews ORDER BY saved_at DESC LIMIT %s",
             (limit,),
-        ).fetchall()
-    return [review_row_to_dict(row) for row in rows]
+        )
+        return [dict(row) for row in cur.fetchall()]
 
 
 @app.post("/api/reviews")
@@ -136,46 +107,46 @@ def upsert_review(payload: ReviewPayload) -> dict[str, Any]:
     sample_row = ROW_BY_UID.get(payload.row_uid)
     if not sample_row:
         raise HTTPException(status_code=404, detail="Unknown row_uid")
-    saved_at = datetime.now(timezone.utc).isoformat()
-    with closing(db_connection()) as conn:
-        conn.execute(
+    saved_at = datetime.now(timezone.utc)
+    with db_cursor() as cur:
+        cur.execute(
             """
-            insert into reviews (
+            INSERT INTO reviews (
                 row_uid, sample_row_id, project, judgment, meets_benchmark,
                 faithful_source, taxonomy_ok, metadata_ok, escalate,
                 reviewer, notes, saved_at
-            ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            on conflict(row_uid) do update set
-                sample_row_id=excluded.sample_row_id,
-                project=excluded.project,
-                judgment=excluded.judgment,
-                meets_benchmark=excluded.meets_benchmark,
-                faithful_source=excluded.faithful_source,
-                taxonomy_ok=excluded.taxonomy_ok,
-                metadata_ok=excluded.metadata_ok,
-                escalate=excluded.escalate,
-                reviewer=excluded.reviewer,
-                notes=excluded.notes,
-                saved_at=excluded.saved_at
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (row_uid) DO UPDATE SET
+                sample_row_id = EXCLUDED.sample_row_id,
+                project = EXCLUDED.project,
+                judgment = EXCLUDED.judgment,
+                meets_benchmark = EXCLUDED.meets_benchmark,
+                faithful_source = EXCLUDED.faithful_source,
+                taxonomy_ok = EXCLUDED.taxonomy_ok,
+                metadata_ok = EXCLUDED.metadata_ok,
+                escalate = EXCLUDED.escalate,
+                reviewer = EXCLUDED.reviewer,
+                notes = EXCLUDED.notes,
+                saved_at = EXCLUDED.saved_at
+            RETURNING *
             """,
             (
                 payload.row_uid,
                 sample_row["sample_row_id"],
                 sample_row["project"],
                 payload.judgment,
-                int(payload.meets_benchmark),
-                int(payload.faithful_source),
-                int(payload.taxonomy_ok),
-                int(payload.metadata_ok),
-                int(payload.escalate),
+                payload.meets_benchmark,
+                payload.faithful_source,
+                payload.taxonomy_ok,
+                payload.metadata_ok,
+                payload.escalate,
                 payload.reviewer.strip(),
                 payload.notes.strip(),
                 saved_at,
             ),
         )
-        conn.commit()
-        row = conn.execute("select * from reviews where row_uid = ?", (payload.row_uid,)).fetchone()
-    return review_row_to_dict(row)
+        row = cur.fetchone()
+    return dict(row)
 
 
 @app.get("/api/review/next")
@@ -191,8 +162,9 @@ def next_row(
 
     reviewed = set()
     if fresh_only:
-        with closing(db_connection()) as conn:
-            reviewed = {row["row_uid"] for row in conn.execute("select row_uid from reviews").fetchall()}
+        with db_cursor() as cur:
+            cur.execute("SELECT row_uid FROM reviews")
+            reviewed = {row["row_uid"] for row in cur.fetchall()}
         unseen = [row for row in rows if row["row_uid"] not in reviewed]
         if unseen:
             rows = unseen

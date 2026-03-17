@@ -345,7 +345,7 @@ function AtlasPanel({ summary, population }) {
   );
 }
 
-function ReviewPanel({ sample }) {
+function ReviewPanel({ sample, isStatic = false }) {
   const [project, setProject] = useState("ALL");
   const [current, setCurrent] = useState(null);
   const [reviews, setReviews] = useState([]);
@@ -365,12 +365,32 @@ function ReviewPanel({ sample }) {
     [project, sample]
   );
 
+  // --- localStorage helpers for static mode ---
+  function lsKey() { return "ru_benchmark_reviews"; }
+  function lsLoad() { try { return JSON.parse(localStorage.getItem(lsKey()) || "[]"); } catch { return []; } }
+  function lsSave(arr) { localStorage.setItem(lsKey(), JSON.stringify(arr)); }
+
   async function refreshReviews() {
+    if (isStatic) { setReviews(lsLoad()); return; }
     const res = await fetch("/api/reviews");
     setReviews(await res.json());
   }
 
+  function pickLocal(freshOnly) {
+    let rows = project === "ALL" ? sample : sample.filter((r) => r.project === project);
+    if (!rows.length) return;
+    const reviewed = new Set(lsLoad().map((r) => r.row_uid));
+    if (freshOnly) {
+      const unseen = rows.filter((r) => !reviewed.has(r.row_uid));
+      if (unseen.length) rows = unseen;
+    }
+    rows = rows.sort((a, b) => a.sample_row_id - b.sample_row_id);
+    setCurrent(rows[reviewed.size % rows.length]);
+    setForm((prev) => ({ ...prev, judgment: "unsure", meets_benchmark: false, faithful_source: false, taxonomy_ok: false, metadata_ok: false, escalate: false, notes: "" }));
+  }
+
   async function fetchFresh(freshOnly = true) {
+    if (isStatic) { pickLocal(freshOnly); return; }
     const params = new URLSearchParams({ project, fresh_only: String(freshOnly) });
     const res = await fetch(`/api/review/next?${params}`);
     setCurrent(await res.json());
@@ -379,6 +399,14 @@ function ReviewPanel({ sample }) {
 
   async function saveReview(andNext = false) {
     if (!current) return;
+    if (isStatic) {
+      const all = lsLoad().filter((r) => r.row_uid !== current.row_uid);
+      all.unshift({ ...form, row_uid: current.row_uid, sample_row_id: current.sample_row_id, project: current.project, saved_at: new Date().toISOString() });
+      lsSave(all);
+      setReviews(all);
+      if (andNext) pickLocal(true);
+      return;
+    }
     await fetch("/api/reviews", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -575,13 +603,7 @@ export default function App() {
         <button className={tab === "assets" ? "active" : ""} onClick={() => setTab("assets")}>Project Assets</button>
       </nav>
       {tab === "atlas" && <AtlasPanel summary={boot.summary} population={boot.population} />}
-      {tab === "review" && (boot.static
-        ? <section className="panel" style={{ padding: 24, textAlign: "center" }}>
-            <h2>Review Workspace</h2>
-            <p style={{ color: "var(--muted)", marginTop: 12 }}>The review workspace requires the local server.<br />Run: <code>uvicorn api.app:app --host 127.0.0.1 --port 8000</code></p>
-          </section>
-        : <ReviewPanel sample={boot.sample} />
-      )}
+      {tab === "review" && <ReviewPanel sample={boot.sample} isStatic={!!boot.static} />}
       {tab === "assets" && <AssetsPanel assets={boot.assets} />}
     </div>
   );
