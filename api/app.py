@@ -7,12 +7,15 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import secrets as _secrets
+
 import psycopg2
 import psycopg2.extras
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
@@ -29,6 +32,23 @@ DB_CONFIG = {
     "user": os.getenv("DB_USER", "postgres"),
     "password": os.getenv("DB_PASSWORD", ""),
 }
+
+
+_http_security = HTTPBasic()
+
+
+def authenticate(credentials: HTTPBasicCredentials = Depends(_http_security)) -> str:
+    expected_user = os.getenv("APP_USER", "")
+    expected_pass = os.getenv("APP_PASSWORD", "")
+    user_ok = _secrets.compare_digest(credentials.username.encode(), expected_user.encode())
+    pass_ok = _secrets.compare_digest(credentials.password.encode(), expected_pass.encode())
+    if not (expected_user and expected_pass and user_ok and pass_ok):
+        raise HTTPException(
+            status_code=401,
+            detail="Unauthorized",
+            headers={"WWW-Authenticate": "Basic"},
+        )
+    return credentials.username
 
 
 def load_json(name: str) -> Any:
@@ -76,14 +96,14 @@ app.add_middleware(
 
 
 @app.get("/api/health")
-def health() -> dict[str, str]:
+def health(_: str = Depends(authenticate)) -> dict[str, str]:
     with db_cursor() as cur:
         cur.execute("SELECT 1")
     return {"status": "ok", "db": "postgresql"}
 
 
 @app.get("/api/bootstrap")
-def bootstrap() -> dict[str, Any]:
+def bootstrap(_: str = Depends(authenticate)) -> dict[str, Any]:
     return {
         "sample": SAMPLE_ROWS,
         "summary": SUMMARY,
@@ -93,7 +113,7 @@ def bootstrap() -> dict[str, Any]:
 
 
 @app.get("/api/reviews")
-def list_reviews(limit: int = Query(default=50, ge=1, le=500)) -> list[dict[str, Any]]:
+def list_reviews(limit: int = Query(default=50, ge=1, le=500), _: str = Depends(authenticate)) -> list[dict[str, Any]]:
     with db_cursor() as cur:
         cur.execute(
             "SELECT * FROM reviews ORDER BY saved_at DESC LIMIT %s",
@@ -103,7 +123,7 @@ def list_reviews(limit: int = Query(default=50, ge=1, le=500)) -> list[dict[str,
 
 
 @app.post("/api/reviews")
-def upsert_review(payload: ReviewPayload) -> dict[str, Any]:
+def upsert_review(payload: ReviewPayload, _: str = Depends(authenticate)) -> dict[str, Any]:
     sample_row = ROW_BY_UID.get(payload.row_uid)
     if not sample_row:
         raise HTTPException(status_code=404, detail="Unknown row_uid")
@@ -153,6 +173,7 @@ def upsert_review(payload: ReviewPayload) -> dict[str, Any]:
 def next_row(
     project: str | None = None,
     fresh_only: bool = True,
+    _: str = Depends(authenticate),
 ) -> dict[str, Any]:
     rows = SAMPLE_ROWS
     if project and project != "ALL":

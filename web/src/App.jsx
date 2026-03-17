@@ -131,6 +131,52 @@ const ATLAS_INFO = {
   }
 };
 
+function getStoredCreds() {
+  try { return JSON.parse(localStorage.getItem("auth_creds") || "null"); } catch { return null; }
+}
+
+function makeAuthHeader(creds) {
+  if (!creds) return {};
+  return { Authorization: "Basic " + btoa(creds.username + ":" + creds.password) };
+}
+
+function LoginScreen({ onLogin }) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setBusy(true);
+    setError("");
+    const creds = { username: username.trim(), password };
+    try {
+      const res = await fetch("/api/bootstrap", { headers: makeAuthHeader(creds) });
+      if (res.status === 401) { setError("Wrong username or password."); return; }
+      if (!res.ok) { setError("Server error, try again."); return; }
+      localStorage.setItem("auth_creds", JSON.stringify(creds));
+      onLogin(creds);
+    } catch {
+      setError("Cannot reach server.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div className="screen loading">
+      <form className="login-form" onSubmit={handleSubmit}>
+        <h2>Sign in</h2>
+        <input placeholder="Username" autoComplete="username" value={username} onChange={(e) => setUsername(e.target.value)} required />
+        <input type="password" placeholder="Password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        {error && <p className="login-error">{error}</p>}
+        <button className="button primary" type="submit" disabled={busy}>{busy ? "Checking…" : "Sign in"}</button>
+      </form>
+    </div>
+  );
+}
+
 function InfoModal({ info, onClose }) {
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -345,7 +391,7 @@ function AtlasPanel({ summary, population }) {
   );
 }
 
-function ReviewPanel({ sample, isStatic = false }) {
+function ReviewPanel({ sample, isStatic = false, authFetch = fetch }) {
   const [project, setProject] = useState("ALL");
   const [current, setCurrent] = useState(null);
   const [reviews, setReviews] = useState([]);
@@ -372,7 +418,7 @@ function ReviewPanel({ sample, isStatic = false }) {
 
   async function refreshReviews() {
     if (isStatic) { setReviews(lsLoad()); return; }
-    const res = await fetch("/api/reviews");
+    const res = await authFetch("/api/reviews");
     setReviews(await res.json());
   }
 
@@ -392,7 +438,7 @@ function ReviewPanel({ sample, isStatic = false }) {
   async function fetchFresh(freshOnly = true) {
     if (isStatic) { pickLocal(freshOnly); return; }
     const params = new URLSearchParams({ project, fresh_only: String(freshOnly) });
-    const res = await fetch(`/api/review/next?${params}`);
+    const res = await authFetch(`/api/review/next?${params}`);
     setCurrent(await res.json());
     setForm((prev) => ({ ...prev, judgment: "unsure", meets_benchmark: false, faithful_source: false, taxonomy_ok: false, metadata_ok: false, escalate: false, notes: "" }));
   }
@@ -407,7 +453,7 @@ function ReviewPanel({ sample, isStatic = false }) {
       if (andNext) pickLocal(true);
       return;
     }
-    await fetch("/api/reviews", {
+    await authFetch("/api/reviews", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...form, row_uid: current.row_uid })
@@ -560,14 +606,30 @@ function AssetsPanel({ assets }) {
 }
 
 export default function App() {
+  const [creds, setCreds] = useState(getStoredCreds);
   const [boot, setBoot] = useState(null);
+  const [needLogin, setNeedLogin] = useState(false);
   const [tab, setTab] = useState("atlas");
 
+  function authFetch(url, options = {}) {
+    return fetch(url, {
+      ...options,
+      headers: { ...makeAuthHeader(creds), ...(options.headers || {}) },
+    });
+  }
+
   useEffect(() => {
-    fetch("/api/bootstrap")
-      .then((res) => { if (!res.ok) throw new Error(); return res.json(); })
+    setBoot(null);
+    setNeedLogin(false);
+    fetch("/api/bootstrap", { headers: makeAuthHeader(creds) })
+      .then((res) => {
+        if (res.status === 401) { setNeedLogin(true); throw new Error("unauth"); }
+        if (!res.ok) throw new Error();
+        return res.json();
+      })
       .then(setBoot)
-      .catch(() => {
+      .catch((e) => {
+        if (e.message === "unauth") return;
         // Static mode: load data files directly (GitHub Pages)
         const base = import.meta.env.BASE_URL || "/";
         Promise.all([
@@ -579,8 +641,13 @@ export default function App() {
           setBoot({ sample, summary, assets, population, static: true });
         });
       });
-  }, []);
+  }, [creds]);
 
+  function handleLogin(newCreds) {
+    setCreds(newCreds);
+  }
+
+  if (needLogin) return <LoginScreen onLogin={handleLogin} />;
   if (!boot) return <div className="screen loading">Loading server app…</div>;
 
   return (
@@ -603,7 +670,7 @@ export default function App() {
         <button className={tab === "assets" ? "active" : ""} onClick={() => setTab("assets")}>Project Assets</button>
       </nav>
       {tab === "atlas" && <AtlasPanel summary={boot.summary} population={boot.population} />}
-      {tab === "review" && <ReviewPanel sample={boot.sample} isStatic={!!boot.static} />}
+      {tab === "review" && <ReviewPanel sample={boot.sample} isStatic={!!boot.static} authFetch={authFetch} />}
       {tab === "assets" && <AssetsPanel assets={boot.assets} />}
     </div>
   );
