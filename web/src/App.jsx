@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Label } from "recharts";
 
 const COLORS = [
   "#b7d4ff",
@@ -90,6 +90,22 @@ function buildAxisData(axis, summary, population) {
     rows = [...rows.slice(0, 9), other];
   }
   return rows;
+}
+
+function PieLabel({ cx, cy, midAngle, innerRadius, outerRadius, percent, payload, ring }) {
+  if (percent < 0.06) return null; // only show on segments >= 6%
+  const RADIAN = Math.PI / 180;
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+  const pctText = `${(percent * 100).toFixed(0)}%`;
+  return (
+    <text x={x} y={y} textAnchor="middle" dominantBaseline="central"
+      fill="#0a1e3a" fontWeight="700" fontSize={percent > 0.12 ? 13 : 11}
+      style={{ pointerEvents: "none", textShadow: "0 0 3px rgba(255,255,255,0.6)" }}>
+      {pctText}
+    </text>
+  );
 }
 
 function CustomTooltip({ item, ring }) {
@@ -243,6 +259,8 @@ function DonutCard({ title, subtitle, axis, summary, population, isFocused = fal
                 isAnimationActive={false}
                 onMouseEnter={(_, idx) => handlePieEnter(overallRows[idx], "overall")}
                 onMouseLeave={handlePieLeave}
+                label={(props) => <PieLabel {...props} ring="overall" />}
+                labelLine={false}
               >
                 {overallRows.map((row) => <Cell key={`overall-${row.key}`} fill={row.color} />)}
               </Pie>
@@ -255,6 +273,8 @@ function DonutCard({ title, subtitle, axis, summary, population, isFocused = fal
                 isAnimationActive={false}
                 onMouseEnter={(_, idx) => handlePieEnter(sampleRows[idx], "sample")}
                 onMouseLeave={handlePieLeave}
+                label={(props) => <PieLabel {...props} ring="sample" />}
+                labelLine={false}
               >
                 {sampleRows.map((row) => <Cell key={`sample-${row.key}`} fill={row.color} fillOpacity={0.92} />)}
               </Pie>
