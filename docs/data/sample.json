@@ -4085,28 +4085,40 @@
         "2nd_level_TE": "Asymmetric and Hybrid Methods",
         "3rd_level_TE": "Employing UAVs, Loitering Munitions, Partisan Operations",
         "confidence": 9,
-        "explanation": "The passage documents repeated use of UAVs/FPV drones and loitering munitions in attacks across multiple districts, indicating employment of asymmetric/unconventional aerial attack methods."
-      },
-      {
-        "HLTP": "Humanitarian Assistance, Disaster Relief, and Post-Conflict Efforts",
-        "2nd_level_TE": "Civil-Military Coordination in Crises",
-        "3rd_level_TE": "Managing Refugee Flows, Civilian Evacuation",
-        "confidence": 8,
-        "explanation": "The text describes civilian casualties, infrastructure damage, power outages, on-site medical assistance, and planned emergency restoration work—core elements of civil-military crisis response and hum"
+        "explanation": "The passage documents repeated use of UAVs/FPV drones and loitering munitions in attacks across multiple districts, indicating employment of asymmetric/unconventional aerial attack methods.",
+        "source": "taxonomy_annotation"
       },
       {
         "HLTP": "Intelligence, Surveillance, Reconnaissance (ISR) and Electronic Warfare (EW)",
         "2nd_level_TE": "ISR Assets and Integration",
         "3rd_level_TE": "UAVs, Recon Patrols, Satellite-Based Recon",
         "confidence": 8,
-        "explanation": "The report records UAV employment and counter-UAV outcomes (suppressed/sbity), which pertains to ISR asset use and their integration/defeat in the battlespace."
+        "explanation": "The report records UAV employment and counter-UAV outcomes (suppressed/sbity), which pertains to ISR asset use and their integration/defeat in the battlespace.",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Humanitarian Assistance, Disaster Relief, and Post-Conflict Efforts",
+        "2nd_level_TE": "Civil-Military Coordination in Crises",
+        "3rd_level_TE": "Managing Refugee Flows, Civilian Evacuation",
+        "confidence": 8,
+        "explanation": "The text describes civilian casualties, infrastructure damage, power outages, on-site medical assistance, and planned emergency restoration work—core elements of civil-military crisis response and hum",
+        "source": "taxonomy_annotation"
       },
       {
         "HLTP": "Civil-Military Relations, Governance, and Interagency Coordination",
         "2nd_level_TE": "Civil-Military Integration in Wartime",
         "3rd_level_TE": "Cooperation with Ministries of Interior, Border Guards, Other State Agencies",
         "confidence": 8,
-        "explanation": "The passage explicitly states that emergency restoration work will proceed after coordination with the Ministry of Defense, indicating interagency coordination between civilian services and the milita"
+        "explanation": "The passage explicitly states that emergency restoration work will proceed after coordination with the Ministry of Defense, indicating interagency coordination between civilian services and the milita",
+        "source": "taxonomy_annotation"
+      },
+      {
+        "HLTP": "Red Line Statement",
+        "2nd_level_TE": "rls",
+        "3rd_level_TE": null,
+        "confidence": null,
+        "explanation": "source=None, target=None, line=None, threat=None",
+        "source": "red_line_annotation"
       }
     ]
   },
@@ -7805,11 +7817,12 @@
     "sample_row_id": 210,
     "classifications": [
       {
-        "HLTP": "Space Doctrine",
-        "2nd_level_TE": "",
+        "HLTP": "NOT RELEVANT",
+        "2nd_level_TE": "Pipeline classified as not relevant",
         "3rd_level_TE": "",
         "confidence": null,
-        "explanation": "January–October 2025 Russian sources portray space as a decisive warfighting domain central to power projection and strategic deterrence; they warn of weaponization and a dual‑use arms race, stress au"
+        "explanation": "document_classification.is_relevant = false (pipeline decision)",
+        "source": "space_document_classification_irrelevant"
       }
     ]
   },
@@ -7887,11 +7900,12 @@
     "sample_row_id": 215,
     "classifications": [
       {
-        "HLTP": "Military Integration",
-        "2nd_level_TE": "",
+        "HLTP": "UNRESOLVABLE",
+        "2nd_level_TE": "Document ID 2082 not found in space.document table",
         "3rd_level_TE": "",
         "confidence": null,
-        "explanation": "Literature documents formal institutional integration of space capabilities into the military via academy-based training initiated in the 1960s and the establishment of youth cadet design bureaus acro"
+        "explanation": "Sub-chunk ID 2082_0 does not map to any document in the space database",
+        "source": "data_artifact"
       }
     ]
   },
