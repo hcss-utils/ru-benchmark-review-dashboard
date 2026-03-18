@@ -31,33 +31,33 @@
       },
       "database": {
         "telegram_Experts": 1,
-        "integrum": 49,
+        "integrum": 50,
         "EVP-MIL": 3,
         "kremlin": 37,
         "telegram_Cossack": 1,
-        "telegram_Official": 7,
-        "telegram_War correspondent": 5,
+        "telegram_Official": 75,
+        "telegram_War correspondent": 9,
         "Google Drive": 3,
         "telegram": 1,
-        "edge_case": 8,
+        "edge_case": 5,
         "evp": 1,
-        "edge_case_ruw": 77,
+        "edge_case_ruw": 7,
         "borderline_irrelevant": 57
       },
       "time_group": {
-        "year-2": 34,
-        "year-3": 31,
-        "year-4+": 132,
-        "year-1": 8,
+        "year-2": 51,
+        "year-3": 57,
+        "year-4+": 59,
+        "year-1": 37,
         "unknown": 35,
-        "pre-invasion": 10
+        "pre-invasion": 11
       },
       "word_bucket": {
-        "300-599": 47,
+        "300-599": 42,
         "600+": 48,
-        "40-79": 65,
-        "80-149": 45,
-        "150-299": 45
+        "40-79": 101,
+        "80-149": 25,
+        "150-299": 34
       }
     },
     "axis_targets": {
