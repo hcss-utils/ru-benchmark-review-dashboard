@@ -374,6 +374,7 @@ function ReviewPanel({ sample, isStatic = false }) {
   const [current, setCurrent] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [gtRows, setGtRows] = useState([emptyAnnotation(0)]);
+  const [claudeAnnotations, setClaudeAnnotations] = useState([]);
   const [form, setForm] = useState({
     judgment: "unsure",
     meets_benchmark: false,
@@ -402,6 +403,14 @@ function ReviewPanel({ sample, isStatic = false }) {
     if (isStatic) { setReviews(lsLoad()); return; }
     const res = await fetch("/api/reviews");
     setReviews(await res.json());
+  }
+
+  async function loadClaudeAnnotations(rowUid) {
+    if (isStatic) { setClaudeAnnotations([]); return; }
+    try {
+      const res = await fetch(`/api/reviewer-annotations?row_uid=${encodeURIComponent(rowUid)}&reviewer=claude-opus-4-6`);
+      setClaudeAnnotations(await res.json());
+    } catch { setClaudeAnnotations([]); }
   }
 
   async function loadAnnotations(rowUid) {
@@ -436,6 +445,7 @@ function ReviewPanel({ sample, isStatic = false }) {
     setCurrent(next);
     resetForm();
     loadAnnotations(next.row_uid);
+    loadClaudeAnnotations(next.row_uid);
   }
 
   async function fetchFresh(freshOnly = true) {
@@ -446,6 +456,7 @@ function ReviewPanel({ sample, isStatic = false }) {
     setCurrent(next);
     resetForm();
     loadAnnotations(next.row_uid);
+    loadClaudeAnnotations(next.row_uid);
   }
 
   async function saveReview(andNext = false) {
@@ -618,36 +629,62 @@ function ReviewPanel({ sample, isStatic = false }) {
             </div>
             <pre>{(current.chunk_text || "").replace(/\n{3,}/g, "\n\n").trim()}</pre>
           </section>
-          <section className="review-details">
-            <section className="panel meta-grid">
-              {[
-                ["Project", current.project],
-                ["Project DB", current.project_db],
-                ["Document ID", current.document_id],
-                ["Database", current.database],
-                ["Source", current.source_norm],
-                ["Date", current.date || "Unknown"],
-                ["Author", current.author || "Unknown"],
-                ["Word Bucket", current.word_bucket]
-              ].map(([label, value]) => (
-                <div className="meta-card" key={label}>
-                  <span>{label}</span>
-                  <strong>{value}</strong>
+          <section className="comparison-section">
+            <h3>Pipeline vs Claude — Taxonomy Comparison</h3>
+            {(() => {
+              const pCls = (current.classifications || []).filter((c) => c.HLTP && c.HLTP !== "NOT_RELEVANT" && c.HLTP !== "UNRESOLVABLE");
+              const cCls = claudeAnnotations.filter((g) => g.classification_value && g.classification_value !== "NOT_RELEVANT" && g.relevance === "relevant");
+              const pSet = new Set(pCls.map((c) => (c.HLTP || "").split("|")[0].trim()));
+              const cSet = new Set(cCls.map((g) => (g.classification_value || "").split("|")[0].trim()));
+              const agree = [...pSet].filter((h) => cSet.has(h));
+              const pOnly = [...pSet].filter((h) => !cSet.has(h));
+              const cOnly = [...cSet].filter((h) => !pSet.has(h));
+              const pRelev = pCls.length > 0 || (current.classifications || []).some((c) => c.HLTP && c.HLTP !== "NOT_RELEVANT");
+              const cRelev = cCls.length > 0 || (claudeAnnotations.length > 0 && claudeAnnotations.some((g) => g.relevance === "relevant"));
+              const isIrrel = (current.row_uid || "").includes("irrelevant");
+              return (
+                <div className="comparison-grid">
+                  <div className="comparison-col">
+                    <div className="comparison-header">Pipeline</div>
+                    <div className={`relevance-badge ${pRelev && !isIrrel ? "rel" : "irrel"}`}>{pRelev && !isIrrel ? "Relevant" : "Not Relevant"}</div>
+                    {pCls.map((c, i) => {
+                      const hltp = (c.HLTP || "").split("|")[0].trim();
+                      const isAgreed = cSet.has(hltp);
+                      return (
+                        <div className={`te-chip ${isAgreed ? "agree" : "disagree"}`} key={`p-${i}`}>
+                          <span className="te-badge">{isAgreed ? "AGREE" : "PIPELINE ONLY"}</span>
+                          <strong>{c.HLTP}</strong>
+                          {c["2nd_level_TE"] && <span>{c["2nd_level_TE"]}{c["3rd_level_TE"] ? " | " + c["3rd_level_TE"] : ""}</span>}
+                          {c.confidence && <span className="te-conf">conf: {c.confidence}</span>}
+                        </div>
+                      );
+                    })}
+                    {pCls.length === 0 && <div className="te-chip empty">No taxonomy assigned</div>}
+                  </div>
+                  <div className="comparison-col">
+                    <div className="comparison-header">Claude Opus 4.6</div>
+                    <div className={`relevance-badge ${cRelev ? "rel" : "irrel"}`}>{cRelev ? "Relevant" : "Not Relevant"}</div>
+                    {cCls.map((g, i) => {
+                      const hltp = (g.classification_value || "").split("|")[0].trim();
+                      const isAgreed = pSet.has(hltp);
+                      return (
+                        <div className={`te-chip ${isAgreed ? "agree" : "claude-only"}`} key={`c-${i}`}>
+                          <span className="te-badge">{isAgreed ? "AGREE" : "CLAUDE ONLY"}</span>
+                          <strong>{g.classification_value}</strong>
+                          {g.confidence && <span className="te-conf">conf: {g.confidence}</span>}
+                        </div>
+                      );
+                    })}
+                    {cCls.length === 0 && claudeAnnotations.some((g) => g.relevance === "not_relevant") && (
+                      <div className="te-chip irrel-note">{claudeAnnotations.find((g) => g.relevance === "not_relevant")?.notes || "Not relevant"}</div>
+                    )}
+                    {cCls.length === 0 && !claudeAnnotations.some((g) => g.relevance === "not_relevant") && (
+                      <div className="te-chip empty">No taxonomy assigned</div>
+                    )}
+                  </div>
                 </div>
-              ))}
-            </section>
-            <section className="passes-grid">
-              {[
-                ["Pass 1", current.pass1],
-                ["Pass 2", current.pass2],
-                ["Pass 3", current.pass3]
-              ].map(([label, value]) => (
-                <article className="panel pass-card" key={label}>
-                  <span>{label}</span>
-                  <p>{value}</p>
-                </article>
-              ))}
-            </section>
+              );
+            })()}
           </section>
         </main>
       </div>

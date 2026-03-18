@@ -415,7 +415,7 @@ button, input, select, textarea { font: inherit; }
 
 .review-main {
   display: grid;
-  grid-template-rows: auto 1fr minmax(0, 160px);
+  grid-template-rows: auto 1fr 1fr;
   gap: 10px;
   min-height: 0;
   overflow: hidden;
@@ -559,6 +559,122 @@ textarea { min-height: 110px; resize: vertical; }
 
 .sidebar h3 {
   margin: 16px 0 4px;
+}
+
+.comparison-section {
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.comparison-section h3 {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+}
+
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.comparison-col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.comparison-header {
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  text-align: center;
+  background: rgba(116, 208, 255, 0.06);
+}
+
+.relevance-badge {
+  text-align: center;
+  padding: 6px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+}
+
+.relevance-badge.rel {
+  background: rgba(46, 160, 67, 0.15);
+  color: #4cdf7c;
+  border: 1px solid rgba(46, 160, 67, 0.3);
+}
+
+.relevance-badge.irrel {
+  background: rgba(255, 99, 71, 0.12);
+  color: #ff8a75;
+  border: 1px solid rgba(255, 99, 71, 0.3);
+}
+
+.te-chip {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 10px;
+  background: rgba(255,255,255,0.02);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.te-chip.agree {
+  border-color: rgba(46, 160, 67, 0.4);
+  background: rgba(46, 160, 67, 0.06);
+}
+
+.te-chip.disagree {
+  border-color: rgba(255, 165, 0, 0.4);
+  background: rgba(255, 165, 0, 0.06);
+}
+
+.te-chip.claude-only {
+  border-color: rgba(116, 208, 255, 0.4);
+  background: rgba(116, 208, 255, 0.06);
+}
+
+.te-chip.empty, .te-chip.irrel-note {
+  color: var(--muted);
+  font-style: italic;
+  font-size: 0.82rem;
+}
+
+.te-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.te-chip.agree .te-badge { color: #4cdf7c; }
+.te-chip.disagree .te-badge { color: #ffa500; }
+.te-chip.claude-only .te-badge { color: var(--accent); }
+
+.te-chip strong {
+  font-size: 0.82rem;
+  line-height: 1.2;
+  word-break: break-word;
+}
+
+.te-chip span {
+  font-size: 0.75rem;
+  color: var(--muted);
+  line-height: 1.2;
+}
+
+.te-conf {
+  font-size: 0.7rem;
+  color: var(--muted);
 }
 
 .info-btn {
