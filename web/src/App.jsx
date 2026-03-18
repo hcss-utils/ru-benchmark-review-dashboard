@@ -165,8 +165,37 @@ function InfoModal({ info, onClose }) {
   );
 }
 
-function DonutCard({ title, subtitle, axis, summary, population, isFocused = false }) {
-  const rows = useMemo(() => buildAxisData(axis, summary, population), [axis, summary, population]);
+function buildPerProjectData(axis, sample, selectedProject) {
+  const filtered = selectedProject === "ALL" ? sample : sample.filter((c) => (c.row_uid || "").split(":")[0] === selectedProject);
+  const counts = {};
+  for (const c of filtered) {
+    const val = axis === "time_group" ? (c.time_group || "unknown") : axis === "word_bucket" ? (c.word_bucket || "unknown") : (c.database || "unknown");
+    const key = axis === "database" ? val.toLowerCase().replace(/\s+/g, " ") : val;
+    counts[key] = (counts[key] || 0) + 1;
+  }
+  const order = axis === "time_group" ? ["pre-invasion", "year-1", "year-2", "year-3", "year-4+", "unknown"]
+    : axis === "word_bucket" ? ["40-79", "80-149", "150-299", "300-599", "600+"]
+    : Object.keys(counts).sort((a, b) => (counts[b] || 0) - (counts[a] || 0));
+  let rows = order.filter((k) => counts[k]).map((key, index) => ({
+    key, label: titleKey(key, axis), sample: counts[key] || 0, overall: 0, color: COLORS[index % COLORS.length]
+  }));
+  // Add any keys not in order
+  Object.keys(counts).filter((k) => !order.includes(k)).forEach((key, i) => {
+    rows.push({ key, label: titleKey(key, axis), sample: counts[key], overall: 0, color: COLORS[(order.length + i) % COLORS.length] });
+  });
+  if (axis === "database" && rows.length > 10) {
+    rows = rows.sort((a, b) => b.sample - a.sample);
+    const other = rows.slice(9).reduce((acc, row) => { acc.sample += row.sample; return acc; }, { key: "other", label: "Other Databases", sample: 0, overall: 0, color: COLORS[9] });
+    rows = [...rows.slice(0, 9), other];
+  }
+  return rows;
+}
+
+function DonutCard({ title, subtitle, axis, summary, population, sample, selectedProject, isFocused = false }) {
+  const isFiltered = selectedProject && selectedProject !== "ALL";
+  const rows = useMemo(() =>
+    isFiltered ? buildPerProjectData(axis, sample || [], selectedProject) : buildAxisData(axis, summary, population),
+    [axis, summary, population, sample, selectedProject, isFiltered]);
   const sampleTotal = rows.reduce((sum, row) => sum + row.sample, 0);
   const overallTotal = rows.reduce((sum, row) => sum + row.overall, 0);
   const overallRows = rows.map((row) => ({ ...row, overallTotal, sampleTotal }));
@@ -308,9 +337,17 @@ function DonutCard({ title, subtitle, axis, summary, population, isFocused = fal
   );
 }
 
-function AtlasPanel({ summary, population }) {
+function AtlasPanel({ summary, population, sample }) {
   const [subtab, setSubtab] = useState("project");
   const [showInfo, setShowInfo] = useState(false);
+  const [selectedProject, setSelectedProject] = useState("ALL");
+  const showFilter = subtab !== "project";
+  const projects = useMemo(() => {
+    if (!sample) return [];
+    const set = new Set(sample.map((c) => (c.row_uid || "").split(":")[0]));
+    return [...set].sort();
+  }, [sample]);
+
   const cards = [
     {
       key: "project",
@@ -320,20 +357,20 @@ function AtlasPanel({ summary, population }) {
     },
     {
       key: "database",
-      title: "Database Balance",
-      subtitle: "Source universe vs constrained review draw.",
+      title: selectedProject !== "ALL" ? `Database Balance — ${selectedProject}` : "Database Balance",
+      subtitle: selectedProject !== "ALL" ? `Showing ${selectedProject} only.` : "Source universe vs constrained review draw.",
       axis: "database"
     },
     {
       key: "time",
-      title: "Time Balance",
-      subtitle: "Pre-invasion, war-year, and unknown-date mix.",
+      title: selectedProject !== "ALL" ? `Time Balance — ${selectedProject}` : "Time Balance",
+      subtitle: selectedProject !== "ALL" ? `Showing ${selectedProject} only.` : "Pre-invasion, war-year, and unknown-date mix.",
       axis: "time_group"
     },
     {
       key: "length",
-      title: "Length Balance",
-      subtitle: "Word-bucket fit for reviewer effort.",
+      title: selectedProject !== "ALL" ? `Length Balance — ${selectedProject}` : "Length Balance",
+      subtitle: selectedProject !== "ALL" ? `Showing ${selectedProject} only.` : "Word-bucket fit for reviewer effort.",
       axis: "word_bucket"
     }
   ];
@@ -343,20 +380,28 @@ function AtlasPanel({ summary, population }) {
   return (
     <section className="atlas-shell">
       <div className="atlas-subtabs">
-        <button className={subtab === "project" ? "active" : ""} onClick={() => setSubtab("project")}>Projects</button>
+        <button className={subtab === "project" ? "active" : ""} onClick={() => { setSubtab("project"); setSelectedProject("ALL"); }}>Projects</button>
         <button className={subtab === "database" ? "active" : ""} onClick={() => setSubtab("database")}>Databases</button>
         <button className={subtab === "time" ? "active" : ""} onClick={() => setSubtab("time")}>Time</button>
         <button className={subtab === "length" ? "active" : ""} onClick={() => setSubtab("length")}>Length</button>
+        {showFilter && (
+          <select className="atlas-project-filter" value={selectedProject} onChange={(e) => setSelectedProject(e.target.value)}>
+            <option value="ALL">All Projects</option>
+            {projects.map((p) => <option key={p} value={p}>{p}</option>)}
+          </select>
+        )}
         <button className="info-btn" onClick={() => setShowInfo(true)}>?</button>
       </div>
       <main className="atlas-grid single">
         <DonutCard
-          key={activeCard.key}
+          key={activeCard.key + "-" + selectedProject}
           title={activeCard.title}
           subtitle={activeCard.subtitle}
           axis={activeCard.axis}
           summary={summary}
           population={population}
+          sample={sample}
+          selectedProject={showFilter ? selectedProject : "ALL"}
           isFocused
         />
       </main>
@@ -789,7 +834,7 @@ export default function App() {
         <button className={tab === "review" ? "active" : ""} onClick={() => setTab("review")}>Review Workspace</button>
         <button className={tab === "assets" ? "active" : ""} onClick={() => setTab("assets")}>Project Assets</button>
       </nav>
-      {tab === "atlas" && <AtlasPanel summary={boot.summary} population={boot.population} />}
+      {tab === "atlas" && <AtlasPanel summary={boot.summary} population={boot.population} sample={boot.sample} />}
       {tab === "review" && <ReviewPanel sample={boot.sample} isStatic={!!boot.static} />}
       {tab === "assets" && <AssetsPanel assets={boot.assets} />}
     </div>

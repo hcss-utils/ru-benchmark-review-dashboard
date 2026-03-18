@@ -169,6 +169,22 @@ button, input, select, textarea { font: inherit; }
   color: #05213f;
 }
 
+.atlas-project-filter {
+  margin-left: auto;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 6px 10px;
+  background: var(--panel);
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  max-width: 260px;
+}
+.atlas-project-filter:focus {
+  outline: 2px solid var(--accent);
+}
+
 .donut-card {
   padding: 14px 18px 12px;
   min-height: 0;
