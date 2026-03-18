@@ -45,19 +45,19 @@
         "borderline_irrelevant": 57
       },
       "time_group": {
-        "year-2": 51,
-        "year-3": 57,
-        "year-4+": 59,
-        "year-1": 37,
+        "year-2": 43,
+        "year-3": 64,
+        "year-4+": 57,
+        "year-1": 40,
         "unknown": 35,
         "pre-invasion": 11
       },
       "word_bucket": {
         "300-599": 42,
-        "600+": 48,
+        "600+": 50,
         "40-79": 101,
         "80-149": 25,
-        "150-299": 34
+        "150-299": 32
       }
     },
     "axis_targets": {
