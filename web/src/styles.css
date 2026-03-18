@@ -503,6 +503,35 @@ textarea { min-height: 110px; resize: vertical; }
   font-size: 1.2rem;
 }
 
+.login-box {
+  text-align: center;
+  max-width: 320px;
+  width: 100%;
+}
+
+.login-box h2 {
+  margin: 0 0 4px;
+}
+
+.login-box p {
+  color: var(--muted);
+  margin: 0 0 16px;
+}
+
+.login-box form {
+  display: grid;
+  gap: 10px;
+}
+
+.login-box input {
+  padding: 12px 14px;
+}
+
+.login-box .button {
+  padding: 12px;
+  font-size: 1rem;
+}
+
 .gt-annotations {
   display: grid;
   gap: 8px;

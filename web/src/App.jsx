@@ -401,14 +401,14 @@ function ReviewPanel({ sample, isStatic = false }) {
 
   async function refreshReviews() {
     if (isStatic) { setReviews(lsLoad()); return; }
-    const res = await fetch("/api/reviews");
+    const res = await authFetch("/api/reviews");
     setReviews(await res.json());
   }
 
   async function loadClaudeAnnotations(rowUid) {
     if (isStatic) { setClaudeAnnotations([]); return; }
     try {
-      const res = await fetch(`/api/reviewer-annotations?row_uid=${encodeURIComponent(rowUid)}&reviewer=claude-opus-4-6`);
+      const res = await authFetch(`/api/reviewer-annotations?row_uid=${encodeURIComponent(rowUid)}&reviewer=claude-opus-4-6`);
       setClaudeAnnotations(await res.json());
     } catch { setClaudeAnnotations([]); }
   }
@@ -421,7 +421,7 @@ function ReviewPanel({ sample, isStatic = false }) {
       return;
     }
     try {
-      const res = await fetch(`/api/reviewer-annotations?row_uid=${encodeURIComponent(rowUid)}&reviewer=${encodeURIComponent(form.reviewer)}`);
+      const res = await authFetch(`/api/reviewer-annotations?row_uid=${encodeURIComponent(rowUid)}&reviewer=${encodeURIComponent(form.reviewer)}`);
       const rows = await res.json();
       setGtRows(rows.length ? rows : [emptyAnnotation(0)]);
     } catch { setGtRows([emptyAnnotation(0)]); }
@@ -451,7 +451,7 @@ function ReviewPanel({ sample, isStatic = false }) {
   async function fetchFresh(freshOnly = true) {
     if (isStatic) { pickLocal(freshOnly); return; }
     const params = new URLSearchParams({ project, fresh_only: String(freshOnly) });
-    const res = await fetch(`/api/review/next?${params}`);
+    const res = await authFetch(`/api/review/next?${params}`);
     const next = await res.json();
     setCurrent(next);
     resetForm();
@@ -474,14 +474,14 @@ function ReviewPanel({ sample, isStatic = false }) {
       if (andNext) pickLocal(true);
       return;
     }
-    await fetch("/api/reviews", {
+    await authFetch("/api/reviews", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...form, row_uid: current.row_uid })
     });
     // Save each annotation row
     for (let i = 0; i < validGt.length; i++) {
-      await fetch("/api/reviewer-annotations", {
+      await authFetch("/api/reviewer-annotations", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...validGt[i], annotation_index: i, row_uid: current.row_uid, reviewer: form.reviewer })
@@ -709,15 +709,37 @@ function AssetsPanel({ assets }) {
   );
 }
 
+function getAuthHeaders() {
+  const creds = sessionStorage.getItem("auth_creds");
+  if (creds) return { "Authorization": "Basic " + creds };
+  return {};
+}
+
+function authFetch(url, opts = {}) {
+  const headers = { ...getAuthHeaders(), ...(opts.headers || {}) };
+  return fetch(url, { ...opts, headers });
+}
+
 export default function App() {
   const [boot, setBoot] = useState(null);
   const [tab, setTab] = useState("atlas");
+  const [authPrompt, setAuthPrompt] = useState(false);
+  const [authError, setAuthError] = useState(false);
+
+  function tryLogin(username, password) {
+    const creds = btoa(username + ":" + password);
+    sessionStorage.setItem("auth_creds", creds);
+    fetch("/api/bootstrap", { headers: { "Authorization": "Basic " + creds } })
+      .then((res) => { if (!res.ok) throw new Error(); return res.json(); })
+      .then((data) => { setBoot(data); setAuthPrompt(false); setAuthError(false); })
+      .catch(() => { setAuthError(true); sessionStorage.removeItem("auth_creds"); });
+  }
 
   useEffect(() => {
-    fetch("/api/bootstrap")
-      .then((res) => { if (!res.ok) throw new Error(); return res.json(); })
+    authFetch("/api/bootstrap")
+      .then((res) => { if (res.status === 401) { setAuthPrompt(true); throw new Error("auth"); } if (!res.ok) throw new Error(); return res.json(); })
       .then(setBoot)
-      .catch(() => {
+      .catch((e) => { if (e.message === "auth") return;
         // Static mode: load data files directly (GitHub Pages)
         const base = import.meta.env.BASE_URL || "/";
         Promise.all([
@@ -730,6 +752,21 @@ export default function App() {
         });
       });
   }, []);
+
+  if (authPrompt) return (
+    <div className="screen loading">
+      <div className="login-box">
+        <h2>RU Benchmark Review</h2>
+        <p>Enter your credentials</p>
+        {authError && <p style={{color: "#ff6b6b"}}>Invalid credentials</p>}
+        <form onSubmit={(e) => { e.preventDefault(); const f = new FormData(e.target); tryLogin(f.get("user"), f.get("pass")); }}>
+          <input name="user" placeholder="Username" autoFocus />
+          <input name="pass" type="password" placeholder="Password" />
+          <button className="button primary" type="submit">Login</button>
+        </form>
+      </div>
+    </div>
+  );
 
   if (!boot) return <div className="screen loading">Loading server app…</div>;
 

@@ -7,12 +7,15 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import secrets
+
 import psycopg2
 import psycopg2.extras
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
@@ -83,6 +86,22 @@ def db_cursor():
         conn.close()
 
 
+USERS = {
+    "liliia": os.getenv("AUTH_PASS_LILIIA", "benchmark"),
+    "sdspieg": os.getenv("AUTH_PASS_SDSPIEG", "benchmark"),
+    "hryhorii": os.getenv("AUTH_PASS_HRYHORII", "benchmark"),
+}
+
+security = HTTPBasic()
+
+
+def verify(credentials: HTTPBasicCredentials = Depends(security)):
+    expected = USERS.get(credentials.username)
+    if not expected or not secrets.compare_digest(credentials.password.encode(), expected.encode()):
+        raise HTTPException(status_code=401, detail="Invalid credentials", headers={"WWW-Authenticate": "Basic"})
+    return credentials.username
+
+
 app = FastAPI(title="RU Benchmark Review Server")
 app.add_middleware(
     CORSMiddleware,
@@ -101,7 +120,7 @@ def health() -> dict[str, str]:
 
 
 @app.get("/api/bootstrap")
-def bootstrap() -> dict[str, Any]:
+def bootstrap(user: str = Depends(verify)) -> dict[str, Any]:
     return {
         "sample": SAMPLE_ROWS,
         "summary": SUMMARY,
@@ -111,7 +130,7 @@ def bootstrap() -> dict[str, Any]:
 
 
 @app.get("/api/reviews")
-def list_reviews(limit: int = Query(default=50, ge=1, le=500)) -> list[dict[str, Any]]:
+def list_reviews(limit: int = Query(default=50, ge=1, le=500), user: str = Depends(verify)) -> list[dict[str, Any]]:
     with db_cursor() as cur:
         cur.execute(
             "SELECT * FROM reviews ORDER BY saved_at DESC LIMIT %s",
@@ -121,7 +140,7 @@ def list_reviews(limit: int = Query(default=50, ge=1, le=500)) -> list[dict[str,
 
 
 @app.post("/api/reviews")
-def upsert_review(payload: ReviewPayload) -> dict[str, Any]:
+def upsert_review(payload: ReviewPayload, user: str = Depends(verify)) -> dict[str, Any]:
     sample_row = ROW_BY_UID.get(payload.row_uid)
     if not sample_row:
         raise HTTPException(status_code=404, detail="Unknown row_uid")
@@ -170,7 +189,7 @@ def upsert_review(payload: ReviewPayload) -> dict[str, Any]:
 
 
 @app.get("/api/reviewer-annotations")
-def get_annotations(row_uid: str, reviewer: str = "") -> list[dict[str, Any]]:
+def get_annotations(row_uid: str, reviewer: str = "", user: str = Depends(verify)) -> list[dict[str, Any]]:
     with db_cursor() as cur:
         if reviewer:
             cur.execute(
@@ -186,7 +205,7 @@ def get_annotations(row_uid: str, reviewer: str = "") -> list[dict[str, Any]]:
 
 
 @app.post("/api/reviewer-annotations")
-def upsert_annotation(payload: AnnotationPayload) -> dict[str, Any]:
+def upsert_annotation(payload: AnnotationPayload, user: str = Depends(verify)) -> dict[str, Any]:
     if payload.row_uid not in ROW_BY_UID:
         raise HTTPException(status_code=404, detail="Unknown row_uid")
     with db_cursor() as cur:
@@ -221,7 +240,7 @@ def upsert_annotation(payload: AnnotationPayload) -> dict[str, Any]:
 
 
 @app.delete("/api/reviewer-annotations")
-def delete_annotation(payload: AnnotationDeletePayload) -> dict[str, str]:
+def delete_annotation(payload: AnnotationDeletePayload, user: str = Depends(verify)) -> dict[str, str]:
     with db_cursor() as cur:
         cur.execute(
             "DELETE FROM reviewer_annotations WHERE row_uid = %s AND reviewer = %s AND annotation_index = %s",
@@ -234,6 +253,7 @@ def delete_annotation(payload: AnnotationDeletePayload) -> dict[str, str]:
 def next_row(
     project: str | None = None,
     fresh_only: bool = True,
+    user: str = Depends(verify),
 ) -> dict[str, Any]:
     rows = SAMPLE_ROWS
     if project and project != "ALL":
