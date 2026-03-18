@@ -17,51 +17,47 @@
     },
     "axis_actuals": {
       "project": {
-        "rnla-deterrence": 23,
-        "rnla-grey-zone": 23,
-        "ruw-nato-intentions-malign-military-security": 7,
-        "ruw-nato-intentions-malign-political-diplomatic": 6,
-        "ruw-red-lines": 8,
-        "ruw-regeneration": 13,
-        "ruw-transparent-battlefield": 28,
-        "wacko": 23,
-        "ruw-strengths-and-weaknesses": 23,
-        "space": 19,
-        "ruw-core-taxonomy": 77
+        "rnla-deterrence": 20,
+        "rnla-grey-zone": 20,
+        "ruw-nato-intentions-malign-military-security": 5,
+        "ruw-nato-intentions-malign-political-diplomatic": 5,
+        "ruw-red-lines": 5,
+        "ruw-regeneration": 12,
+        "ruw-transparent-battlefield": 27,
+        "wacko": 20,
+        "ruw-strengths-and-weaknesses": 24,
+        "space": 20,
+        "ruw-core-taxonomy": 92
       },
       "database": {
-        "integrum": 31,
-        "telegram_Experts": 2,
+        "telegram_Experts": 1,
+        "integrum": 49,
         "EVP-MIL": 3,
-        "telegram_Propagandist": 1,
-        "kremlin": 11,
-        "telegram_Cossack": 2,
-        "telegram_Official": 10,
-        "telegram_War correspondent": 7,
-        "isw": 18,
-        "russiamatters": 1,
-        "therussiaprogram": 1,
+        "kremlin": 37,
+        "telegram_Cossack": 1,
+        "telegram_Official": 7,
+        "telegram_War correspondent": 5,
         "Google Drive": 3,
         "telegram": 1,
-        "edge_case": 11,
+        "edge_case": 8,
         "evp": 1,
-        "edge_case_ruw": 86,
-        "borderline_irrelevant": 61
+        "edge_case_ruw": 77,
+        "borderline_irrelevant": 57
       },
       "time_group": {
-        "year-1": 7,
-        "year-2": 18,
-        "year-3": 22,
-        "year-4+": 20,
-        "unknown": 185,
-        "pre-invasion": 4
+        "year-2": 34,
+        "year-3": 31,
+        "year-4+": 132,
+        "year-1": 8,
+        "unknown": 35,
+        "pre-invasion": 10
       },
       "word_bucket": {
-        "300-599": 37,
-        "600+": 47,
-        "150-299": 45,
-        "40-79": 82,
-        "80-149": 45
+        "300-599": 47,
+        "600+": 48,
+        "40-79": 65,
+        "80-149": 45,
+        "150-299": 45
       }
     },
     "axis_targets": {
@@ -85,6 +81,7 @@
         "evp": 1,
         "edge_case_ruw": 26
       }
-    }
+    },
+    "total_chunks": 250
   }
 }
