@@ -652,13 +652,26 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
 
   useEffect(() => {
     if (!sample.length) return;
-    fetchFresh(false);
     refreshReviews();
+    if (filtered.length > 0) {
+      const row = filtered[0];
+      setCurrentIdx(0);
+      setCurrent(row);
+      loadAnnotations(row.row_uid);
+      loadClaudeAnnotations(row.row_uid);
+      loadClassificationJudgments(row.row_uid);
+    }
   }, [sample.length]);
 
   useEffect(() => {
-    if (!sample.length) return;
-    fetchFresh(false);
+    if (!sample.length || !filtered.length) return;
+    const row = filtered[0];
+    setCurrentIdx(0);
+    setCurrent(row);
+    resetForm();
+    loadAnnotations(row.row_uid);
+    loadClaudeAnnotations(row.row_uid);
+    loadClassificationJudgments(row.row_uid);
   }, [project]);
 
   // Pre-fill gtRows from Claude annotations when reviewer has no saved annotations yet
