@@ -150,12 +150,23 @@ def health() -> dict[str, str]:
 
 @app.get("/api/bootstrap")
 def bootstrap(user: str = Depends(verify)) -> dict[str, Any]:
+    with db_cursor() as cur:
+        cur.execute(
+            """
+            SELECT row_uid,
+                   CASE WHEN bool_or(relevance = 'relevant') THEN 'relevant' ELSE 'not_relevant' END AS relevance
+            FROM reviewer_annotations
+            WHERE reviewer = 'claude-opus-4-6'
+            GROUP BY row_uid
+            """
+        )
+        claude_relevance = {row["row_uid"]: row["relevance"] for row in cur.fetchall()}
     return {
         "sample": SAMPLE_ROWS,
         "summary": SUMMARY,
         "assets": ASSETS,
         "population": POPULATION,
-        "claudeRelevance": CLAUDE_RELEVANCE,
+        "claudeRelevance": claude_relevance,
     }
 
 
