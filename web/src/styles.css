@@ -431,7 +431,7 @@ button, input, select, textarea { font: inherit; }
 
 .review-main {
   display: grid;
-  grid-template-rows: auto 1fr 1fr auto;
+  grid-template-rows: auto auto 1fr auto;
   gap: 10px;
   min-height: 0;
   overflow-y: auto;
@@ -450,8 +450,8 @@ button, input, select, textarea { font: inherit; }
 }
 
 .source-text {
-  min-height: 180px;
-  overflow: auto;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 .source-head {

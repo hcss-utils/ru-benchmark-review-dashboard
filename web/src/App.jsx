@@ -734,13 +734,6 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
             </div>
             <div className="chip">{current.row_uid}</div>
           </section>
-          <section className="panel source-text">
-            <div className="source-head">
-              <strong>Source Text</strong>
-              <span className="chip">{current.word_count} words</span>
-            </div>
-            <pre>{(current.chunk_text || "").replace(/\n{3,}/g, "\n\n").trim()}</pre>
-          </section>
           <section className="comparison-section panel">
             <h3>Pipeline vs Claude — Taxonomy Comparison</h3>
             {(() => {
@@ -800,6 +793,13 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
                 </div>
               );
             })()}
+          </section>
+          <section className="panel source-text">
+            <div className="source-head">
+              <strong>Source Text</strong>
+              <span className="chip">{current.word_count} words</span>
+            </div>
+            <pre>{(current.chunk_text || "").replace(/\n{3,}/g, "\n\n").trim()}</pre>
           </section>
           <section className="panel decision-panel">
             <h3>Your Decision</h3>
