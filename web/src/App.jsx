@@ -451,14 +451,20 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
     let rows = project === "ALL" ? allWithStatus : allWithStatus.filter((row) => row.project === project);
     if (filterMode === "disagreements") rows = rows.filter((row) => row.isDisagreement);
     else if (filterMode === "agreements") rows = rows.filter((row) => !row.isDisagreement);
+    // Exclude chunks already reviewed by this user
+    rows = rows.filter((row) => !liliiaDecisions[row.row_uid]);
     rows = rows.sort((a, b) => (a.sample_row_id || 0) - (b.sample_row_id || 0));
     return rows;
+  }, [project, allWithStatus, filterMode, liliiaDecisions]);
+
+  const totalInFilter = useMemo(() => {
+    let rows = project === "ALL" ? allWithStatus : allWithStatus.filter((row) => row.project === project);
+    if (filterMode === "disagreements") rows = rows.filter((row) => row.isDisagreement);
+    else if (filterMode === "agreements") rows = rows.filter((row) => !row.isDisagreement);
+    return rows.length;
   }, [project, allWithStatus, filterMode]);
 
-  // Track decided count
-  const decidedCount = useMemo(() => {
-    return filtered.filter((r) => liliiaDecisions[r.row_uid]).length;
-  }, [filtered, liliiaDecisions]);
+  const reviewedCount = totalInFilter - filtered.length;
 
   async function saveLiliiaDecision(uid, decision, notes) {
     const updated = { ...liliiaDecisions, [uid]: { decision, notes, saved_at: new Date().toISOString() } };
@@ -494,8 +500,20 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
 
   async function refreshReviews() {
     if (isStatic) { setReviews(lsLoad()); return; }
-    const res = await authFetch("/api/reviews");
-    setReviews(await res.json());
+    const res = await authFetch("/api/reviews?limit=500");
+    const data = await res.json();
+    setReviews(data);
+    // Merge DB reviews into liliiaDecisions so cross-session reviews are excluded from navigation
+    setLiliiaDecisions(prev => {
+      const merged = { ...prev };
+      for (const r of data) {
+        if (!merged[r.row_uid]) {
+          merged[r.row_uid] = { decision: r.judgment, notes: r.notes || "", saved_at: r.saved_at };
+        }
+      }
+      localStorage.setItem("liliia_decisions", JSON.stringify(merged));
+      return merged;
+    });
   }
 
   async function loadClaudeAnnotations(rowUid) {
@@ -650,8 +668,23 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
     }
   }, [claudeAnnotations]);
 
+  // Clamp currentIdx when filtered list shrinks (e.g. after reviewing a chunk)
+  useEffect(() => {
+    if (filtered.length > 0 && currentIdx >= filtered.length) {
+      setCurrentIdx(filtered.length - 1);
+    }
+  }, [filtered.length]);
+
   if (!current) return <section className="panel">Loading review workspace...</section>;
   if (current._error) return <section className="panel">Failed to load workspace: {current._error}</section>;
+  if (filtered.length === 0 && liliiaDecisions[current?.row_uid]) {
+    return (
+      <section className="panel" style={{ margin: "20px", padding: "30px", textAlign: "center" }}>
+        <h2>All chunks reviewed</h2>
+        <p>No more unreviewed chunks in this filter. Switch filter or project to see more.</p>
+      </section>
+    );
+  }
 
   return (
     <section className="review-screen">
@@ -674,7 +707,7 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
           <span className="nav-counter">{currentIdx + 1} / {filtered.length}</span>
           <button className="button secondary" disabled={currentIdx >= filtered.length - 1} onClick={() => { const ni = Math.min(filtered.length - 1, currentIdx + 1); setCurrentIdx(ni); const row = filtered[ni]; if (row) { setCurrent(row); resetForm(); loadAnnotations(row.row_uid); loadClaudeAnnotations(row.row_uid); loadClassificationJudgments(row.row_uid); } }}>Next →</button>
         </div>
-        <span className="decided-counter">{decidedCount}/{filtered.length} decided</span>
+        <span className="decided-counter">{reviewedCount} reviewed · {filtered.length} remaining</span>
         <button className="button primary" onClick={exportDecisions}>Export Decisions</button>
       </div>
       <div className="review-grid">
