@@ -605,6 +605,13 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
     fetchFresh(false);
   }, [project]);
 
+  // Pre-fill gtRows from Claude annotations when reviewer has no saved annotations yet
+  useEffect(() => {
+    if (claudeAnnotations.length > 0 && gtRows.length === 1 && !gtRows[0].classification_value.trim()) {
+      setGtRows(claudeAnnotations.map((g, i) => ({ ...g, annotation_index: i })));
+    }
+  }, [claudeAnnotations]);
+
   if (!current) return <section className="panel">Loading review workspace...</section>;
   if (current._error) return <section className="panel">Failed to load workspace: {current._error}</section>;
 
@@ -734,18 +741,16 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
             </div>
             <pre>{(current.chunk_text || "").replace(/\n{3,}/g, "\n\n").trim()}</pre>
           </section>
-          <section className="comparison-section">
+          <section className="comparison-section panel">
             <h3>Pipeline vs Claude — Taxonomy Comparison</h3>
             {(() => {
               const pCls = (current.classifications || []).filter((c) => c.HLTP && c.HLTP !== "NOT_RELEVANT" && c.HLTP !== "UNRESOLVABLE");
               const cCls = claudeAnnotations.filter((g) => g.classification_value && g.classification_value !== "NOT_RELEVANT" && g.relevance === "relevant");
               const pSet = new Set(pCls.map((c) => (c.HLTP || "").split("|")[0].trim()));
               const cSet = new Set(cCls.map((g) => (g.classification_value || "").split("|")[0].trim()));
-              const agree = [...pSet].filter((h) => cSet.has(h));
-              const pOnly = [...pSet].filter((h) => !cSet.has(h));
-              const cOnly = [...cSet].filter((h) => !pSet.has(h));
               const pRelev = pCls.length > 0 || (current.classifications || []).some((c) => c.HLTP && c.HLTP !== "NOT_RELEVANT");
-              const cRelev = cCls.length > 0 || (claudeAnnotations.length > 0 && claudeAnnotations.some((g) => g.relevance === "relevant"));
+              const claudeRelev = claudeRelevance[current.row_uid];
+              const cRelev = cCls.length > 0 || claudeAnnotations.some((g) => g.relevance === "relevant") || claudeRelev === "relevant";
               const isIrrel = (current.row_uid || "").includes("irrelevant");
               return (
                 <div className="comparison-grid">
@@ -783,8 +788,13 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
                     {cCls.length === 0 && claudeAnnotations.some((g) => g.relevance === "not_relevant") && (
                       <div className="te-chip irrel-note">{claudeAnnotations.find((g) => g.relevance === "not_relevant")?.notes || "Not relevant"}</div>
                     )}
-                    {cCls.length === 0 && !claudeAnnotations.some((g) => g.relevance === "not_relevant") && (
-                      <div className="te-chip empty">No taxonomy assigned</div>
+                    {cCls.length === 0 && !claudeAnnotations.some((g) => g.relevance === "not_relevant") && claudeRelev && (
+                      <div className={`te-chip ${claudeRelev === "relevant" ? "agree" : "irrel-note"}`}>
+                        {claudeRelev === "relevant" ? "Relevant (relevance only, no taxonomy details)" : "Not relevant"}
+                      </div>
+                    )}
+                    {cCls.length === 0 && !claudeAnnotations.some((g) => g.relevance === "not_relevant") && !claudeRelev && (
+                      <div className="te-chip empty">No annotation data</div>
                     )}
                   </div>
                 </div>
@@ -793,22 +803,33 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
           </section>
           <section className="panel decision-panel">
             <h3>Your Decision</h3>
-            <div className="decision-buttons">
-              <button
-                className={`decision-btn relevant ${liliiaDecisions[current.row_uid]?.decision === "relevant" ? "active" : ""}`}
-                onClick={() => { saveLiliiaDecision(current.row_uid, "relevant", form.notes); }}
-              >RELEVANT</button>
-              <button
-                className={`decision-btn not-relevant ${liliiaDecisions[current.row_uid]?.decision === "not_relevant" ? "active" : ""}`}
-                onClick={() => { saveLiliiaDecision(current.row_uid, "not_relevant", form.notes); }}
-              >NOT RELEVANT</button>
-            </div>
-            {liliiaDecisions[current.row_uid] && (
-              <div className="decision-saved">
-                Saved: <strong>{liliiaDecisions[current.row_uid].decision.toUpperCase()}</strong>
-                {" "}at {new Date(liliiaDecisions[current.row_uid].saved_at).toLocaleTimeString()}
-              </div>
-            )}
+            {(() => {
+              const reviewerDecision = liliiaDecisions[current.row_uid]?.decision;
+              const claudeSuggestion = claudeRelevance[current.row_uid];
+              const displayDecision = reviewerDecision || claudeSuggestion;
+              const isSaved = !!reviewerDecision;
+              return (
+                <>
+                  <div className="decision-buttons">
+                    <button
+                      className={`decision-btn relevant ${displayDecision === "relevant" ? (isSaved ? "active" : "suggested") : ""}`}
+                      onClick={() => { saveLiliiaDecision(current.row_uid, "relevant", form.notes); }}
+                    >RELEVANT</button>
+                    <button
+                      className={`decision-btn not-relevant ${displayDecision === "not_relevant" ? (isSaved ? "active" : "suggested") : ""}`}
+                      onClick={() => { saveLiliiaDecision(current.row_uid, "not_relevant", form.notes); }}
+                    >NOT RELEVANT</button>
+                  </div>
+                  <div className="decision-saved">
+                    {isSaved ? (
+                      <>Saved: <strong>{reviewerDecision.toUpperCase()}</strong>{" "}at {new Date(liliiaDecisions[current.row_uid].saved_at).toLocaleTimeString()}</>
+                    ) : claudeSuggestion ? (
+                      <>Claude suggests: <strong>{claudeSuggestion.toUpperCase()}</strong> — click to confirm or override</>
+                    ) : null}
+                  </div>
+                </>
+              );
+            })()}
             <textarea
               placeholder="Optional notes..."
               value={form.notes}
@@ -818,7 +839,10 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
             <button
               className="button primary"
               onClick={() => {
-                if (!liliiaDecisions[current.row_uid]) saveLiliiaDecision(current.row_uid, "unsure", form.notes);
+                if (!liliiaDecisions[current.row_uid]) {
+                  const decision = claudeRelevance[current.row_uid] || "unsure";
+                  saveLiliiaDecision(current.row_uid, decision, form.notes);
+                }
                 const ni = Math.min(filtered.length - 1, currentIdx + 1);
                 setCurrentIdx(ni);
                 const row = filtered[ni];

@@ -431,10 +431,10 @@ button, input, select, textarea { font: inherit; }
 
 .review-main {
   display: grid;
-  grid-template-rows: auto 1fr 1fr;
+  grid-template-rows: auto 1fr 1fr auto;
   gap: 10px;
   min-height: 0;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 .review-details {
@@ -898,6 +898,20 @@ textarea { min-height: 110px; resize: vertical; }
 .decision-btn.not-relevant.active {
   background: #b71c1c;
   border-color: #ef5350;
+  color: #ffcdd2;
+}
+
+.decision-btn.relevant.suggested {
+  background: rgba(27, 94, 32, 0.35);
+  border-color: rgba(76, 175, 80, 0.5);
+  border-style: dashed;
+  color: #a5d6a7;
+}
+
+.decision-btn.not-relevant.suggested {
+  background: rgba(183, 28, 28, 0.35);
+  border-color: rgba(239, 83, 80, 0.5);
+  border-style: dashed;
   color: #ffcdd2;
 }
 
