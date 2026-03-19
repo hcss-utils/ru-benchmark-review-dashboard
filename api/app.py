@@ -5,7 +5,7 @@ import os
 from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 import secrets
 
@@ -42,6 +42,7 @@ SAMPLE_ROWS = load_json("sample.json")
 SUMMARY = load_json("sample_latest_summary.json")
 ASSETS = load_json("project_assets_manifest.json")
 POPULATION = load_json("population_strata_counts.json")
+CLAUDE_RELEVANCE = load_json("claude_relevance.json")
 ROW_BY_UID = {row["row_uid"]: row for row in SAMPLE_ROWS}
 
 
@@ -126,6 +127,7 @@ def bootstrap(user: str = Depends(verify)) -> dict[str, Any]:
         "summary": SUMMARY,
         "assets": ASSETS,
         "population": POPULATION,
+        "claudeRelevance": CLAUDE_RELEVANCE,
     }
 
 
@@ -251,7 +253,7 @@ def delete_annotation(payload: AnnotationDeletePayload, user: str = Depends(veri
 
 @app.get("/api/review/next")
 def next_row(
-    project: str | None = None,
+    project: Optional[str] = None,
     fresh_only: bool = True,
     user: str = Depends(verify),
 ) -> dict[str, Any]:
@@ -270,7 +272,7 @@ def next_row(
         if unseen:
             rows = unseen
 
-    rows = sorted(rows, key=lambda row: (row["sample_row_id"], row["row_uid"]))
+    rows = sorted(rows, key=lambda row: (row["sample_row_id"] or 0, row["row_uid"]))
     pointer = len(reviewed) % len(rows)
     return rows[pointer]
 

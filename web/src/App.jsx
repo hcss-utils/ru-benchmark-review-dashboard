@@ -536,12 +536,17 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
   async function fetchFresh(freshOnly = true) {
     if (isStatic) { pickLocal(freshOnly); return; }
     const params = new URLSearchParams({ project, fresh_only: String(freshOnly) });
-    const res = await authFetch(`/api/review/next?${params}`);
-    const next = await res.json();
-    setCurrent(next);
-    resetForm();
-    loadAnnotations(next.row_uid);
-    loadClaudeAnnotations(next.row_uid);
+    try {
+      const res = await authFetch(`/api/review/next?${params}`);
+      if (!res.ok) throw new Error(`API error ${res.status}`);
+      const next = await res.json();
+      setCurrent(next);
+      resetForm();
+      loadAnnotations(next.row_uid);
+      loadClaudeAnnotations(next.row_uid);
+    } catch (err) {
+      setCurrent({ _error: err.message });
+    }
   }
 
   async function saveReview(andNext = false) {
@@ -601,6 +606,7 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
   }, [project]);
 
   if (!current) return <section className="panel">Loading review workspace...</section>;
+  if (current._error) return <section className="panel">Failed to load workspace: {current._error}</section>;
 
   return (
     <section className="review-screen">
