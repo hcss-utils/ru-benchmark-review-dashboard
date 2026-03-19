@@ -414,7 +414,7 @@ function emptyAnnotation(idx) {
   return { annotation_index: idx, classification_value: "", relevance: "relevant", confidence: "medium", notes: "" };
 }
 
-function ReviewPanel({ sample, isStatic = false }) {
+function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
   const [project, setProject] = useState("ALL");
   const [filterMode, setFilterMode] = useState("disagreements"); // "all" | "disagreements" | "agreements"
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -439,19 +439,20 @@ function ReviewPanel({ sample, isStatic = false }) {
   // Compute disagreements: pipeline vs claude relevance mismatch
   const allWithStatus = useMemo(() => {
     return sample.map((row) => {
-      const pCls = (row.classifications || []).filter((c) => c.HLTP && c.HLTP !== "NOT_RELEVANT" && c.HLTP !== "UNRESOLVABLE");
-      const pipelineRelevant = pCls.length > 0 && !(row.row_uid || "").includes("irrelevant");
-      // We don't know Claude's relevance from sample alone — mark as unknown until loaded
-      return { ...row, pipelineRelevant };
+      const pipelineRelevant = Boolean(row.classifications && row.classifications.length > 0);
+      const claudeRelevant = claudeRelevance[row.row_uid] === "relevant";
+      const isDisagreement = pipelineRelevant !== claudeRelevant;
+      return { ...row, pipelineRelevant, claudeRelevant, isDisagreement };
     });
-  }, [sample]);
+  }, [sample, claudeRelevance]);
 
   const filtered = useMemo(() => {
     let rows = project === "ALL" ? allWithStatus : allWithStatus.filter((row) => row.project === project);
-    // Sort by sample_row_id for stable order
+    if (filterMode === "disagreements") rows = rows.filter((row) => row.isDisagreement);
+    else if (filterMode === "agreements") rows = rows.filter((row) => !row.isDisagreement);
     rows = rows.sort((a, b) => (a.sample_row_id || 0) - (b.sample_row_id || 0));
     return rows;
-  }, [project, allWithStatus]);
+  }, [project, allWithStatus, filterMode]);
 
   // Track decided count
   const decidedCount = useMemo(() => {
@@ -879,9 +880,10 @@ export default function App() {
           fetch(base + "data/sample.json").then((r) => r.json()),
           fetch(base + "data/sample_latest_summary.json").then((r) => r.json()),
           fetch(base + "data/project_assets_manifest.json").then((r) => r.json()),
-          fetch(base + "data/population_strata_counts.json").then((r) => r.json())
-        ]).then(([sample, summary, assets, population]) => {
-          setBoot({ sample, summary, assets, population, static: true });
+          fetch(base + "data/population_strata_counts.json").then((r) => r.json()),
+          fetch(base + "data/claude_relevance.json").then((r) => r.json()).catch(() => ({}))
+        ]).then(([sample, summary, assets, population, claudeRelevance]) => {
+          setBoot({ sample, summary, assets, population, claudeRelevance, static: true });
         });
       });
   }, []);
@@ -923,7 +925,7 @@ export default function App() {
         <button className={tab === "assets" ? "active" : ""} onClick={() => setTab("assets")}>Project Assets</button>
       </nav>
       {tab === "atlas" && <AtlasPanel summary={boot.summary} population={boot.population} sample={boot.sample} />}
-      {tab === "review" && <ReviewPanel sample={boot.sample} isStatic={!!boot.static} />}
+      {tab === "review" && <ReviewPanel sample={boot.sample} isStatic={!!boot.static} claudeRelevance={boot.claudeRelevance || {}} />}
       {tab === "assets" && <AssetsPanel assets={boot.assets} />}
     </div>
   );
