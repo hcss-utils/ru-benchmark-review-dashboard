@@ -714,6 +714,36 @@ textarea { min-height: 110px; resize: vertical; }
   border: 1px solid rgba(255, 99, 71, 0.3);
 }
 
+.cj-btns {
+  display: flex;
+  gap: 3px;
+  margin-top: 5px;
+  flex-wrap: wrap;
+}
+
+.cj-btn {
+  flex: 1;
+  padding: 3px 4px;
+  font-size: 0.66rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: 5px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.03);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+
+.cj-btn:hover { background: var(--panel-2); color: var(--text); }
+
+.cj-btn.cj-agree.active        { background: rgba(46,160,67,0.2);  border-color: #4cdf7c; color: #4cdf7c; }
+.cj-btn.cj-partially-agree.active { background: rgba(255,165,0,0.15); border-color: #ffb347; color: #ffb347; }
+.cj-btn.cj-disagree.active     { background: rgba(239,83,80,0.18); border-color: #ef5350; color: #ff8a75; }
+.cj-btn.cj-unsure.active       { background: rgba(116,208,255,0.12); border-color: var(--accent); color: var(--accent); }
+
 .te-chip {
   border: 1px solid var(--line);
   border-radius: 10px;

@@ -76,6 +76,15 @@ class AnnotationDeletePayload(BaseModel):
     annotation_index: int
 
 
+class ClassificationJudgmentPayload(BaseModel):
+    row_uid: str
+    annotation_source: str   # 'pipeline' | 'claude-opus-4-6' | other reviewer name
+    annotation_index: int
+    judgment: str            # 'agree' | 'partially_agree' | 'disagree' | 'unsure'
+    reviewer: str = "liliia"
+    notes: str = ""
+
+
 @contextmanager
 def db_cursor():
     conn = psycopg2.connect(**DB_CONFIG)
@@ -103,7 +112,26 @@ def verify(credentials: HTTPBasicCredentials = Depends(security)):
     return credentials.username
 
 
+_CJ_DDL = """
+CREATE TABLE IF NOT EXISTS classification_judgments (
+    row_uid             TEXT        NOT NULL,
+    annotation_source   TEXT        NOT NULL,
+    annotation_index    INTEGER     NOT NULL,
+    reviewer            TEXT        NOT NULL,
+    judgment            TEXT        NOT NULL,
+    notes               TEXT        NOT NULL DEFAULT '',
+    saved_at            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    PRIMARY KEY (row_uid, annotation_source, annotation_index, reviewer)
+)
+"""
+
 app = FastAPI(title="RU Benchmark Review Server")
+
+
+@app.on_event("startup")
+def create_tables() -> None:
+    with db_cursor() as cur:
+        cur.execute(_CJ_DDL)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -122,12 +150,23 @@ def health() -> dict[str, str]:
 
 @app.get("/api/bootstrap")
 def bootstrap(user: str = Depends(verify)) -> dict[str, Any]:
+    with db_cursor() as cur:
+        cur.execute(
+            """
+            SELECT row_uid,
+                   CASE WHEN bool_or(relevance = 'relevant') THEN 'relevant' ELSE 'not_relevant' END AS relevance
+            FROM reviewer_annotations
+            WHERE reviewer = 'claude-opus-4-6'
+            GROUP BY row_uid
+            """
+        )
+        claude_relevance = {row["row_uid"]: row["relevance"] for row in cur.fetchall()}
     return {
         "sample": SAMPLE_ROWS,
         "summary": SUMMARY,
         "assets": ASSETS,
         "population": POPULATION,
-        "claudeRelevance": CLAUDE_RELEVANCE,
+        "claudeRelevance": claude_relevance,
     }
 
 
@@ -275,6 +314,48 @@ def next_row(
     rows = sorted(rows, key=lambda row: (row["sample_row_id"] or 0, row["row_uid"]))
     pointer = len(reviewed) % len(rows)
     return rows[pointer]
+
+
+@app.get("/api/classification-judgments")
+def get_classification_judgments(
+    row_uid: str,
+    reviewer: str = "liliia",
+    user: str = Depends(verify),
+) -> list[dict[str, Any]]:
+    with db_cursor() as cur:
+        cur.execute(
+            "SELECT * FROM classification_judgments WHERE row_uid = %s AND reviewer = %s",
+            (row_uid, reviewer),
+        )
+        return [dict(row) for row in cur.fetchall()]
+
+
+@app.post("/api/classification-judgments")
+def upsert_classification_judgment(
+    payload: ClassificationJudgmentPayload,
+    user: str = Depends(verify),
+) -> dict[str, Any]:
+    with db_cursor() as cur:
+        cur.execute(
+            """
+            INSERT INTO classification_judgments
+                (row_uid, annotation_source, annotation_index, reviewer, judgment, notes, saved_at)
+            VALUES (%s, %s, %s, %s, %s, %s, NOW())
+            ON CONFLICT (row_uid, annotation_source, annotation_index, reviewer) DO UPDATE SET
+                judgment  = EXCLUDED.judgment,
+                notes     = EXCLUDED.notes,
+                saved_at  = NOW()
+            """,
+            (
+                payload.row_uid,
+                payload.annotation_source,
+                payload.annotation_index,
+                payload.reviewer,
+                payload.judgment,
+                payload.notes,
+            ),
+        )
+    return {"ok": True}
 
 
 if WEB_DIST.exists():

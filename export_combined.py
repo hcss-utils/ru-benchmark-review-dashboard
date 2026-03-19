@@ -1,11 +1,16 @@
 """
-Export combined table: original document + reviewer_annotations + reviews.
+Export combined table: exploded classifications from pipeline + reviewer_annotations + reviews.
 
-Creates (or replaces) table `export_combined` in the same PostgreSQL database.
+Row granularity: one row per (row_uid, annotation_source, annotation_index).
+  - annotation_source = 'pipeline'          → from sample.json classifications[]
+  - annotation_source = 'claude-opus-4-6'   → from reviewer_annotations in DB
+  - annotation_source = <human reviewer>    → from reviewer_annotations in DB
 
-One row per (row_uid, annotation_index) from reviewer_annotations.
-If a row_uid has no reviewer_annotations, it still appears once with NULLs
-for annotation columns (LEFT JOIN behaviour).
+Taxonomy fields (hltp / level_2 / level_3) use the same structure across all
+sources so you can compare pipeline vs Claude vs human by (row_uid, hltp).
+
+Review decision (rev_judgment, rev_notes) from the reviews table is repeated
+on every classification row that belongs to the same chunk.
 
 Run:
     python export_combined.py [--dry-run] [--csv output.csv]
@@ -17,7 +22,6 @@ import argparse
 import csv
 import json
 import os
-import sys
 from pathlib import Path
 
 import psycopg2
@@ -44,54 +48,60 @@ DB_CONFIG = {
 EXPORT_TABLE = "export_combined"
 
 # ---------------------------------------------------------------------------
-# DDL for export table
+# DDL
 # ---------------------------------------------------------------------------
 
 DDL = f"""
 CREATE TABLE IF NOT EXISTS {EXPORT_TABLE} (
-    -- document fields (from sample.json)
-    row_uid               TEXT        NOT NULL,
-    sample_row_id         INTEGER,
-    project               TEXT,
-    document_id           TEXT,
-    chunk_pk              BIGINT,
-    database_name         TEXT,
-    source_norm           TEXT,
-    author                TEXT,
-    doc_date              TEXT,
-    lang                  TEXT,
-    word_count            INTEGER,
-    word_bucket           TEXT,
-    time_group            TEXT,
-    chunk_text            TEXT,
-    original_classifications  JSONB,   -- classifications[] from sample.json
+    -- identity / join key
+    row_uid             TEXT    NOT NULL,
+    annotation_source   TEXT    NOT NULL,   -- 'pipeline' | reviewer name
+    annotation_index    INTEGER NOT NULL,   -- position within source (-1 = no classification)
 
-    -- reviewer_annotations fields (from DB)
-    ra_reviewer           TEXT,
-    ra_annotation_index   INTEGER,
-    ra_classification_value TEXT,
-    ra_relevance          TEXT,
-    ra_confidence         TEXT,
-    ra_notes              TEXT,
-    ra_extra              JSONB,
-    ra_created_at         TIMESTAMPTZ,
+    -- taxonomy (comparable across all sources on row_uid + hltp)
+    hltp                TEXT,
+    level_2             TEXT,
+    level_3             TEXT,
+    confidence          TEXT,   -- numeric string for pipeline; high/medium/low for DB annotations
+    relevance           TEXT,   -- 'relevant' / 'not_relevant'
+    ann_notes           TEXT,   -- pipeline: explanation; DB: annotation notes
+    ann_extra           TEXT,   -- pipeline: directionality/source JSON; DB: extra JSONB
 
-    -- reviews fields (from DB)
-    rev_judgment          TEXT,
-    rev_meets_benchmark   BOOLEAN,
-    rev_faithful_source   BOOLEAN,
-    rev_taxonomy_ok       BOOLEAN,
-    rev_metadata_ok       BOOLEAN,
-    rev_escalate          BOOLEAN,
-    rev_reviewer          TEXT,
-    rev_notes             TEXT,
-    rev_saved_at          TIMESTAMPTZ,
-    rev_annotations       JSONB,       -- annotations dict stored in reviews
+    -- document metadata
+    sample_row_id       INTEGER,
+    project             TEXT,
+    document_id         TEXT,
+    chunk_pk            TEXT,
+    database_name       TEXT,
+    source_norm         TEXT,
+    author              TEXT,
+    doc_date            TEXT,
+    lang                TEXT,
+    word_count          INTEGER,
+    word_bucket         TEXT,
+    time_group          TEXT,
+    chunk_text          TEXT,
 
-    PRIMARY KEY (row_uid, ra_annotation_index)
+    -- reviewer decision (from reviews table; repeated per chunk)
+    rev_judgment        TEXT,   -- 'relevant' / 'not_relevant' / other
+    rev_notes           TEXT,   -- free text; often contains corrected classification
+
+    PRIMARY KEY (row_uid, annotation_source, annotation_index)
 );
 """
 
+COLUMNS = [
+    "row_uid", "annotation_source", "annotation_index",
+    "hltp", "level_2", "level_3", "confidence", "relevance", "ann_notes", "ann_extra",
+    "sample_row_id", "project", "document_id", "chunk_pk",
+    "database_name", "source_norm", "author", "doc_date", "lang",
+    "word_count", "word_bucket", "time_group", "chunk_text",
+    "rev_judgment", "rev_notes",
+]
+
+# ---------------------------------------------------------------------------
+# DB helpers
+# ---------------------------------------------------------------------------
 
 def load_sample() -> dict[str, dict]:
     path = DATA_DIR / "sample.json"
@@ -113,6 +123,24 @@ def fetch_reviewer_annotations(cur) -> dict[str, list[dict]]:
         result.setdefault(row["row_uid"], []).append(dict(row))
     return result
 
+# ---------------------------------------------------------------------------
+# Build rows
+# ---------------------------------------------------------------------------
+
+_IRRELEVANT_HLTP = {"NOT_RELEVANT", "UNRESOLVABLE"}
+
+
+def _parse_classification_value(value: str | None) -> tuple[str | None, str | None, str | None]:
+    """Split 'HLTP | 2nd | 3rd' into components."""
+    if not value:
+        return None, None, None
+    parts = [p.strip() for p in value.split("|")]
+    return (
+        parts[0] if len(parts) > 0 else None,
+        parts[1] if len(parts) > 1 else None,
+        parts[2] if len(parts) > 2 else None,
+    )
+
 
 def build_combined_rows(
     sample: dict[str, dict],
@@ -121,18 +149,17 @@ def build_combined_rows(
 ) -> list[dict]:
     combined = []
 
-    # Use sample.json as the source-of-truth for all row_uids
     for row_uid, doc in sample.items():
         rev = reviews.get(row_uid)
-        ann_list = annotations.get(row_uid)
+        ann_list = annotations.get(row_uid, [])
 
-        # Base document fields
-        doc_fields = {
+        # Document fields repeated on every classification row for this chunk
+        doc_base = {
             "row_uid": row_uid,
             "sample_row_id": doc.get("sample_row_id"),
             "project": doc.get("project"),
             "document_id": doc.get("document_id"),
-            "chunk_pk": doc.get("chunk_pk"),
+            "chunk_pk": str(doc.get("chunk_pk")) if doc.get("chunk_pk") is not None else None,
             "database_name": doc.get("database"),
             "source_norm": doc.get("source_norm"),
             "author": doc.get("author"),
@@ -142,92 +169,79 @@ def build_combined_rows(
             "word_bucket": doc.get("word_bucket"),
             "time_group": doc.get("time_group"),
             "chunk_text": doc.get("chunk_text"),
-            "original_classifications": json.dumps(
-                doc.get("classifications", []), ensure_ascii=False
-            ),
+            "rev_judgment": rev.get("judgment") if rev else None,
+            "rev_notes": rev.get("notes") if rev else None,
         }
 
-        # Review fields (NULL if no review yet)
-        rev_fields: dict = {
-            "rev_judgment": None,
-            "rev_meets_benchmark": None,
-            "rev_faithful_source": None,
-            "rev_taxonomy_ok": None,
-            "rev_metadata_ok": None,
-            "rev_escalate": None,
-            "rev_reviewer": None,
-            "rev_notes": None,
-            "rev_saved_at": None,
-            "rev_annotations": None,
-        }
-        if rev:
-            rev_fields = {
-                "rev_judgment": rev.get("judgment"),
-                "rev_meets_benchmark": rev.get("meets_benchmark"),
-                "rev_faithful_source": rev.get("faithful_source"),
-                "rev_taxonomy_ok": rev.get("taxonomy_ok"),
-                "rev_metadata_ok": rev.get("metadata_ok"),
-                "rev_escalate": rev.get("escalate"),
-                "rev_reviewer": rev.get("reviewer"),
-                "rev_notes": rev.get("notes"),
-                "rev_saved_at": rev.get("saved_at"),
-                "rev_annotations": rev.get("annotations"),  # already TEXT/JSON in DB
-            }
-
-        if ann_list:
-            for ann in ann_list:
-                row = {
-                    **doc_fields,
-                    **rev_fields,
-                    "ra_reviewer": ann.get("reviewer"),
-                    "ra_annotation_index": ann.get("annotation_index"),
-                    "ra_classification_value": ann.get("classification_value"),
-                    "ra_relevance": ann.get("relevance"),
-                    "ra_confidence": ann.get("confidence"),
-                    "ra_notes": ann.get("notes"),
-                    "ra_extra": ann.get("extra"),
-                    "ra_created_at": ann.get("created_at"),
-                }
-                combined.append(row)
+        # --- Pipeline classifications (exploded from sample.json) ---
+        pipe_cls = [
+            c for c in doc.get("classifications", [])
+            if c.get("HLTP")
+        ]
+        if pipe_cls:
+            for i, cls in enumerate(pipe_cls):
+                hltp = cls.get("HLTP")
+                is_relevant = hltp not in _IRRELEVANT_HLTP
+                combined.append({
+                    **doc_base,
+                    "annotation_source": "pipeline",
+                    "annotation_index": i,
+                    "hltp": hltp if is_relevant else None,
+                    "level_2": cls.get("2nd_level_TE") if is_relevant else None,
+                    "level_3": cls.get("3rd_level_TE") if is_relevant else None,
+                    "confidence": str(cls["confidence"]) if cls.get("confidence") is not None else None,
+                    "relevance": "relevant" if is_relevant else "not_relevant",
+                    "ann_notes": cls.get("explanation"),
+                    "ann_extra": json.dumps(
+                        {"directionality": cls.get("directionality"), "source": cls.get("source")},
+                        ensure_ascii=False,
+                    ),
+                })
         else:
-            # No annotations yet — still include the document row
-            row = {
-                **doc_fields,
-                **rev_fields,
-                "ra_reviewer": None,
-                "ra_annotation_index": -1,  # sentinel so PK is valid
-                "ra_classification_value": None,
-                "ra_relevance": None,
-                "ra_confidence": None,
-                "ra_notes": None,
-                "ra_extra": None,
-                "ra_created_at": None,
-            }
-            combined.append(row)
+            # Chunk has no pipeline classification — include sentinel row
+            combined.append({
+                **doc_base,
+                "annotation_source": "pipeline",
+                "annotation_index": -1,
+                "hltp": None,
+                "level_2": None,
+                "level_3": None,
+                "confidence": None,
+                "relevance": "not_relevant",
+                "ann_notes": None,
+                "ann_extra": None,
+            })
+
+        # --- DB reviewer annotations (Claude + human, exploded) ---
+        for ann in ann_list:
+            hltp, level_2, level_3 = _parse_classification_value(ann.get("classification_value"))
+            combined.append({
+                **doc_base,
+                "annotation_source": ann.get("reviewer"),
+                "annotation_index": ann.get("annotation_index"),
+                "hltp": hltp,
+                "level_2": level_2,
+                "level_3": level_3,
+                "confidence": ann.get("confidence"),
+                "relevance": ann.get("relevance"),
+                "ann_notes": ann.get("notes"),
+                "ann_extra": json.dumps(ann.get("extra"), ensure_ascii=False) if ann.get("extra") is not None else None,
+            })
 
     return combined
 
-
-COLUMNS = [
-    "row_uid", "sample_row_id", "project", "document_id", "chunk_pk",
-    "database_name", "source_norm", "author", "doc_date", "lang",
-    "word_count", "word_bucket", "time_group", "chunk_text",
-    "original_classifications",
-    "ra_reviewer", "ra_annotation_index", "ra_classification_value",
-    "ra_relevance", "ra_confidence", "ra_notes", "ra_extra", "ra_created_at",
-    "rev_judgment", "rev_meets_benchmark", "rev_faithful_source",
-    "rev_taxonomy_ok", "rev_metadata_ok", "rev_escalate",
-    "rev_reviewer", "rev_notes", "rev_saved_at", "rev_annotations",
-]
-
+# ---------------------------------------------------------------------------
+# DB write / CSV export
+# ---------------------------------------------------------------------------
 
 def insert_rows(cur, rows: list[dict]) -> None:
     placeholders = ", ".join(["%s"] * len(COLUMNS))
     cols = ", ".join(COLUMNS)
+    pk = ("row_uid", "annotation_source", "annotation_index")
     sql = (
         f"INSERT INTO {EXPORT_TABLE} ({cols}) VALUES ({placeholders}) "
-        f"ON CONFLICT (row_uid, ra_annotation_index) DO UPDATE SET "
-        + ", ".join(f"{c} = EXCLUDED.{c}" for c in COLUMNS if c not in ("row_uid", "ra_annotation_index"))
+        f"ON CONFLICT (row_uid, annotation_source, annotation_index) DO UPDATE SET "
+        + ", ".join(f"{c} = EXCLUDED.{c}" for c in COLUMNS if c not in pk)
     )
     data = [tuple(row[c] for c in COLUMNS) for row in rows]
     psycopg2.extras.execute_batch(cur, sql, data, page_size=200)
@@ -240,6 +254,9 @@ def export_csv(rows: list[dict], path: str) -> None:
         writer.writerows(rows)
     print(f"CSV saved → {path}")
 
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Export combined review table.")
@@ -266,7 +283,9 @@ def main() -> None:
 
         print("Building combined rows …")
         rows = build_combined_rows(sample, reviews, annotations)
-        print(f"  {len(rows)} combined rows ready.")
+        pipe_rows = sum(1 for r in rows if r["annotation_source"] == "pipeline")
+        db_rows = sum(1 for r in rows if r["annotation_source"] != "pipeline")
+        print(f"  {len(rows)} combined rows ready ({pipe_rows} pipeline, {db_rows} DB annotations).")
 
         if args.csv:
             export_csv(rows, args.csv)
@@ -274,13 +293,14 @@ def main() -> None:
         if args.dry_run:
             print("Dry run — skipping DB write.")
             if rows:
-                print("Sample combined row:")
-                for k, v in list(rows[0].items())[:10]:
-                    print(f"  {k}: {repr(v)[:80]}")
+                print("Sample row:")
+                for k, v in rows[0].items():
+                    print(f"  {k}: {repr(v)[:100]}")
             return
 
-        print(f"Creating/verifying table '{EXPORT_TABLE}' …")
+        print(f"Recreating table '{EXPORT_TABLE}' …")
         with conn.cursor() as cur:
+            cur.execute(f"DROP TABLE IF EXISTS {EXPORT_TABLE}")
             cur.execute(DDL)
             conn.commit()
 

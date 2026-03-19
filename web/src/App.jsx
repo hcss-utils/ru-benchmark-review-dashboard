@@ -422,6 +422,7 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
   const [reviews, setReviews] = useState([]);
   const [gtRows, setGtRows] = useState([emptyAnnotation(0)]);
   const [claudeAnnotations, setClaudeAnnotations] = useState([]);
+  const [classificationJudgments, setClassificationJudgments] = useState({}); // key: "source:index"
   const [liliiaDecisions, setLiliiaDecisions] = useState(() => {
     try { return JSON.parse(localStorage.getItem("liliia_decisions") || "{}"); } catch { return {}; }
   });
@@ -450,14 +451,20 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
     let rows = project === "ALL" ? allWithStatus : allWithStatus.filter((row) => row.project === project);
     if (filterMode === "disagreements") rows = rows.filter((row) => row.isDisagreement);
     else if (filterMode === "agreements") rows = rows.filter((row) => !row.isDisagreement);
+    // Exclude chunks already reviewed by this user
+    rows = rows.filter((row) => !liliiaDecisions[row.row_uid]);
     rows = rows.sort((a, b) => (a.sample_row_id || 0) - (b.sample_row_id || 0));
     return rows;
+  }, [project, allWithStatus, filterMode, liliiaDecisions]);
+
+  const totalInFilter = useMemo(() => {
+    let rows = project === "ALL" ? allWithStatus : allWithStatus.filter((row) => row.project === project);
+    if (filterMode === "disagreements") rows = rows.filter((row) => row.isDisagreement);
+    else if (filterMode === "agreements") rows = rows.filter((row) => !row.isDisagreement);
+    return rows.length;
   }, [project, allWithStatus, filterMode]);
 
-  // Track decided count
-  const decidedCount = useMemo(() => {
-    return filtered.filter((r) => liliiaDecisions[r.row_uid]).length;
-  }, [filtered, liliiaDecisions]);
+  const reviewedCount = totalInFilter - filtered.length;
 
   async function saveLiliiaDecision(uid, decision, notes) {
     const updated = { ...liliiaDecisions, [uid]: { decision, notes, saved_at: new Date().toISOString() } };
@@ -493,8 +500,20 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
 
   async function refreshReviews() {
     if (isStatic) { setReviews(lsLoad()); return; }
-    const res = await authFetch("/api/reviews");
-    setReviews(await res.json());
+    const res = await authFetch("/api/reviews?limit=500");
+    const data = await res.json();
+    setReviews(data);
+    // Merge DB reviews into liliiaDecisions so cross-session reviews are excluded from navigation
+    setLiliiaDecisions(prev => {
+      const merged = { ...prev };
+      for (const r of data) {
+        if (!merged[r.row_uid]) {
+          merged[r.row_uid] = { decision: r.judgment, notes: r.notes || "", saved_at: r.saved_at };
+        }
+      }
+      localStorage.setItem("liliia_decisions", JSON.stringify(merged));
+      return merged;
+    });
   }
 
   async function loadClaudeAnnotations(rowUid) {
@@ -503,6 +522,35 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
       const res = await authFetch(`/api/reviewer-annotations?row_uid=${encodeURIComponent(rowUid)}&reviewer=claude-opus-4-6`);
       setClaudeAnnotations(await res.json());
     } catch { setClaudeAnnotations([]); }
+  }
+
+  async function loadClassificationJudgments(rowUid) {
+    if (isStatic) { setClassificationJudgments({}); return; }
+    try {
+      const res = await authFetch(`/api/classification-judgments?row_uid=${encodeURIComponent(rowUid)}&reviewer=${encodeURIComponent(form.reviewer || "liliia")}`);
+      const rows = await res.json();
+      const map = {};
+      for (const r of rows) map[`${r.annotation_source}:${r.annotation_index}`] = r.judgment;
+      setClassificationJudgments(map);
+    } catch { setClassificationJudgments({}); }
+  }
+
+  async function saveClassificationJudgment(rowUid, source, idx, judgment) {
+    const key = `${source}:${idx}`;
+    setClassificationJudgments(prev => ({ ...prev, [key]: judgment }));
+    if (!isStatic) {
+      await authFetch("/api/classification-judgments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          row_uid: rowUid,
+          annotation_source: source,
+          annotation_index: idx,
+          judgment,
+          reviewer: form.reviewer || "liliia",
+        }),
+      });
+    }
   }
 
   async function loadAnnotations(rowUid) {
@@ -551,6 +599,7 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
       resetForm();
       loadAnnotations(next.row_uid);
       loadClaudeAnnotations(next.row_uid);
+      loadClassificationJudgments(next.row_uid);
     } catch (err) {
       setCurrent({ _error: err.message });
     }
@@ -603,13 +652,26 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
 
   useEffect(() => {
     if (!sample.length) return;
-    fetchFresh(false);
     refreshReviews();
+    if (filtered.length > 0) {
+      const row = filtered[0];
+      setCurrentIdx(0);
+      setCurrent(row);
+      loadAnnotations(row.row_uid);
+      loadClaudeAnnotations(row.row_uid);
+      loadClassificationJudgments(row.row_uid);
+    }
   }, [sample.length]);
 
   useEffect(() => {
-    if (!sample.length) return;
-    fetchFresh(false);
+    if (!sample.length || !filtered.length) return;
+    const row = filtered[0];
+    setCurrentIdx(0);
+    setCurrent(row);
+    resetForm();
+    loadAnnotations(row.row_uid);
+    loadClaudeAnnotations(row.row_uid);
+    loadClassificationJudgments(row.row_uid);
   }, [project]);
 
   // Pre-fill gtRows from Claude annotations when reviewer has no saved annotations yet
@@ -619,8 +681,23 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
     }
   }, [claudeAnnotations]);
 
+  // Clamp currentIdx when filtered list shrinks (e.g. after reviewing a chunk)
+  useEffect(() => {
+    if (filtered.length > 0 && currentIdx >= filtered.length) {
+      setCurrentIdx(filtered.length - 1);
+    }
+  }, [filtered.length]);
+
   if (!current) return <section className="panel">Loading review workspace...</section>;
   if (current._error) return <section className="panel">Failed to load workspace: {current._error}</section>;
+  if (filtered.length === 0 && liliiaDecisions[current?.row_uid]) {
+    return (
+      <section className="panel" style={{ margin: "20px", padding: "30px", textAlign: "center" }}>
+        <h2>All chunks reviewed</h2>
+        <p>No more unreviewed chunks in this filter. Switch filter or project to see more.</p>
+      </section>
+    );
+  }
 
   return (
     <section className="review-screen">
@@ -639,11 +716,11 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
           ))}
         </div>
         <div className="nav-controls">
-          <button className="button secondary" disabled={currentIdx <= 0} onClick={() => { const ni = Math.max(0, currentIdx - 1); setCurrentIdx(ni); const row = filtered[ni]; if (row) { setCurrent(row); resetForm(); loadAnnotations(row.row_uid); loadClaudeAnnotations(row.row_uid); } }}>← Prev</button>
+          <button className="button secondary" disabled={currentIdx <= 0} onClick={() => { const ni = Math.max(0, currentIdx - 1); setCurrentIdx(ni); const row = filtered[ni]; if (row) { setCurrent(row); resetForm(); loadAnnotations(row.row_uid); loadClaudeAnnotations(row.row_uid); loadClassificationJudgments(row.row_uid); } }}>← Prev</button>
           <span className="nav-counter">{currentIdx + 1} / {filtered.length}</span>
-          <button className="button secondary" disabled={currentIdx >= filtered.length - 1} onClick={() => { const ni = Math.min(filtered.length - 1, currentIdx + 1); setCurrentIdx(ni); const row = filtered[ni]; if (row) { setCurrent(row); resetForm(); loadAnnotations(row.row_uid); loadClaudeAnnotations(row.row_uid); } }}>Next →</button>
+          <button className="button secondary" disabled={currentIdx >= filtered.length - 1} onClick={() => { const ni = Math.min(filtered.length - 1, currentIdx + 1); setCurrentIdx(ni); const row = filtered[ni]; if (row) { setCurrent(row); resetForm(); loadAnnotations(row.row_uid); loadClaudeAnnotations(row.row_uid); loadClassificationJudgments(row.row_uid); } }}>Next →</button>
         </div>
-        <span className="decided-counter">{decidedCount}/{filtered.length} decided</span>
+        <span className="decided-counter">{reviewedCount} reviewed · {filtered.length} remaining</span>
         <button className="button primary" onClick={exportDecisions}>Export Decisions</button>
       </div>
       <div className="review-grid">
@@ -671,12 +748,22 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
                   <div className={`relevance-badge ${pRelev ? "rel" : "irrel"}`}>{pRelev ? "Relevant" : "Not Relevant"}</div>
                   {pCls.map((c, i) => {
                     const hltp = (c.HLTP || "").split("|")[0].trim();
+                    const jKey = `pipeline:${i}`;
+                    const jVal = classificationJudgments[jKey];
                     return (
                       <div className={`te-chip ${cSet.has(hltp) ? "agree" : "disagree"}`} key={i}>
                         <span className="te-badge">{cSet.has(hltp) ? "AGREE" : "PIPELINE ONLY"}</span>
                         <strong>{c.HLTP}</strong>
                         {c["2nd_level_TE"] && <span>{c["2nd_level_TE"]}{c["3rd_level_TE"] ? " | " + c["3rd_level_TE"] : ""}</span>}
                         {c.confidence && <span className="te-conf">conf: {c.confidence}</span>}
+                        <div className="cj-btns">
+                          {["agree", "partially_agree", "disagree", "unsure"].map((j) => (
+                            <button key={j} className={`cj-btn ${jVal === j ? "active" : ""} cj-${j.replace("_", "-")}`}
+                              onClick={() => saveClassificationJudgment(current.row_uid, "pipeline", i, j)}>
+                              {j === "partially_agree" ? "partial" : j}
+                            </button>
+                          ))}
+                        </div>
                       </div>
                     );
                   })}
@@ -688,11 +775,21 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
                   <div className={`relevance-badge ${cRelev ? "rel" : "irrel"}`}>{cRelev ? "Relevant" : "Not Relevant"}</div>
                   {cCls.map((g, i) => {
                     const hltp = (g.classification_value || "").split("|")[0].trim();
+                    const jKey = `claude-opus-4-6:${g.annotation_index ?? i}`;
+                    const jVal = classificationJudgments[jKey];
                     return (
                       <div className={`te-chip ${pSet.has(hltp) ? "agree" : "claude-only"}`} key={i}>
                         <span className="te-badge">{pSet.has(hltp) ? "AGREE" : "CLAUDE ONLY"}</span>
                         <strong>{g.classification_value}</strong>
                         {g.confidence && <span className="te-conf">conf: {g.confidence}</span>}
+                        <div className="cj-btns">
+                          {["agree", "partially_agree", "disagree", "unsure"].map((j) => (
+                            <button key={j} className={`cj-btn ${jVal === j ? "active" : ""} cj-${j.replace("_", "-")}`}
+                              onClick={() => saveClassificationJudgment(current.row_uid, "claude-opus-4-6", g.annotation_index ?? i, j)}>
+                              {j === "partially_agree" ? "partial" : j}
+                            </button>
+                          ))}
+                        </div>
                       </div>
                     );
                   })}
@@ -754,7 +851,7 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
                     const ni = Math.min(filtered.length - 1, currentIdx + 1);
                     setCurrentIdx(ni);
                     const row = filtered[ni];
-                    if (row) { setCurrent(row); resetForm(); loadAnnotations(row.row_uid); loadClaudeAnnotations(row.row_uid); }
+                    if (row) { setCurrent(row); resetForm(); loadAnnotations(row.row_uid); loadClaudeAnnotations(row.row_uid); loadClassificationJudgments(row.row_uid); }
                   }}
                 >Save + Next →</button>
               </>
