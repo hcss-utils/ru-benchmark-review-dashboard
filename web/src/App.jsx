@@ -641,214 +641,137 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
       </div>
       <div className="review-grid">
         <aside className="panel sidebar">
-          <div className="queue-grid">
-            <div className="metric"><strong>{filtered.length}</strong><span>rows in filter</span></div>
-            <div className="metric"><strong>{reviews.length}</strong><span>saved reviews</span></div>
+          {/* Row metadata */}
+          <div className="row-meta">
+            <div className="row-meta-title">Row {current.sample_row_id} · <span>{current.project}</span></div>
+            <div className="row-meta-sub">{current.source_norm} · {current.database} · {current.time_group} · {current.word_bucket}</div>
+            <div className="chip small">{current.row_uid}</div>
           </div>
-          <label>Project</label>
+
+          {/* Pipeline + Claude verdicts */}
+          {(() => {
+            const pCls = (current.classifications || []).filter((c) => c.HLTP && c.HLTP !== "NOT_RELEVANT" && c.HLTP !== "UNRESOLVABLE");
+            const cCls = claudeAnnotations.filter((g) => g.classification_value && g.classification_value !== "NOT_RELEVANT" && g.relevance === "relevant");
+            const pSet = new Set(pCls.map((c) => (c.HLTP || "").split("|")[0].trim()));
+            const cSet = new Set(cCls.map((g) => (g.classification_value || "").split("|")[0].trim()));
+            const pRelev = pCls.length > 0;
+            const claudeRelev = claudeRelevance[current.row_uid];
+            const cRelev = cCls.length > 0 || claudeAnnotations.some((g) => g.relevance === "relevant") || claudeRelev === "relevant";
+            return (
+              <>
+                <div className="verdict-block">
+                  <div className="verdict-label">Pipeline</div>
+                  <div className={`relevance-badge ${pRelev ? "rel" : "irrel"}`}>{pRelev ? "Relevant" : "Not Relevant"}</div>
+                  {pCls.map((c, i) => {
+                    const hltp = (c.HLTP || "").split("|")[0].trim();
+                    return (
+                      <div className={`te-chip ${cSet.has(hltp) ? "agree" : "disagree"}`} key={i}>
+                        <span className="te-badge">{cSet.has(hltp) ? "AGREE" : "PIPELINE ONLY"}</span>
+                        <strong>{c.HLTP}</strong>
+                        {c["2nd_level_TE"] && <span>{c["2nd_level_TE"]}{c["3rd_level_TE"] ? " | " + c["3rd_level_TE"] : ""}</span>}
+                        {c.confidence && <span className="te-conf">conf: {c.confidence}</span>}
+                      </div>
+                    );
+                  })}
+                  {pCls.length === 0 && <div className="te-chip empty">No taxonomy assigned</div>}
+                </div>
+
+                <div className="verdict-block">
+                  <div className="verdict-label">Claude Opus 4.6</div>
+                  <div className={`relevance-badge ${cRelev ? "rel" : "irrel"}`}>{cRelev ? "Relevant" : "Not Relevant"}</div>
+                  {cCls.map((g, i) => {
+                    const hltp = (g.classification_value || "").split("|")[0].trim();
+                    return (
+                      <div className={`te-chip ${pSet.has(hltp) ? "agree" : "claude-only"}`} key={i}>
+                        <span className="te-badge">{pSet.has(hltp) ? "AGREE" : "CLAUDE ONLY"}</span>
+                        <strong>{g.classification_value}</strong>
+                        {g.confidence && <span className="te-conf">conf: {g.confidence}</span>}
+                      </div>
+                    );
+                  })}
+                  {cCls.length === 0 && claudeAnnotations.some((g) => g.relevance === "not_relevant") && (
+                    <div className="te-chip irrel-note">{claudeAnnotations.find((g) => g.relevance === "not_relevant")?.notes || "Not relevant"}</div>
+                  )}
+                  {cCls.length === 0 && !claudeAnnotations.some((g) => g.relevance === "not_relevant") && claudeRelev && (
+                    <div className={`te-chip ${claudeRelev === "relevant" ? "agree" : "irrel-note"}`}>
+                      {claudeRelev === "relevant" ? "Relevant (summary only)" : "Not relevant"}
+                    </div>
+                  )}
+                  {cCls.length === 0 && !claudeAnnotations.some((g) => g.relevance === "not_relevant") && !claudeRelev && (
+                    <div className="te-chip empty">No annotation data</div>
+                  )}
+                </div>
+              </>
+            );
+          })()}
+
+          {/* Your decision */}
+          <div className="verdict-divider" />
+          {(() => {
+            const reviewerDecision = liliiaDecisions[current.row_uid]?.decision;
+            const claudeSuggestion = claudeRelevance[current.row_uid];
+            const displayDecision = reviewerDecision || claudeSuggestion;
+            const isSaved = !!reviewerDecision;
+            return (
+              <>
+                <div className="verdict-label">Your Decision</div>
+                <div className="decision-buttons">
+                  <button
+                    className={`decision-btn relevant ${displayDecision === "relevant" ? (isSaved ? "active" : "suggested") : ""}`}
+                    onClick={() => saveLiliiaDecision(current.row_uid, "relevant", form.notes)}
+                  >RELEVANT</button>
+                  <button
+                    className={`decision-btn not-relevant ${displayDecision === "not_relevant" ? (isSaved ? "active" : "suggested") : ""}`}
+                    onClick={() => saveLiliiaDecision(current.row_uid, "not_relevant", form.notes)}
+                  >NOT RELEVANT</button>
+                </div>
+                {(isSaved || claudeSuggestion) && (
+                  <div className="decision-saved">
+                    {isSaved
+                      ? <>Saved: <strong>{reviewerDecision.toUpperCase()}</strong> at {new Date(liliiaDecisions[current.row_uid].saved_at).toLocaleTimeString()}</>
+                      : <>Claude suggests: <strong>{claudeSuggestion.toUpperCase()}</strong> — confirm or override</>}
+                  </div>
+                )}
+                <textarea
+                  placeholder="Notes (optional)..."
+                  value={form.notes}
+                  onChange={(e) => setForm((prev) => ({ ...prev, notes: e.target.value }))}
+                  rows={2}
+                />
+                <button
+                  className="button primary"
+                  onClick={() => {
+                    if (!liliiaDecisions[current.row_uid]) {
+                      saveLiliiaDecision(current.row_uid, claudeRelevance[current.row_uid] || "unsure", form.notes);
+                    }
+                    const ni = Math.min(filtered.length - 1, currentIdx + 1);
+                    setCurrentIdx(ni);
+                    const row = filtered[ni];
+                    if (row) { setCurrent(row); resetForm(); loadAnnotations(row.row_uid); loadClaudeAnnotations(row.row_uid); }
+                  }}
+                >Save + Next →</button>
+              </>
+            );
+          })()}
+
+          {/* Project filter */}
+          <div className="verdict-divider" />
+          <label>Project filter</label>
           <select value={project} onChange={(event) => setProject(event.target.value)}>
             <option value="ALL">All projects</option>
             {[...new Set(sample.map((row) => row.project))].sort().map((value) => (
               <option key={value} value={value}>{value}</option>
             ))}
           </select>
-          <div className="button-row">
-            <button className="button secondary" onClick={() => fetchFresh(false)}>Another</button>
-          </div>
-          <h3>Judge This Chunk</h3>
-          <div className="judgment-grid">
-            {["correct", "partial", "incorrect", "unsure"].map((value) => (
-              <button
-                key={value}
-                className={`choice ${form.judgment === value ? "active" : ""}`}
-                onClick={() => setForm((prev) => ({ ...prev, judgment: value }))}
-              >
-                {value}
-              </button>
-            ))}
-          </div>
-          <div className="check-grid">
-            {[
-              ["faithful_source", "Faithful to source text"],
-              ["taxonomy_ok", "Taxonomy assignment looks right"],
-              ["metadata_ok", "Metadata looks right"],
-              ["escalate", "Needs escalation"]
-            ].map(([key, label]) => (
-              <label className="check-chip" key={key}>
-                <input type="checkbox" checked={form[key]} onChange={(event) => setForm((prev) => ({ ...prev, [key]: event.target.checked }))} />
-                <span>{label}</span>
-              </label>
-            ))}
-          </div>
-          <label className="check-chip block">
-            <input type="checkbox" checked={form.meets_benchmark} onChange={(event) => setForm((prev) => ({ ...prev, meets_benchmark: event.target.checked }))} />
-            <span>Meets benchmark criteria</span>
-          </label>
-
-          <h3>Ground Truth Annotations</h3>
-          <div className="gt-annotations">
-            {gtRows.map((gt, idx) => (
-              <div className="gt-row" key={idx}>
-                <div className="gt-row-head">
-                  <span className="gt-row-num">#{idx + 1}</span>
-                  <select value={gt.relevance} onChange={(e) => updateGtRow(idx, "relevance", e.target.value)}>
-                    <option value="relevant">Relevant</option>
-                    <option value="partially_relevant">Partially</option>
-                    <option value="not_relevant">Not relevant</option>
-                  </select>
-                  <select value={gt.confidence} onChange={(e) => updateGtRow(idx, "confidence", e.target.value)}>
-                    <option value="high">High</option>
-                    <option value="medium">Medium</option>
-                    <option value="low">Low</option>
-                  </select>
-                  <button className="gt-remove" onClick={() => removeGtRow(idx)}>x</button>
-                </div>
-                <input
-                  placeholder="Classification row (e.g. HLTP | TE | Classification)"
-                  value={gt.classification_value}
-                  onChange={(e) => updateGtRow(idx, "classification_value", e.target.value)}
-                />
-                <input
-                  placeholder="Notes (optional)"
-                  value={gt.notes}
-                  onChange={(e) => updateGtRow(idx, "notes", e.target.value)}
-                />
-              </div>
-            ))}
-            {gtRows.length < 9 && (
-              <button className="button secondary" onClick={addGtRow}>+ Add Classification Row</button>
-            )}
-          </div>
-
-          <label>Reviewer</label>
-          <input value={form.reviewer} onChange={(event) => setForm((prev) => ({ ...prev, reviewer: event.target.value }))} />
-          <label>Notes</label>
-          <textarea value={form.notes} onChange={(event) => setForm((prev) => ({ ...prev, notes: event.target.value }))} />
-          <button className="button primary" onClick={() => saveReview(false)}>Save Review</button>
         </aside>
+
         <main className="review-main">
-          <section className="panel row-summary">
-            <div>
-              <h2>Row {current.sample_row_id} · {current.project}</h2>
-              <p>{current.source_norm} · {current.database} · {current.time_group} · {current.word_bucket}</p>
-            </div>
-            <div className="chip">{current.row_uid}</div>
-          </section>
-          <section className="comparison-section panel">
-            <h3>Pipeline vs Claude — Taxonomy Comparison</h3>
-            {(() => {
-              const pCls = (current.classifications || []).filter((c) => c.HLTP && c.HLTP !== "NOT_RELEVANT" && c.HLTP !== "UNRESOLVABLE");
-              const cCls = claudeAnnotations.filter((g) => g.classification_value && g.classification_value !== "NOT_RELEVANT" && g.relevance === "relevant");
-              const pSet = new Set(pCls.map((c) => (c.HLTP || "").split("|")[0].trim()));
-              const cSet = new Set(cCls.map((g) => (g.classification_value || "").split("|")[0].trim()));
-              const pRelev = pCls.length > 0 || (current.classifications || []).some((c) => c.HLTP && c.HLTP !== "NOT_RELEVANT");
-              const claudeRelev = claudeRelevance[current.row_uid];
-              const cRelev = cCls.length > 0 || claudeAnnotations.some((g) => g.relevance === "relevant") || claudeRelev === "relevant";
-              const isIrrel = (current.row_uid || "").includes("irrelevant");
-              return (
-                <div className="comparison-grid">
-                  <div className="comparison-col">
-                    <div className="comparison-header">Pipeline</div>
-                    <div className={`relevance-badge ${pRelev && !isIrrel ? "rel" : "irrel"}`}>{pRelev && !isIrrel ? "Relevant" : "Not Relevant"}</div>
-                    {pCls.map((c, i) => {
-                      const hltp = (c.HLTP || "").split("|")[0].trim();
-                      const isAgreed = cSet.has(hltp);
-                      return (
-                        <div className={`te-chip ${isAgreed ? "agree" : "disagree"}`} key={`p-${i}`}>
-                          <span className="te-badge">{isAgreed ? "AGREE" : "PIPELINE ONLY"}</span>
-                          <strong>{c.HLTP}</strong>
-                          {c["2nd_level_TE"] && <span>{c["2nd_level_TE"]}{c["3rd_level_TE"] ? " | " + c["3rd_level_TE"] : ""}</span>}
-                          {c.confidence && <span className="te-conf">conf: {c.confidence}</span>}
-                        </div>
-                      );
-                    })}
-                    {pCls.length === 0 && <div className="te-chip empty">No taxonomy assigned</div>}
-                  </div>
-                  <div className="comparison-col">
-                    <div className="comparison-header">Claude Opus 4.6</div>
-                    <div className={`relevance-badge ${cRelev ? "rel" : "irrel"}`}>{cRelev ? "Relevant" : "Not Relevant"}</div>
-                    {cCls.map((g, i) => {
-                      const hltp = (g.classification_value || "").split("|")[0].trim();
-                      const isAgreed = pSet.has(hltp);
-                      return (
-                        <div className={`te-chip ${isAgreed ? "agree" : "claude-only"}`} key={`c-${i}`}>
-                          <span className="te-badge">{isAgreed ? "AGREE" : "CLAUDE ONLY"}</span>
-                          <strong>{g.classification_value}</strong>
-                          {g.confidence && <span className="te-conf">conf: {g.confidence}</span>}
-                        </div>
-                      );
-                    })}
-                    {cCls.length === 0 && claudeAnnotations.some((g) => g.relevance === "not_relevant") && (
-                      <div className="te-chip irrel-note">{claudeAnnotations.find((g) => g.relevance === "not_relevant")?.notes || "Not relevant"}</div>
-                    )}
-                    {cCls.length === 0 && !claudeAnnotations.some((g) => g.relevance === "not_relevant") && claudeRelev && (
-                      <div className={`te-chip ${claudeRelev === "relevant" ? "agree" : "irrel-note"}`}>
-                        {claudeRelev === "relevant" ? "Relevant (relevance only, no taxonomy details)" : "Not relevant"}
-                      </div>
-                    )}
-                    {cCls.length === 0 && !claudeAnnotations.some((g) => g.relevance === "not_relevant") && !claudeRelev && (
-                      <div className="te-chip empty">No annotation data</div>
-                    )}
-                  </div>
-                </div>
-              );
-            })()}
-          </section>
           <section className="panel source-text">
             <div className="source-head">
               <strong>Source Text</strong>
               <span className="chip">{current.word_count} words</span>
             </div>
             <pre>{(current.chunk_text || "").replace(/\n{3,}/g, "\n\n").trim()}</pre>
-          </section>
-          <section className="panel decision-panel">
-            <h3>Your Decision</h3>
-            {(() => {
-              const reviewerDecision = liliiaDecisions[current.row_uid]?.decision;
-              const claudeSuggestion = claudeRelevance[current.row_uid];
-              const displayDecision = reviewerDecision || claudeSuggestion;
-              const isSaved = !!reviewerDecision;
-              return (
-                <>
-                  <div className="decision-buttons">
-                    <button
-                      className={`decision-btn relevant ${displayDecision === "relevant" ? (isSaved ? "active" : "suggested") : ""}`}
-                      onClick={() => { saveLiliiaDecision(current.row_uid, "relevant", form.notes); }}
-                    >RELEVANT</button>
-                    <button
-                      className={`decision-btn not-relevant ${displayDecision === "not_relevant" ? (isSaved ? "active" : "suggested") : ""}`}
-                      onClick={() => { saveLiliiaDecision(current.row_uid, "not_relevant", form.notes); }}
-                    >NOT RELEVANT</button>
-                  </div>
-                  <div className="decision-saved">
-                    {isSaved ? (
-                      <>Saved: <strong>{reviewerDecision.toUpperCase()}</strong>{" "}at {new Date(liliiaDecisions[current.row_uid].saved_at).toLocaleTimeString()}</>
-                    ) : claudeSuggestion ? (
-                      <>Claude suggests: <strong>{claudeSuggestion.toUpperCase()}</strong> — click to confirm or override</>
-                    ) : null}
-                  </div>
-                </>
-              );
-            })()}
-            <textarea
-              placeholder="Optional notes..."
-              value={form.notes}
-              onChange={(e) => setForm((prev) => ({ ...prev, notes: e.target.value }))}
-              rows={2}
-            />
-            <button
-              className="button primary"
-              onClick={() => {
-                if (!liliiaDecisions[current.row_uid]) {
-                  const decision = claudeRelevance[current.row_uid] || "unsure";
-                  saveLiliiaDecision(current.row_uid, decision, form.notes);
-                }
-                const ni = Math.min(filtered.length - 1, currentIdx + 1);
-                setCurrentIdx(ni);
-                const row = filtered[ni];
-                if (row) { setCurrent(row); resetForm(); loadAnnotations(row.row_uid); loadClaudeAnnotations(row.row_uid); }
-              }}
-            >Save + Next →</button>
           </section>
         </main>
       </div>
