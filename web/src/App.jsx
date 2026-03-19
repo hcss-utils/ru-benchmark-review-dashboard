@@ -416,10 +416,15 @@ function emptyAnnotation(idx) {
 
 function ReviewPanel({ sample, isStatic = false }) {
   const [project, setProject] = useState("ALL");
+  const [filterMode, setFilterMode] = useState("disagreements"); // "all" | "disagreements" | "agreements"
+  const [currentIdx, setCurrentIdx] = useState(0);
   const [current, setCurrent] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [gtRows, setGtRows] = useState([emptyAnnotation(0)]);
   const [claudeAnnotations, setClaudeAnnotations] = useState([]);
+  const [liliiaDecisions, setLiliiaDecisions] = useState(() => {
+    try { return JSON.parse(localStorage.getItem("liliia_decisions") || "{}"); } catch { return {}; }
+  });
   const [form, setForm] = useState({
     judgment: "unsure",
     meets_benchmark: false,
@@ -427,14 +432,48 @@ function ReviewPanel({ sample, isStatic = false }) {
     taxonomy_ok: false,
     metadata_ok: false,
     escalate: false,
-    reviewer: "sdspieg",
+    reviewer: "liliia",
     notes: ""
   });
 
-  const filtered = useMemo(
-    () => (project === "ALL" ? sample : sample.filter((row) => row.project === project)),
-    [project, sample]
-  );
+  // Compute disagreements: pipeline vs claude relevance mismatch
+  const allWithStatus = useMemo(() => {
+    return sample.map((row) => {
+      const pCls = (row.classifications || []).filter((c) => c.HLTP && c.HLTP !== "NOT_RELEVANT" && c.HLTP !== "UNRESOLVABLE");
+      const pipelineRelevant = pCls.length > 0 && !(row.row_uid || "").includes("irrelevant");
+      // We don't know Claude's relevance from sample alone — mark as unknown until loaded
+      return { ...row, pipelineRelevant };
+    });
+  }, [sample]);
+
+  const filtered = useMemo(() => {
+    let rows = project === "ALL" ? allWithStatus : allWithStatus.filter((row) => row.project === project);
+    // Sort by sample_row_id for stable order
+    rows = rows.sort((a, b) => (a.sample_row_id || 0) - (b.sample_row_id || 0));
+    return rows;
+  }, [project, allWithStatus]);
+
+  // Track decided count
+  const decidedCount = useMemo(() => {
+    return filtered.filter((r) => liliiaDecisions[r.row_uid]).length;
+  }, [filtered, liliiaDecisions]);
+
+  function saveLiliiaDecision(uid, decision, notes) {
+    const updated = { ...liliiaDecisions, [uid]: { decision, notes, saved_at: new Date().toISOString() } };
+    setLiliiaDecisions(updated);
+    localStorage.setItem("liliia_decisions", JSON.stringify(updated));
+  }
+
+  function exportDecisions() {
+    const data = JSON.stringify(liliiaDecisions, null, 2);
+    const blob = new Blob([data], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "liliia_decisions.json";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 
   // --- localStorage helpers for static mode ---
   function lsKey() { return "ru_benchmark_reviews"; }
@@ -566,11 +605,25 @@ function ReviewPanel({ sample, isStatic = false }) {
     <section className="review-screen">
       <div className="review-toolbar">
         <div className="panel compact">
-          <strong>Reviewer Flow</strong>
-          <span>Serve a fresh chunk, judge it quickly, persist to the server, move on.</span>
+          <strong>Stage 3 Review</strong>
+          <span>Compare pipeline vs Claude annotations. Mark your decision for each chunk.</span>
         </div>
-        <button className="button secondary" onClick={() => fetchFresh(true)}>Serve Fresh Chunk</button>
-        <button className="button primary" onClick={() => saveReview(true)}>Save + Next</button>
+        <div className="filter-pills">
+          {[
+            ["disagreements", "Disagreements Only"],
+            ["all", "All Chunks"],
+            ["agreements", "Agreements Only"],
+          ].map(([mode, label]) => (
+            <button key={mode} className={`pill ${filterMode === mode ? "active" : ""}`} onClick={() => { setFilterMode(mode); setCurrentIdx(0); }}>{label}</button>
+          ))}
+        </div>
+        <div className="nav-controls">
+          <button className="button secondary" disabled={currentIdx <= 0} onClick={() => { const ni = Math.max(0, currentIdx - 1); setCurrentIdx(ni); const row = filtered[ni]; if (row) { setCurrent(row); resetForm(); loadAnnotations(row.row_uid); loadClaudeAnnotations(row.row_uid); } }}>← Prev</button>
+          <span className="nav-counter">{currentIdx + 1} / {filtered.length}</span>
+          <button className="button secondary" disabled={currentIdx >= filtered.length - 1} onClick={() => { const ni = Math.min(filtered.length - 1, currentIdx + 1); setCurrentIdx(ni); const row = filtered[ni]; if (row) { setCurrent(row); resetForm(); loadAnnotations(row.row_uid); loadClaudeAnnotations(row.row_uid); } }}>Next →</button>
+        </div>
+        <span className="decided-counter">{decidedCount}/{filtered.length} decided</span>
+        <button className="button primary" onClick={exportDecisions}>Export Decisions</button>
       </div>
       <div className="review-grid">
         <aside className="panel sidebar">
@@ -730,6 +783,41 @@ function ReviewPanel({ sample, isStatic = false }) {
                 </div>
               );
             })()}
+          </section>
+          <section className="panel decision-panel">
+            <h3>Your Decision</h3>
+            <div className="decision-buttons">
+              <button
+                className={`decision-btn relevant ${liliiaDecisions[current.row_uid]?.decision === "relevant" ? "active" : ""}`}
+                onClick={() => { saveLiliiaDecision(current.row_uid, "relevant", form.notes); }}
+              >RELEVANT</button>
+              <button
+                className={`decision-btn not-relevant ${liliiaDecisions[current.row_uid]?.decision === "not_relevant" ? "active" : ""}`}
+                onClick={() => { saveLiliiaDecision(current.row_uid, "not_relevant", form.notes); }}
+              >NOT RELEVANT</button>
+            </div>
+            {liliiaDecisions[current.row_uid] && (
+              <div className="decision-saved">
+                Saved: <strong>{liliiaDecisions[current.row_uid].decision.toUpperCase()}</strong>
+                {" "}at {new Date(liliiaDecisions[current.row_uid].saved_at).toLocaleTimeString()}
+              </div>
+            )}
+            <textarea
+              placeholder="Optional notes..."
+              value={form.notes}
+              onChange={(e) => setForm((prev) => ({ ...prev, notes: e.target.value }))}
+              rows={2}
+            />
+            <button
+              className="button primary"
+              onClick={() => {
+                if (!liliiaDecisions[current.row_uid]) saveLiliiaDecision(current.row_uid, "unsure", form.notes);
+                const ni = Math.min(filtered.length - 1, currentIdx + 1);
+                setCurrentIdx(ni);
+                const row = filtered[ni];
+                if (row) { setCurrent(row); resetForm(); loadAnnotations(row.row_uid); loadClaudeAnnotations(row.row_uid); }
+              }}
+            >Save + Next →</button>
           </section>
         </main>
       </div>
