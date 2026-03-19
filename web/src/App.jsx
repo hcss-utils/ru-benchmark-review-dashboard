@@ -459,10 +459,17 @@ function ReviewPanel({ sample, isStatic = false, claudeRelevance = {} }) {
     return filtered.filter((r) => liliiaDecisions[r.row_uid]).length;
   }, [filtered, liliiaDecisions]);
 
-  function saveLiliiaDecision(uid, decision, notes) {
+  async function saveLiliiaDecision(uid, decision, notes) {
     const updated = { ...liliiaDecisions, [uid]: { decision, notes, saved_at: new Date().toISOString() } };
     setLiliiaDecisions(updated);
     localStorage.setItem("liliia_decisions", JSON.stringify(updated));
+    if (!isStatic) {
+      await authFetch("/api/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ row_uid: uid, judgment: decision, notes: notes || "" }),
+      });
+    }
   }
 
   function exportDecisions() {
